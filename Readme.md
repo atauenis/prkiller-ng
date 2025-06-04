@@ -14,6 +14,6 @@ Currently the application is under development, so its stability is not guarante
 
 Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Alt`+`Shift`+`A` keys. By default it won't appear after launch - it's normal.
 
-To hide window, click right mouse button on the KILL button. To exit Process Killer NG, press middle mouse button on the KILL button.
+To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
-Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. To finish the unresponsive or unwanted process, just click the KILL button. No questions will be asked, this differs this application from other.
+Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.

@@ -30,11 +30,11 @@ namespace prkiller_ng
 			return false; // not on 64-bit Windows Emulator
 		}
 
-		internal enum DoubleClickFeel
+		internal enum DoubleClickAction
 		{
 			Disable = 0, ProcessInfo = 1, Kill = 2
 		}
-		internal enum RightClickFeel
+		internal enum RightClickAction
 		{
 			Disable = 0, ContextMenu = 1
 		}

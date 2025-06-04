@@ -23,8 +23,8 @@ namespace prkiller_ng
 			WinKey = 8
 		}
 
-		Killer.DoubleClickFeel doubleClickFeel;
-		Killer.RightClickFeel rightClickFeel;
+		Killer.DoubleClickAction doubleClickAction;
+		Killer.RightClickAction rightClickAction;
 
 		public MainForm()
 		{
@@ -69,10 +69,10 @@ namespace prkiller_ng
 				Timer_Tick(this, EventArgs.Empty);
 				ProcessList.Select();
 
-				doubleClickFeel = (Killer.DoubleClickFeel)Enum.Parse(typeof(Killer.DoubleClickFeel), Killer.Config.Read("DoubleClick"));
-				rightClickFeel = (Killer.RightClickFeel)Enum.Parse(typeof(Killer.RightClickFeel), Killer.Config.Read("RightClick"));
+				doubleClickAction = (Killer.DoubleClickAction)Enum.Parse(typeof(Killer.DoubleClickAction), Killer.Config.Read("DoubleClick"));
+				rightClickAction = (Killer.RightClickAction)Enum.Parse(typeof(Killer.RightClickAction), Killer.Config.Read("RightClick"));
 
-				if (rightClickFeel == Killer.RightClickFeel.Disable) ProcessList.ContextMenuStrip = null;
+				if (rightClickAction == Killer.RightClickAction.Disable) ProcessList.ContextMenuStrip = null;
 			}
 			catch (Exception ex)
 			{
@@ -195,7 +195,6 @@ namespace prkiller_ng
 		}
 
 
-
 		private void cmdKill_MouseClick(object sender, MouseEventArgs e)
 		{
 			// KILL button click
@@ -203,26 +202,7 @@ namespace prkiller_ng
 			{
 				case MouseButtons.Left:
 					// KILL
-					bool kill = false;
-					ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
-					if (selected != null) kill = true;
-
-					if (selected.ProcessName == Assembly.GetExecutingAssembly().GetName().Name)
-					{
-						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
-						kill = (quest == DialogResult.Yes);
-					}
-
-					try
-					{
-						if (kill) selected.Proc.Kill();
-					}
-					catch (Exception ex)
-					{
-						string KillErrMsg = string.Format(Killer.Language.Read("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
-						MessageBox.Show(KillErrMsg, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					}
-
+					KillProcess();
 					break;
 				case MouseButtons.Right:
 					// MIMIMIZE
@@ -230,8 +210,7 @@ namespace prkiller_ng
 					break;
 				case MouseButtons.Middle:
 					// EXIT
-					DialogResult questExit = MessageBox.Show(Killer.Language.Read("ExitQuestion", "Language"), Application.ProductName, MessageBoxButtons.YesNo);
-					if (questExit == DialogResult.Yes) { Application.Exit(); }
+					KillKiller();
 					break;
 			}
 		}
@@ -249,8 +228,7 @@ namespace prkiller_ng
 		private void cmdInfo_Click(object sender, EventArgs e)
 		{
 			// INFO button click
-			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
-			if (selected != null) selected.ShowInfoDialog();
+			ProcessInfo();
 		}
 
 		private void cmdHelp_Click(object sender, EventArgs e)
@@ -297,18 +275,101 @@ namespace prkiller_ng
 		private void ProcessList_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			// PROCESS LIST - double click
-			switch (doubleClickFeel)
+			switch (doubleClickAction)
 			{
-				case Killer.DoubleClickFeel.ProcessInfo:
-					cmdInfo_Click(sender, EventArgs.Empty);
+				case Killer.DoubleClickAction.ProcessInfo:
+					ProcessInfo();
 					break;
-				case Killer.DoubleClickFeel.Kill:
-					cmdKill_Click(sender, EventArgs.Empty);
+				case Killer.DoubleClickAction.Kill:
+					KillProcess();
 					break;
-				case Killer.DoubleClickFeel.Disable:
+				case Killer.DoubleClickAction.Disable:
 				default:
 					break;
 			}
+		}
+
+		private void ProcessList_KeyDown(object sender, KeyEventArgs e)
+		{
+			// PROCESS LIST - keyboard press
+			if (e.Handled) return;
+			string key = (e.Modifiers + "+" + e.KeyCode).Replace(", ", "+").Replace("None+", "");
+			string cmd = Killer.Config.Read(key);
+			switch (cmd)
+			{
+				case "Hide":
+					Hide();
+					break;
+				case "MoveUp":
+					if (ProcessList.SelectedIndex > 0)
+						ProcessList.SelectedIndex--;
+					break;
+				case "MoveDown":
+					if (ProcessList.SelectedIndex < ProcessList.Items.Count - 1)
+						ProcessList.SelectedIndex++;
+					break;
+				case "Kill":
+					KillProcess();
+					break;
+				case "ProcessInfo":
+					ProcessInfo();
+					break;
+				case "Exit":
+					KillKiller();
+					break;
+				case "":
+					Debug.Print("Unknown key: " + key);
+					break;
+				default:
+					MessageBox.Show(Killer.Language.Read("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					break;
+			}
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+		}
+
+		/// <summary>
+		/// Kill selected process
+		/// </summary>
+		private void KillProcess()
+		{
+			bool kill = false;
+			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+			if (selected != null) kill = true;
+
+			if (selected.ProcessName == Assembly.GetExecutingAssembly().GetName().Name)
+			{
+				DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
+				kill = (quest == DialogResult.Yes);
+			}
+
+			try
+			{
+				if (kill) selected.Proc.Kill();
+			}
+			catch (Exception ex)
+			{
+				string KillErrMsg = string.Format(Killer.Language.Read("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
+				MessageBox.Show(KillErrMsg, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+		}
+
+		/// <summary>
+		/// Exit Process Killer NG
+		/// </summary>
+		private void KillKiller()
+		{
+			DialogResult questExit = MessageBox.Show(Killer.Language.Read("ExitQuestion", "Language"), Application.ProductName, MessageBoxButtons.YesNo);
+			if (questExit == DialogResult.Yes) { Application.Exit(); }
+		}
+
+		/// <summary>
+		/// Show information about selected process
+		/// </summary>
+		private void ProcessInfo()
+		{
+			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+			if (selected != null) selected.ShowInfoDialog();
 		}
 	}
 }
