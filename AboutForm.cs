@@ -15,6 +15,7 @@ namespace prkiller_ng
 		{
 			lblVersion.Text += Application.ProductVersion;
 			lblLanguage.Text = Killer.Language.Read("Language", "Language");
+			cmdOk.Text = Killer.Language.Read("cmdOK", "Language");
 			this.Text = Killer.Language.Read("AboutTitle", "Language");
 		}
 

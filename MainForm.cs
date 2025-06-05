@@ -317,6 +317,9 @@ namespace prkiller_ng
 				case "Exit":
 					KillKiller();
 					break;
+				case "RunDialog":
+					RunDialog();
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
 					break;
@@ -326,6 +329,11 @@ namespace prkiller_ng
 			}
 			e.Handled = true;
 			e.SuppressKeyPress = true;
+		}
+
+		private void cmdRun_Click(object sender, EventArgs e)
+		{
+			RunDialog();
 		}
 
 		/// <summary>
@@ -370,6 +378,14 @@ namespace prkiller_ng
 		{
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null) selected.ShowInfoDialog();
+		}
+
+		/// <summary>
+		/// Open Run dialog
+		/// </summary>
+		private void RunDialog()
+		{
+			new RunDialog().ShowDialog();
 		}
 	}
 }
