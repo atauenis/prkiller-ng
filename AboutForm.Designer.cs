@@ -34,9 +34,9 @@ namespace prkiller_ng
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblCopyright = new System.Windows.Forms.Label();
 			this.lblLanguage = new System.Windows.Forms.Label();
-			this.cmdWebsite1 = new System.Windows.Forms.Button();
 			this.cmdOk = new System.Windows.Forms.Button();
-			this.cmdWebsite2 = new System.Windows.Forms.Button();
+			this.lnkUrl2 = new System.Windows.Forms.LinkLabel();
+			this.lnkUrl1 = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -54,9 +54,9 @@ namespace prkiller_ng
 			this.lblVersion.AutoSize = true;
 			this.lblVersion.Location = new System.Drawing.Point(50, 12);
 			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(67, 15);
+			this.lblVersion.Size = new System.Drawing.Size(69, 15);
 			this.lblVersion.TabIndex = 1;
-			this.lblVersion.Text = "PrKiller NG ";
+			this.lblVersion.Text = "PrKiller-NG ";
 			// 
 			// lblCopyright
 			// 
@@ -76,16 +76,6 @@ namespace prkiller_ng
 			this.lblLanguage.TabIndex = 3;
 			this.lblLanguage.Text = "Здесь будет информация о языке...";
 			// 
-			// cmdWebsite1
-			// 
-			this.cmdWebsite1.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.cmdWebsite1.Location = new System.Drawing.Point(12, 65);
-			this.cmdWebsite1.Name = "cmdWebsite1";
-			this.cmdWebsite1.Size = new System.Drawing.Size(204, 23);
-			this.cmdWebsite1.TabIndex = 2;
-			this.cmdWebsite1.Text = "https://atauenis.ru";
-			this.cmdWebsite1.UseVisualStyleBackColor = true;
-			// 
 			// cmdOk
 			// 
 			this.cmdOk.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -96,15 +86,27 @@ namespace prkiller_ng
 			this.cmdOk.Text = "OK";
 			this.cmdOk.UseVisualStyleBackColor = true;
 			// 
-			// cmdWebsite2
+			// lnkUrl2
 			// 
-			this.cmdWebsite2.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.cmdWebsite2.Location = new System.Drawing.Point(12, 94);
-			this.cmdWebsite2.Name = "cmdWebsite2";
-			this.cmdWebsite2.Size = new System.Drawing.Size(204, 23);
-			this.cmdWebsite2.TabIndex = 3;
-			this.cmdWebsite2.Text = "https://github.com";
-			this.cmdWebsite2.UseVisualStyleBackColor = true;
+			this.lnkUrl2.Location = new System.Drawing.Point(-2, 97);
+			this.lnkUrl2.Name = "lnkUrl2";
+			this.lnkUrl2.Size = new System.Drawing.Size(232, 23);
+			this.lnkUrl2.TabIndex = 4;
+			this.lnkUrl2.TabStop = true;
+			this.lnkUrl2.Text = "https://github.com/atauenis/prkiller-ng";
+			this.lnkUrl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lnkUrl2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUrl2_LinkClicked);
+			// 
+			// lnkUrl1
+			// 
+			this.lnkUrl1.Location = new System.Drawing.Point(12, 74);
+			this.lnkUrl1.Name = "lnkUrl1";
+			this.lnkUrl1.Size = new System.Drawing.Size(204, 23);
+			this.lnkUrl1.TabIndex = 4;
+			this.lnkUrl1.TabStop = true;
+			this.lnkUrl1.Text = "https://atauenis.ru";
+			this.lnkUrl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lnkUrl1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUrl1_LinkClicked);
 			// 
 			// AboutForm
 			// 
@@ -112,9 +114,9 @@ namespace prkiller_ng
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(228, 168);
+			this.Controls.Add(this.lnkUrl1);
+			this.Controls.Add(this.lnkUrl2);
 			this.Controls.Add(this.cmdOk);
-			this.Controls.Add(this.cmdWebsite2);
-			this.Controls.Add(this.cmdWebsite1);
 			this.Controls.Add(this.lblLanguage);
 			this.Controls.Add(this.lblCopyright);
 			this.Controls.Add(this.lblVersion);
@@ -139,8 +141,8 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblVersion;
 		private System.Windows.Forms.Label lblCopyright;
 		private System.Windows.Forms.Label lblLanguage;
-		private System.Windows.Forms.Button cmdWebsite1;
 		private System.Windows.Forms.Button cmdOk;
-		private System.Windows.Forms.Button cmdWebsite2;
+		private System.Windows.Forms.LinkLabel lnkUrl2;
+		private System.Windows.Forms.LinkLabel lnkUrl1;
 	}
 }
