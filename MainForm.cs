@@ -358,7 +358,7 @@ namespace prkiller_ng
 			catch (Exception ex)
 			{
 				string KillErrMsg = string.Format(Killer.Language.Read("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
-				MessageBox.Show(KillErrMsg, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				this.Text = KillErrMsg;
 			}
 		}
 
