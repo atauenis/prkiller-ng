@@ -268,24 +268,28 @@ namespace prkiller_ng
 			this.priRTToolStripMenuItem.Name = "priRTToolStripMenuItem";
 			this.priRTToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.priRTToolStripMenuItem.Text = "Pri: RT";
+			this.priRTToolStripMenuItem.Click += new System.EventHandler(this.priRTToolStripMenuItem_Click);
 			// 
 			// priHighToolStripMenuItem
 			// 
 			this.priHighToolStripMenuItem.Name = "priHighToolStripMenuItem";
 			this.priHighToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.priHighToolStripMenuItem.Text = "Pri: High";
+			this.priHighToolStripMenuItem.Click += new System.EventHandler(this.priHighToolStripMenuItem_Click);
 			// 
 			// priNormToolStripMenuItem
 			// 
 			this.priNormToolStripMenuItem.Name = "priNormToolStripMenuItem";
 			this.priNormToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.priNormToolStripMenuItem.Text = "Pri: Norm";
+			this.priNormToolStripMenuItem.Click += new System.EventHandler(this.priNormToolStripMenuItem_Click);
 			// 
 			// priLowToolStripMenuItem
 			// 
 			this.priLowToolStripMenuItem.Name = "priLowToolStripMenuItem";
 			this.priLowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.priLowToolStripMenuItem.Text = "Pri: Low";
+			this.priLowToolStripMenuItem.Click += new System.EventHandler(this.priLowToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -297,6 +301,7 @@ namespace prkiller_ng
 			this.procKillToolStripMenuItem.Name = "procKillToolStripMenuItem";
 			this.procKillToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.procKillToolStripMenuItem.Text = "Proc Kill";
+			this.procKillToolStripMenuItem.Click += new System.EventHandler(this.procKillToolStripMenuItem_Click);
 			// 
 			// procKillTreeToolStripMenuItem
 			// 
@@ -315,6 +320,7 @@ namespace prkiller_ng
 			this.procInfoToolStripMenuItem.Name = "procInfoToolStripMenuItem";
 			this.procInfoToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.procInfoToolStripMenuItem.Text = "Proc Info";
+			this.procInfoToolStripMenuItem.Click += new System.EventHandler(this.procInfoToolStripMenuItem_Click);
 			// 
 			// Timer
 			// 

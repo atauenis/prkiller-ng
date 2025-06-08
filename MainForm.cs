@@ -94,6 +94,15 @@ namespace prkiller_ng
 				toolTips.SetToolTip(lblThreads, Killer.Language.Read("lblThreads", "Language"));
 				toolTips.SetToolTip(lblPriority, Killer.Language.Read("lblPriority", "Language"));
 
+				priRTToolStripMenuItem.Text = Killer.Language.Read("priRTToolStripMenuItem", "Language");
+				priHighToolStripMenuItem.Text = Killer.Language.Read("priHighToolStripMenuItem", "Language");
+				priNormToolStripMenuItem.Text = Killer.Language.Read("priNormToolStripMenuItem", "Language");
+				priLowToolStripMenuItem.Text = Killer.Language.Read("priLowToolStripMenuItem", "Language");
+				procKillToolStripMenuItem.Text = Killer.Language.Read("procKillToolStripMenuItem", "Language");
+				procKillTreeToolStripMenuItem.Text = Killer.Language.Read("procKillTreeToolStripMenuItem", "Language");
+				procPauseToolStripMenuItem.Text = Killer.Language.Read("procPauseToolStripMenuItem", "Language");
+				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
+
 				if (!string.IsNullOrWhiteSpace(cmdKill.Text)) cmdKill.Image = null;
 			}
 			catch (Exception ex)
@@ -320,6 +329,24 @@ namespace prkiller_ng
 				case "RunDialog":
 					RunDialog();
 					break;
+				case "PriorityIncrease":
+					SetProcessPriority(1);
+					break;
+				case "PriorityDecrease":
+					SetProcessPriority(-1);
+					break;
+				case "PriorityIdle":
+					SetProcessPriority(ProcessPriorityClass.Idle);
+					break;
+				case "PriorityNormal":
+					SetProcessPriority(ProcessPriorityClass.Normal);
+					break;
+				case "PriorityHigh":
+					SetProcessPriority(ProcessPriorityClass.High);
+					break;
+				case "PriorityRealTime":
+					SetProcessPriority(ProcessPriorityClass.RealTime);
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
 					break;
@@ -386,6 +413,126 @@ namespace prkiller_ng
 		private void RunDialog()
 		{
 			new RunDialog().ShowDialog();
+		}
+
+		private void procInfoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ProcessInfo();
+		}
+
+		private void procKillToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			KillProcess();
+		}
+
+
+		private void SetProcessPriority(ProcessPriorityClass pri)
+		{
+			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+			if (selected == null) return;
+
+			try
+			{
+				selected.Proc.PriorityClass = pri;
+			}
+			catch (Exception ex) { MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+		}
+
+		private void SetProcessPriority(int change)
+		{
+			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+			if (selected == null) return;
+
+			try
+			{
+				switch (change)
+				{
+					case 1:
+						//[+1] increase priority
+						switch (selected.Proc.PriorityClass)
+						{
+							case ProcessPriorityClass.Idle:
+								selected.Proc.PriorityClass = ProcessPriorityClass.BelowNormal;
+								break;
+							case ProcessPriorityClass.BelowNormal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.Normal;
+								break;
+							case ProcessPriorityClass.Normal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
+								break;
+							case ProcessPriorityClass.AboveNormal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.High;
+								break;
+							case ProcessPriorityClass.High:
+								selected.Proc.PriorityClass = ProcessPriorityClass.RealTime;
+								break;
+							case ProcessPriorityClass.RealTime:
+								this.Text = Killer.Language.Read("MaximumPriority", "Language");
+								break;
+							default:
+								break;
+						}
+						return;
+					case -1:
+						//[-1] decrease priority
+						switch (selected.Proc.PriorityClass)
+						{
+							case ProcessPriorityClass.RealTime:
+								selected.Proc.PriorityClass = ProcessPriorityClass.High;
+								break;
+							case ProcessPriorityClass.High:
+								selected.Proc.PriorityClass = ProcessPriorityClass.AboveNormal;
+								break;
+							case ProcessPriorityClass.AboveNormal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.Normal;
+								break;
+							case ProcessPriorityClass.Normal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.BelowNormal;
+								break;
+							case ProcessPriorityClass.BelowNormal:
+								selected.Proc.PriorityClass = ProcessPriorityClass.Idle;
+								break;
+							case ProcessPriorityClass.Idle:
+								selected.Proc.PriorityClass = ProcessPriorityClass.Idle;
+								this.Text = Killer.Language.Read("MinimumPriority", "Language");
+								break;
+							default:
+								break;
+						}
+						return;
+					case 0:
+						//[0] don't change priority
+						return;
+					default:
+						throw new ArgumentException("Change level must be +1, 0 or -1.", nameof(change));
+				}
+			}
+			catch (Exception ex)
+			{
+				if (ex is ArgumentException) throw;
+				string PriSetErrMsg = string.Format(Killer.Language.Read("CannotChangePriority", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
+				this.Text = PriSetErrMsg;
+			}
+		}
+
+		private void priLowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SetProcessPriority(ProcessPriorityClass.Idle);
+		}
+
+		private void priNormToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SetProcessPriority(ProcessPriorityClass.Normal);
+		}
+
+		private void priHighToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SetProcessPriority(ProcessPriorityClass.High);
+		}
+
+		private void priRTToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SetProcessPriority(ProcessPriorityClass.RealTime);
 		}
 	}
 }

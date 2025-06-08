@@ -1,4 +1,4 @@
-# Process Killer NG
+﻿# Process Killer NG
 
 An lightweight Task Manager replacement for Windows.
 
@@ -17,3 +17,25 @@ Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
 Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
+
+It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu.
+
+## Configuring
+
+Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. At this moment, the settings dialog box is not implemented, so edit the INI file manually if you want.
+
+## Not implememted features
+These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
+
+  - Suspend and resume process
+  - Kill process tree
+  - Find parent process
+  - Restart process
+  - Restart Windows Shell
+  - CPU load graph
+  - Memory load statistics
+  - Autosave of settings (including window size)
+  - Settings dialog box
+  - Run dialog box history
+  - Hexadecimal values display
+  - Installer
