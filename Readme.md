@@ -20,6 +20,10 @@ Main portion of the window is the list of running processes. Unlike many such ap
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu.
 
+Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`.
+
+The program interface can be localized to any language. Currently only English is available, but other languages will be added in future.
+
 ## Configuring
 
 Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. At this moment, the settings dialog box is not implemented, so edit the INI file manually if you want.
@@ -33,7 +37,7 @@ These features, existing in original Process Killer, are planned to be included 
   - Restart process
   - Restart Windows Shell
   - CPU load graph
-  - Memory load statistics
+  - Find of heavy CPU-loading processes (`<*>`)
   - Autosave of settings (including window size)
   - Settings dialog box
   - Run dialog box history

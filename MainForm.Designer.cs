@@ -55,12 +55,19 @@ namespace prkiller_ng
 			this.procKillTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.lblRamAll = new System.Windows.Forms.Label();
+			this.lblRamPhys = new System.Windows.Forms.Label();
+			this.lblRam2 = new System.Windows.Forms.Label();
+			this.lblCPU = new System.Windows.Forms.Label();
+			this.lblRamPhys2 = new System.Windows.Forms.Label();
 			this.Timer = new System.Windows.Forms.Timer(this.components);
 			this.toolTips = new System.Windows.Forms.ToolTip(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -79,12 +86,14 @@ namespace prkiller_ng
 			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 2);
 			this.tableLayoutPanel1.Controls.Add(this.ProcessList, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(214, 380);
@@ -96,10 +105,10 @@ namespace prkiller_ng
 			this.flowLayoutPanel1.Controls.Add(this.lblThreads);
 			this.flowLayoutPanel1.Controls.Add(this.lblPriority);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 35);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 37);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(208, 18);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(208, 16);
 			this.flowLayoutPanel1.TabIndex = 0;
 			// 
 			// lblPID
@@ -322,6 +331,90 @@ namespace prkiller_ng
 			this.procInfoToolStripMenuItem.Text = "Proc Info";
 			this.procInfoToolStripMenuItem.Click += new System.EventHandler(this.procInfoToolStripMenuItem_Click);
 			// 
+			// tableLayoutPanel2
+			// 
+			this.tableLayoutPanel2.ColumnCount = 3;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.Controls.Add(this.lblRamAll, 0, 0);
+			this.tableLayoutPanel2.Controls.Add(this.lblRamPhys, 1, 0);
+			this.tableLayoutPanel2.Controls.Add(this.lblRam2, 0, 1);
+			this.tableLayoutPanel2.Controls.Add(this.lblCPU, 2, 0);
+			this.tableLayoutPanel2.Controls.Add(this.lblRamPhys2, 1, 1);
+			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 2;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(208, 31);
+			this.tableLayoutPanel2.TabIndex = 3;
+			// 
+			// lblRamAll
+			// 
+			this.lblRamAll.AutoSize = true;
+			this.lblRamAll.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblRamAll.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblRamAll.Location = new System.Drawing.Point(1, 0);
+			this.lblRamAll.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this.lblRamAll.Name = "lblRamAll";
+			this.lblRamAll.Size = new System.Drawing.Size(33, 17);
+			this.lblRamAll.TabIndex = 1;
+			this.lblRamAll.Text = "4096";
+			// 
+			// lblRamPhys
+			// 
+			this.lblRamPhys.AutoSize = true;
+			this.lblRamPhys.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblRamPhys.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblRamPhys.Location = new System.Drawing.Point(36, 0);
+			this.lblRamPhys.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this.lblRamPhys.Name = "lblRamPhys";
+			this.lblRamPhys.Size = new System.Drawing.Size(33, 17);
+			this.lblRamPhys.TabIndex = 2;
+			this.lblRamPhys.Text = "2048";
+			// 
+			// lblRam2
+			// 
+			this.lblRam2.AutoSize = true;
+			this.lblRam2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblRam2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblRam2.Location = new System.Drawing.Point(1, 17);
+			this.lblRam2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this.lblRam2.Name = "lblRam2";
+			this.lblRam2.Size = new System.Drawing.Size(33, 17);
+			this.lblRam2.TabIndex = 4;
+			this.lblRam2.Text = "4096";
+			this.lblRam2.Click += new System.EventHandler(this.lblRam2_Click);
+			// 
+			// lblCPU
+			// 
+			this.lblCPU.AutoSize = true;
+			this.lblCPU.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblCPU.Location = new System.Drawing.Point(71, 0);
+			this.lblCPU.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this.lblCPU.Name = "lblCPU";
+			this.tableLayoutPanel2.SetRowSpan(this.lblCPU, 2);
+			this.lblCPU.Size = new System.Drawing.Size(69, 17);
+			this.lblCPU.TabIndex = 5;
+			this.lblCPU.Text = "Load: 123%";
+			// 
+			// lblRamPhys2
+			// 
+			this.lblRamPhys2.AutoSize = true;
+			this.lblRamPhys2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblRamPhys2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblRamPhys2.Location = new System.Drawing.Point(36, 17);
+			this.lblRamPhys2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this.lblRamPhys2.Name = "lblRamPhys2";
+			this.lblRamPhys2.Size = new System.Drawing.Size(33, 17);
+			this.lblRamPhys2.TabIndex = 3;
+			this.lblRamPhys2.Text = "2048";
+			this.lblRamPhys2.Click += new System.EventHandler(this.lblRamPhys2_Click);
+			// 
 			// Timer
 			// 
 			this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
@@ -346,6 +439,8 @@ namespace prkiller_ng
 			this.flowLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.contextMenuStrip1.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -377,5 +472,11 @@ namespace prkiller_ng
 		private System.Windows.Forms.ToolStripMenuItem procKillTreeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem procPauseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem procInfoToolStripMenuItem;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.Label lblRamPhys2;
+		private System.Windows.Forms.Label lblRamAll;
+		private System.Windows.Forms.Label lblRamPhys;
+		private System.Windows.Forms.Label lblRam2;
+		private System.Windows.Forms.Label lblCPU;
 	}
 }

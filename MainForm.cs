@@ -26,9 +26,20 @@ namespace prkiller_ng
 		Killer.DoubleClickAction doubleClickAction;
 		Killer.RightClickAction rightClickAction;
 
+		PerformanceCounter cpuCounter;
+		bool RamVirtShowUsed = false;
+		bool RamPhysShowUsed = false;
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			cpuCounter = new PerformanceCounter(
+"Processor",
+"% Processor Time",
+"_Total",
+true
+);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -59,6 +70,9 @@ namespace prkiller_ng
 					hotkeyButton = (int)Enum.Parse(typeof(Keys), hotkeyButtonStr);
 
 				RegisterHotKey(Handle, 0, hotkeyModifier, hotkeyButton);
+
+				if (Killer.Config.Read("RamVirtShowUsed").ToLowerInvariant() == "true") RamVirtShowUsed = true;
+				if (Killer.Config.Read("RamPhysShowUsed").ToLowerInvariant() == "true") RamPhysShowUsed = true;
 
 				int interval = 1000;
 				int.TryParse(Killer.Config.Read("UpdateInterval"), out interval);
@@ -103,6 +117,9 @@ namespace prkiller_ng
 				procPauseToolStripMenuItem.Text = Killer.Language.Read("procPauseToolStripMenuItem", "Language");
 				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
 
+				toolTips.SetToolTip(lblRamAll, Killer.Language.Read("lblRamAll", "Language"));
+				toolTips.SetToolTip(lblRamPhys, Killer.Language.Read("lblRamPhys", "Language"));
+
 				if (!string.IsNullOrWhiteSpace(cmdKill.Text)) cmdKill.Image = null;
 			}
 			catch (Exception ex)
@@ -141,6 +158,40 @@ namespace prkiller_ng
 
 			//if selection is not defined, select 1st line
 			if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
+
+			//update memory statictics
+			ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);
+			ulong RamPhys = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory / 1024 / 1024);
+			ulong RamAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailableVirtualMemory / 1024 / 1024 / 1024);
+			ulong RamPhysAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailablePhysicalMemory / 1024 / 1024);
+
+			lblRamAll.Text = RamAll.ToString();
+			lblRamPhys.Text = RamPhys.ToString();
+
+			if (RamVirtShowUsed)
+			{
+				lblRam2.Text = (RamAll - RamAvail).ToString();
+				toolTips.SetToolTip(lblRam2, Killer.Language.Read("lblRam2_Used", "Language"));
+			}
+			else
+			{
+				lblRam2.Text = RamAvail.ToString();
+				toolTips.SetToolTip(lblRam2, Killer.Language.Read("lblRam2_Free", "Language"));
+			}
+
+			if (RamPhysShowUsed)
+			{
+				lblRamPhys2.Text = (RamPhys - RamPhysAvail).ToString();
+				toolTips.SetToolTip(lblRamPhys2, Killer.Language.Read("lblRamPhys2_Used", "Language"));
+			}
+			else
+			{
+				lblRamPhys2.Text = RamPhysAvail.ToString();
+				toolTips.SetToolTip(lblRamPhys2, Killer.Language.Read("lblRamPhys2_Free", "Language"));
+			}
+
+			//update CPU statistics
+			lblCPU.Text = "CPU Usage: " + Convert.ToInt32(cpuCounter.NextValue()).ToString() + "%";
 
 			this.Text = string.Format("({0}) Process Killer NG {1}", ProcessList.Items.Count, Application.ProductVersion);
 		}
@@ -533,6 +584,18 @@ namespace prkiller_ng
 		private void priRTToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SetProcessPriority(ProcessPriorityClass.RealTime);
+		}
+
+		private void lblRam2_Click(object sender, EventArgs e)
+		{
+			RamVirtShowUsed = !RamVirtShowUsed;
+			Timer_Tick(null, null);
+		}
+
+		private void lblRamPhys2_Click(object sender, EventArgs e)
+		{
+			RamPhysShowUsed = !RamPhysShowUsed;
+			Timer_Tick(null, null);
 		}
 	}
 }
