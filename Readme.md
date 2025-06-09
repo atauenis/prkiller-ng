@@ -20,7 +20,7 @@ Main portion of the window is the list of running processes. Unlike many such ap
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu.
 
-Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`.
+Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Click on the processor statistics using right button to choose update speed.
 
 The program interface can be localized to any language. Currently only English is available, but other languages will be added in future.
 

@@ -60,6 +60,14 @@ namespace prkiller_ng
 			this.lblRamPhys = new System.Windows.Forms.Label();
 			this.lblRam2 = new System.Windows.Forms.Label();
 			this.lblCPU = new System.Windows.Forms.Label();
+			this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.frequTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.freqHighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.freqNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.freqLowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.freqVeryLowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.freqPausedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblRamPhys2 = new System.Windows.Forms.Label();
 			this.Timer = new System.Windows.Forms.Timer(this.components);
 			this.toolTips = new System.Windows.Forms.ToolTip(this.components);
@@ -68,6 +76,7 @@ namespace prkiller_ng
 			this.flowLayoutPanel2.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
+			this.contextMenuStrip2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -395,6 +404,7 @@ namespace prkiller_ng
 			// 
 			this.lblCPU.AutoSize = true;
 			this.lblCPU.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblCPU.ContextMenuStrip = this.contextMenuStrip2;
 			this.lblCPU.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblCPU.Location = new System.Drawing.Point(71, 0);
 			this.lblCPU.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -404,6 +414,66 @@ namespace prkiller_ng
 			this.lblCPU.TabIndex = 5;
 			this.lblCPU.Text = "CPU Load";
 			this.lblCPU.Paint += new System.Windows.Forms.PaintEventHandler(this.lblCPU_Paint);
+			// 
+			// contextMenuStrip2
+			// 
+			this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.frequTitleToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.freqHighToolStripMenuItem,
+            this.freqNormalToolStripMenuItem,
+            this.freqLowToolStripMenuItem,
+            this.freqVeryLowToolStripMenuItem,
+            this.freqPausedToolStripMenuItem});
+			this.contextMenuStrip2.Name = "contextMenuStrip2";
+			this.contextMenuStrip2.Size = new System.Drawing.Size(152, 142);
+			// 
+			// frequTitleToolStripMenuItem
+			// 
+			this.frequTitleToolStripMenuItem.Enabled = false;
+			this.frequTitleToolStripMenuItem.Name = "frequTitleToolStripMenuItem";
+			this.frequTitleToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.frequTitleToolStripMenuItem.Text = "Frequ: title";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(148, 6);
+			// 
+			// freqHighToolStripMenuItem
+			// 
+			this.freqHighToolStripMenuItem.Name = "freqHighToolStripMenuItem";
+			this.freqHighToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.freqHighToolStripMenuItem.Text = "Freq: High";
+			this.freqHighToolStripMenuItem.Click += new System.EventHandler(this.freqHighToolStripMenuItem_Click);
+			// 
+			// freqNormalToolStripMenuItem
+			// 
+			this.freqNormalToolStripMenuItem.Name = "freqNormalToolStripMenuItem";
+			this.freqNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.freqNormalToolStripMenuItem.Text = "Freq: Normal";
+			this.freqNormalToolStripMenuItem.Click += new System.EventHandler(this.freqNormalToolStripMenuItem_Click);
+			// 
+			// freqLowToolStripMenuItem
+			// 
+			this.freqLowToolStripMenuItem.Name = "freqLowToolStripMenuItem";
+			this.freqLowToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.freqLowToolStripMenuItem.Text = "Freq: Low";
+			this.freqLowToolStripMenuItem.Click += new System.EventHandler(this.freqLowToolStripMenuItem_Click);
+			// 
+			// freqVeryLowToolStripMenuItem
+			// 
+			this.freqVeryLowToolStripMenuItem.Name = "freqVeryLowToolStripMenuItem";
+			this.freqVeryLowToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.freqVeryLowToolStripMenuItem.Text = "Freq: Very Low";
+			this.freqVeryLowToolStripMenuItem.Click += new System.EventHandler(this.freqVeryLowToolStripMenuItem_Click);
+			// 
+			// freqPausedToolStripMenuItem
+			// 
+			this.freqPausedToolStripMenuItem.Name = "freqPausedToolStripMenuItem";
+			this.freqPausedToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.freqPausedToolStripMenuItem.Text = "Freq: Paused";
+			this.freqPausedToolStripMenuItem.Click += new System.EventHandler(this.freqPausedToolStripMenuItem_Click);
 			// 
 			// lblRamPhys2
 			// 
@@ -444,6 +514,7 @@ namespace prkiller_ng
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
+			this.contextMenuStrip2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -481,5 +552,13 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblRamPhys;
 		private System.Windows.Forms.Label lblRam2;
 		private System.Windows.Forms.Label lblCPU;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+		private System.Windows.Forms.ToolStripMenuItem frequTitleToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem freqHighToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem freqNormalToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem freqLowToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem freqVeryLowToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem freqPausedToolStripMenuItem;
 	}
 }

@@ -86,6 +86,11 @@ true
 				int interval = 1000;
 				int.TryParse(Killer.Config.Read("UpdateInterval"), out interval);
 
+				freqHighToolStripMenuItem.Checked = interval == 400;
+				freqNormalToolStripMenuItem.Checked = interval == 800;
+				freqLowToolStripMenuItem.Checked = interval == 2000;
+				freqVeryLowToolStripMenuItem.Checked = interval == 4000;
+
 				Timer.Start();
 				Timer.Interval = interval;
 
@@ -128,6 +133,14 @@ true
 				procPauseToolStripMenuItem.Text = Killer.Language.Read("procPauseToolStripMenuItem", "Language");
 				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
 
+				frequTitleToolStripMenuItem.Text = Killer.Language.Read("freqTitleToolStripMenuItem", "Language");
+				freqHighToolStripMenuItem.Text = Killer.Language.Read("freqHighToolStripMenuItem", "Language");
+				freqHighToolStripMenuItem.Text = Killer.Language.Read("freqHighToolStripMenuItem", "Language");
+				freqNormalToolStripMenuItem.Text = Killer.Language.Read("freqNormalToolStripMenuItem", "Language");
+				freqLowToolStripMenuItem.Text = Killer.Language.Read("freqLowToolStripMenuItem", "Language");
+				freqVeryLowToolStripMenuItem.Text = Killer.Language.Read("freqVeryLowToolStripMenuItem", "Language");
+				freqPausedToolStripMenuItem.Text = Killer.Language.Read("freqPausedToolStripMenuItem", "Language");
+
 				toolTips.SetToolTip(lblRamAll, Killer.Language.Read("lblRamAll", "Language"));
 				toolTips.SetToolTip(lblRamPhys, Killer.Language.Read("lblRamPhys", "Language"));
 
@@ -143,6 +156,8 @@ true
 
 		private void Timer_Tick(object sender, EventArgs e)
 		{
+			if (!Timer.Enabled) return;
+
 			//backup previous state
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			var top = ProcessList.TopIndex;
@@ -686,6 +701,66 @@ true
 					lblCPU.Text = "CPU Usage: " + Convert.ToInt32(cpuCounter.NextValue()).ToString() + "%";
 					return;
 			}
+		}
+
+		private void freqHighToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Timer.Interval = 400;
+			Timer.Enabled = true;
+
+			freqHighToolStripMenuItem.Checked = true;
+			freqNormalToolStripMenuItem.Checked = false;
+			freqLowToolStripMenuItem.Checked = false;
+			freqVeryLowToolStripMenuItem.Checked = false;
+			freqPausedToolStripMenuItem.Checked = false;
+		}
+
+		private void freqNormalToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Timer.Interval = 800;
+			Timer.Enabled = true;
+
+			freqHighToolStripMenuItem.Checked = false;
+			freqNormalToolStripMenuItem.Checked = true;
+			freqLowToolStripMenuItem.Checked = false;
+			freqVeryLowToolStripMenuItem.Checked = false;
+			freqPausedToolStripMenuItem.Checked = false;
+		}
+
+		private void freqLowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Timer.Interval = 2000;
+			Timer.Enabled = true;
+
+			freqHighToolStripMenuItem.Checked = false;
+			freqNormalToolStripMenuItem.Checked = false;
+			freqLowToolStripMenuItem.Checked = true;
+			freqVeryLowToolStripMenuItem.Checked = false;
+			freqPausedToolStripMenuItem.Checked = false;
+		}
+
+		private void freqVeryLowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Timer.Interval = 4000;
+			Timer.Enabled = true;
+
+
+			freqHighToolStripMenuItem.Checked = false;
+			freqNormalToolStripMenuItem.Checked = false;
+			freqLowToolStripMenuItem.Checked = false;
+			freqVeryLowToolStripMenuItem.Checked = true;
+			freqPausedToolStripMenuItem.Checked = false;
+		}
+
+		private void freqPausedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Timer.Enabled = false;
+
+			freqHighToolStripMenuItem.Checked = false;
+			freqNormalToolStripMenuItem.Checked = false;
+			freqLowToolStripMenuItem.Checked = false;
+			freqVeryLowToolStripMenuItem.Checked = false;
+			freqPausedToolStripMenuItem.Checked = true;
 		}
 	}
 }
