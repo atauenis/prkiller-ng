@@ -29,6 +29,9 @@ namespace prkiller_ng
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
 		bool RamPhysShowUsed = false;
+		bool CtrlPressed = false;
+		bool ShiftPressed = false;
+		bool AltPressed = false;
 
 		public MainForm()
 		{
@@ -353,6 +356,11 @@ true
 		{
 			// PROCESS LIST - keyboard press
 			if (e.Handled) return;
+
+			CtrlPressed = e.Control;
+			ShiftPressed = e.Shift;
+			AltPressed = e.Alt;
+
 			string key = (e.Modifiers + "+" + e.KeyCode).Replace(", ", "+").Replace("None+", "");
 			string cmd = Killer.Config.Read(key);
 			switch (cmd)
@@ -369,7 +377,17 @@ true
 						ProcessList.SelectedIndex++;
 					break;
 				case "Kill":
+				case "KillProcess":
 					KillProcess();
+					break;
+				case "KillProcessTree":
+					KillProcess(true);
+					break;
+				case "KillDontHide":
+					KillProcess(false, false);
+					break;
+				case "KillProcessTreeDontHide":
+					KillProcess(true, false);
 					break;
 				case "ProcessInfo":
 					ProcessInfo();
@@ -398,8 +416,17 @@ true
 				case "PriorityRealTime":
 					SetProcessPriority(ProcessPriorityClass.RealTime);
 					break;
+				case "ContextMenu":
+					contextMenuStrip1.Show(ProcessList.Location);
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
+					break;
+				case "Restart":
+				case "Pause":
+				case "FindParent":
+				case "RestartExplorer":
+					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					break;
 				default:
 					MessageBox.Show(Killer.Language.Read("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -417,8 +444,14 @@ true
 		/// <summary>
 		/// Kill selected process
 		/// </summary>
-		private void KillProcess()
+		/// <param name="tree">Kill entire process tree</param>
+		/// <param name="hide">Override `Hide window after kill` setting</param>
+		private void KillProcess(bool tree = false, bool? hide = null)
 		{
+			if (hide is null && Killer.Config.Read("HideAfterKill").ToLowerInvariant() == "true") hide = true;
+			if (hide is null) hide = false;
+			if (CtrlPressed) hide = false;
+
 			bool kill = false;
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null) kill = true;
@@ -431,7 +464,8 @@ true
 
 			try
 			{
-				if (kill) selected.Proc.Kill();
+				if (kill) selected.Proc.Kill(tree);
+				if (hide ?? false) this.Hide();
 			}
 			catch (Exception ex)
 			{
@@ -476,6 +510,10 @@ true
 			KillProcess();
 		}
 
+		private void procKillTreeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			KillProcess(true);
+		}
 
 		private void SetProcessPriority(ProcessPriorityClass pri)
 		{

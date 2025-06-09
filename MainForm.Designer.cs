@@ -317,6 +317,7 @@ namespace prkiller_ng
 			this.procKillTreeToolStripMenuItem.Name = "procKillTreeToolStripMenuItem";
 			this.procKillTreeToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.procKillTreeToolStripMenuItem.Text = "Proc KillTree";
+			this.procKillTreeToolStripMenuItem.Click += new System.EventHandler(this.procKillTreeToolStripMenuItem_Click);
 			// 
 			// procPauseToolStripMenuItem
 			// 
