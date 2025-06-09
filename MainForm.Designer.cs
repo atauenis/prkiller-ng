@@ -127,14 +127,14 @@ namespace prkiller_ng
 			this.lblPID.Location = new System.Drawing.Point(1, 0);
 			this.lblPID.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
 			this.lblPID.Name = "lblPID";
-			this.lblPID.Size = new System.Drawing.Size(51, 17);
+			this.lblPID.Size = new System.Drawing.Size(63, 17);
 			this.lblPID.TabIndex = 0;
-			this.lblPID.Text = "PID: 123";
+			this.lblPID.Text = "PID: 12345";
 			// 
 			// lblThreads
 			// 
 			this.lblThreads.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblThreads.Location = new System.Drawing.Point(54, 0);
+			this.lblThreads.Location = new System.Drawing.Point(66, 0);
 			this.lblThreads.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
 			this.lblThreads.Name = "lblThreads";
 			this.lblThreads.Size = new System.Drawing.Size(50, 17);
@@ -145,7 +145,7 @@ namespace prkiller_ng
 			// 
 			this.lblPriority.AutoSize = true;
 			this.lblPriority.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblPriority.Location = new System.Drawing.Point(106, 0);
+			this.lblPriority.Location = new System.Drawing.Point(118, 0);
 			this.lblPriority.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
 			this.lblPriority.Name = "lblPriority";
 			this.lblPriority.Size = new System.Drawing.Size(84, 17);
@@ -256,10 +256,11 @@ namespace prkiller_ng
             "winword.exe * 32",
             "firefox.exe",
             "bash"});
-			this.ProcessList.Location = new System.Drawing.Point(6, 86);
+			this.ProcessList.Location = new System.Drawing.Point(3, 83);
+			this.ProcessList.Margin = new System.Windows.Forms.Padding(0);
 			this.ProcessList.Name = "ProcessList";
 			this.ProcessList.ScrollAlwaysVisible = true;
-			this.ProcessList.Size = new System.Drawing.Size(202, 288);
+			this.ProcessList.Size = new System.Drawing.Size(208, 294);
 			this.ProcessList.TabIndex = 2;
 			this.ProcessList.SelectedIndexChanged += new System.EventHandler(this.ProcessList_SelectedIndexChanged);
 			this.ProcessList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProcessList_KeyDown);

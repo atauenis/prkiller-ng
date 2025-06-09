@@ -2,11 +2,11 @@
 
 An lightweight Task Manager replacement for Windows.
 
-It is always resident in memory (when is added to autorun), opens momentally, very lightweight, marks unresponsive processes, displays information about CPU load, and may help you to reanimate even near frozen system.
+It is always resident in memory (when is added to autorun), opens immediately, very lightweight, marks unresponsive processes, displays information about CPU load, and may help you to reanimate even near frozen system.
 
 Original idea of this program is going to *Process Killer 1.4.2* by `__alex` ([http://alex-home-pg.nm.ru/](https://web.archive.org/web/20080112112920/http://alex-home-pg.nm.ru/)). That program is great, but it is entirely abandoned by developer in 2005. So I have decided to made a new application, functionally identical to it, compatible with 64-bit systems.
 
-The New Generation version is written using .NET 6.0, and supports Windows 7/8.1/10/11 and all server versions. You need [Microsoft .NET Desktop Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run PrKillerNG.
+The New Generation version supports Windows 7/8.1/10/11 and all server versions. You will need [Microsoft .NET Desktop Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run PrKillerNG.
 
 Currently the application is under development, so its stability is not guaranteed.
 
@@ -27,6 +27,11 @@ The program interface can be localized to any language. Currently only English i
 ## Configuring
 
 Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. At this moment, the settings dialog box is not implemented, so edit the INI file manually if you want.
+
+  - CpuGraphStyle - Disable, Bar, Graph or Label
+  - DoubleClick - Disable , ProcessInfo or Kill
+  - RightClick - Disable or ContextMenu
+  - Hotkey buttons - [keyboard layout](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0)
 
 ## Not implememted features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
