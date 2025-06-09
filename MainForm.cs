@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -32,6 +34,10 @@ namespace prkiller_ng
 		bool CtrlPressed = false;
 		bool ShiftPressed = false;
 		bool AltPressed = false;
+
+		int CpuLoad = 0;
+		List<int> CpuLoadHistory = new();
+		Killer.CpuGraphStyle CpuGraphStyle = Killer.CpuGraphStyle.Disable;
 
 		public MainForm()
 		{
@@ -90,6 +96,8 @@ true
 				rightClickAction = (Killer.RightClickAction)Enum.Parse(typeof(Killer.RightClickAction), Killer.Config.Read("RightClick"));
 
 				if (rightClickAction == Killer.RightClickAction.Disable) ProcessList.ContextMenuStrip = null;
+
+				CpuGraphStyle = (Killer.CpuGraphStyle)Enum.Parse(typeof(Killer.CpuGraphStyle), Killer.Config.Read("CpuGraphStyle"));
 			}
 			catch (Exception ex)
 			{
@@ -194,7 +202,10 @@ true
 			}
 
 			//update CPU statistics
-			lblCPU.Text = "CPU Usage: " + Convert.ToInt32(cpuCounter.NextValue()).ToString() + "%";
+			CpuLoad = Convert.ToInt32(cpuCounter.NextValue());
+			CpuLoadHistory.Add(CpuLoad);
+			if (CpuLoadHistory.Count > Screen.PrimaryScreen.Bounds.Width) CpuLoadHistory.RemoveAt(0);
+			lblCPU.Refresh();
 
 			this.Text = string.Format("({0}) Process Killer NG {1}", ProcessList.Items.Count, Application.ProductVersion);
 		}
@@ -634,6 +645,47 @@ true
 		{
 			RamPhysShowUsed = !RamPhysShowUsed;
 			Timer_Tick(null, null);
+		}
+
+		private void lblCPU_Paint(object sender, PaintEventArgs e)
+		{
+			Rectangle rect = e.ClipRectangle;
+			Graphics graph = e.Graphics;
+			float percentH = (float)rect.Height / 100;
+			float percentW = (float)rect.Width / 100;
+
+			switch (CpuGraphStyle)
+			{
+				case Killer.CpuGraphStyle.Disable:
+					//mode 0: none
+					graph.FillRectangle(SystemBrushes.ButtonFace, rect);
+					return;
+				case Killer.CpuGraphStyle.Bar:
+					//mode 1: just a bar
+					graph.FillRectangle(Brushes.SlateGray, rect);
+					Rectangle BarRect = new(0, 0, Convert.ToInt32(percentW * CpuLoad), rect.Height - 1);
+					graph.FillRectangle(Brushes.LightBlue, BarRect);
+					graph.DrawRectangle(SystemPens.MenuHighlight, BarRect);
+					return;
+				case Killer.CpuGraphStyle.Graph:
+					//mode 2: CPU load graph
+					graph.FillRectangle(Brushes.Black, rect);
+					int histpos = CpuLoadHistory.Count - 1;
+					for (int pos = rect.Width; pos > 0; pos--)
+					{
+						histpos--;
+						if (histpos > CpuLoadHistory.Count) return;
+						if (histpos < 0) return;
+						int Ypos = Convert.ToInt32(percentH * CpuLoadHistory[histpos]);
+						Rectangle GraphRect = new(pos, rect.Height - Ypos, 1, rect.Height);
+						graph.FillRectangle(Brushes.LightGreen, GraphRect);
+					}
+					return;
+				case Killer.CpuGraphStyle.Label:
+					//mode 3: simply a text label
+					lblCPU.Text = "CPU Usage: " + Convert.ToInt32(cpuCounter.NextValue()).ToString() + "%";
+					return;
+			}
 		}
 	}
 }

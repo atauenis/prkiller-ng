@@ -395,13 +395,15 @@ namespace prkiller_ng
 			// 
 			this.lblCPU.AutoSize = true;
 			this.lblCPU.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lblCPU.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblCPU.Location = new System.Drawing.Point(71, 0);
 			this.lblCPU.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
 			this.lblCPU.Name = "lblCPU";
 			this.tableLayoutPanel2.SetRowSpan(this.lblCPU, 2);
-			this.lblCPU.Size = new System.Drawing.Size(69, 17);
+			this.lblCPU.Size = new System.Drawing.Size(136, 34);
 			this.lblCPU.TabIndex = 5;
-			this.lblCPU.Text = "Load: 123%";
+			this.lblCPU.Text = "CPU Load";
+			this.lblCPU.Paint += new System.Windows.Forms.PaintEventHandler(this.lblCPU_Paint);
 			// 
 			// lblRamPhys2
 			// 

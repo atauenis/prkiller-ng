@@ -35,10 +35,10 @@ These features, existing in original Process Killer, are planned to be included 
   - Find parent process
   - Restart process
   - Restart Windows Shell
-  - CPU load graph
   - Find of heavy CPU-loading processes (`<*>`)
   - Autosave of settings (including window size)
   - Settings dialog box
   - Run dialog box history
   - Hexadecimal values display
+  - Cleanup of tray icons
   - Installer

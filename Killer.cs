@@ -38,6 +38,11 @@ namespace prkiller_ng
 		{
 			Disable = 0, ContextMenu = 1
 		}
+
+		internal enum CpuGraphStyle
+		{
+			Disable = 0, Bar = 1, Graph = 2, Label = 3
+		}
 	}
 
 	internal static class NativeMethods
