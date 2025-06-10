@@ -39,6 +39,8 @@ namespace prkiller_ng
 		List<int> CpuLoadHistory = new();
 		Killer.CpuGraphStyle CpuGraphStyle = Killer.CpuGraphStyle.Disable;
 
+		bool FirstTimeShow = true;
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -53,7 +55,6 @@ true
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			WindowState = FormWindowState.Minimized;
 			string ErrorMessage = "Error loading configuration:\n";
 
 			try
@@ -761,6 +762,16 @@ true
 			freqLowToolStripMenuItem.Checked = false;
 			freqVeryLowToolStripMenuItem.Checked = false;
 			freqPausedToolStripMenuItem.Checked = true;
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			if (FirstTimeShow)
+			{
+				Hide();
+				FirstTimeShow = false;
+				return;
+			}
 		}
 	}
 }
