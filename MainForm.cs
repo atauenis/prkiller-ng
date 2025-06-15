@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -27,6 +26,7 @@ namespace prkiller_ng
 
 		Killer.DoubleClickAction doubleClickAction;
 		Killer.RightClickAction rightClickAction;
+		Killer.Selfkill selfkillAction;
 
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
@@ -104,6 +104,14 @@ true
 				if (rightClickAction == Killer.RightClickAction.Disable) ProcessList.ContextMenuStrip = null;
 
 				CpuGraphStyle = (Killer.CpuGraphStyle)Enum.Parse(typeof(Killer.CpuGraphStyle), Killer.Config.Read("CpuGraphStyle"));
+
+				if (Enum.TryParse(typeof(ProcessPriorityClass), Killer.Config.Read("StartupPriority"), out object startupPriority))
+				{
+					Process.GetCurrentProcess().PriorityClass = (ProcessPriorityClass)startupPriority;
+				}
+				Process.GetCurrentProcess().PriorityBoostEnabled = true;
+
+				selfkillAction = (Killer.Selfkill)Enum.Parse(typeof(Killer.Selfkill), Killer.Config.Read("Selfkill"));
 			}
 			catch (Exception ex)
 			{
@@ -245,7 +253,7 @@ true
 
 				try
 				{
-					lblPriority.Text = "pri: " + selected.ProcessPriority.ToString();
+					lblPriority.Text = "pri: " + selected.ProcessPriority.ToString() + " (" + selected.Proc.BasePriority + ")";
 					switch (selected.ProcessPriority)
 					{
 						case ProcessPriorityClass.RealTime:
@@ -483,10 +491,23 @@ true
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null) kill = true;
 
-			if (selected.ProcessName == Assembly.GetExecutingAssembly().GetName().Name)
+			if (selected.ProcessId == Process.GetCurrentProcess().Id)
 			{
-				DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
-				kill = (quest == DialogResult.Yes);
+				switch (selfkillAction)
+				{
+					case Killer.Selfkill.Disable:
+						kill = false;
+						this.Text = Killer.Language.Read("SelfkillDisabled", "Language");
+						break;
+					case Killer.Selfkill.Prompt:
+						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
+						kill = (quest == DialogResult.Yes);
+						break;
+					case Killer.Selfkill.Easy:
+						kill = true;
+						break;
+				}
+				if (kill == false) return;
 			}
 
 			try

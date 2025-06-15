@@ -43,6 +43,11 @@ namespace prkiller_ng
 		{
 			Disable = 0, Bar = 1, Graph = 2, Label = 3
 		}
+
+		internal enum Selfkill
+		{
+			Disable = 0, Prompt = 1, Easy = 2
+		}
 	}
 
 	internal static class NativeMethods
