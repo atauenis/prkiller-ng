@@ -9,6 +9,8 @@ namespace prkiller_ng
 	/// </summary>
 	class ProcessInfo
 	{
+		private string WinApiProcName = "";
+
 		/// <summary>
 		/// Deep process information.
 		/// </summary>
@@ -21,7 +23,14 @@ namespace prkiller_ng
 		/// <summary>
 		/// Gets process visible name.
 		/// </summary>
-		public string ProcessName { get { return Proc.ProcessName; } }
+		public string ProcessName
+		{
+			get
+			{
+				if (!string.IsNullOrWhiteSpace(WinApiProcName)) return WinApiProcName;
+				return Proc.ProcessName + ".exe";
+			}
+		}
 		/// <summary>
 		/// Gets process priority category.
 		/// </summary>
@@ -40,9 +49,19 @@ namespace prkiller_ng
 		public override string ToString()
 		{
 			string str = "";
-			if (!Proc.Responding) str += "<!> ";
-			str += ProcessName + ".exe"; //Proc.MainModule.ModuleName is too slow
+			try
+			{
+				WinApiProcName = Proc.GetProcessImageFileName();
+				if (!string.IsNullOrWhiteSpace(WinApiProcName))
+					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
+				//a bit slow, but not criminally
+			}
+			catch { }
+			if (!Proc.Responding) str += "<!> "; // MAY CAUSE FREEZE
+			str += ProcessName;
 			return str;
+
+			//todo: add cache of readable names
 		}
 
 		/// <summary>
@@ -75,6 +94,7 @@ namespace prkiller_ng
 				wnd.txtProcessExtraInfo.Text = "ID=" + Proc.Id;
 				if (Proc.IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
 				//wnd.txtProcessExtraInfo.Text += " :)";
+				wnd.txtProcessExtraInfo.Text += " PARENT ID=" + Proc.GetParentProcess().Id;
 			}
 			catch { }
 
