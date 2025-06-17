@@ -454,12 +454,23 @@ true
 				case "ContextMenu":
 					contextMenuStrip1.Show(ProcessList.Location);
 					break;
+				case "FindParent":
+					int ParentProcId = ((ProcessInfo)ProcessList.SelectedItem).Proc.GetParentProcess().Id;
+					foreach (ProcessInfo proc in ProcessList.Items)
+					{
+						if (proc.Proc.Id == ParentProcId)
+						{
+							ProcessList.SelectedItem = proc;
+							break;
+						}
+					}
+					this.Text = Killer.Language.Read("ParentProcessNotFound", "Language");
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
 					break;
 				case "Restart":
 				case "Pause":
-				case "FindParent":
 				case "RestartExplorer":
 					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					break;
