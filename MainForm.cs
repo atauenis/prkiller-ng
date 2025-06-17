@@ -466,10 +466,18 @@ true
 					}
 					this.Text = Killer.Language.Read("ParentProcessNotFound", "Language");
 					break;
+				case "Restart":
+					ProcessInfo BaseProc = ((ProcessInfo)ProcessList.SelectedItem);
+					ProcessStartInfo NewProcStartInfo = new();
+					NewProcStartInfo.FileName = "cmd.exe";
+					NewProcStartInfo.Arguments = @"/c start """" """ + ((ProcessInfo)ProcessList.SelectedItem).CommandLine + @"""";
+					Process NewProc = new() { StartInfo = NewProcStartInfo };
+					NewProc.Start();
+					BaseProc.Proc.Kill();
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
 					break;
-				case "Restart":
 				case "Pause":
 				case "RestartExplorer":
 					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

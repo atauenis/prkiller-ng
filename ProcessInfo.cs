@@ -36,6 +36,21 @@ namespace prkiller_ng
 		/// </summary>
 		public ProcessPriorityClass ProcessPriority { get { return Proc.PriorityClass; } }
 
+		public string CommandLine
+		{
+			get
+			{
+				using (ManagementObjectSearcher mos = new("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + Proc.Id))
+				{
+					foreach (ManagementObject mo in mos.Get())
+					{
+						return (string)mo["CommandLine"];
+					}
+				}
+				return "";
+			}
+		}
+
 		/// <summary>
 		/// Construct this class.
 		/// </summary>
@@ -104,13 +119,7 @@ namespace prkiller_ng
 			try { wnd.txtProcWorkingDir.Text = Proc.StartInfo.WorkingDirectory; }
 			catch { wnd.txtProcWorkingDir.Text = "?"; }
 
-			using (ManagementObjectSearcher mos = new("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + Proc.Id))
-			{
-				foreach (ManagementObject mo in mos.Get())
-				{
-					wnd.txtProcCmdLine.Text = (string)mo["CommandLine"];
-				}
-			}
+			wnd.txtProcCmdLine.Text = CommandLine;
 
 			Application.UseWaitCursor = false;
 		}
