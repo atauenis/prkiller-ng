@@ -28,6 +28,7 @@ namespace prkiller_ng
 			get
 			{
 				if (!string.IsNullOrWhiteSpace(WinApiProcName)) return WinApiProcName;
+				if (Proc.ProcessName == "System" || Proc.ProcessName == "Idle") return Proc.ProcessName;
 				return Proc.ProcessName + ".exe";
 			}
 		}
@@ -36,6 +37,14 @@ namespace prkiller_ng
 		/// </summary>
 		public ProcessPriorityClass ProcessPriority { get { return Proc.PriorityClass; } }
 
+		/// <summary>
+		/// Gets does the process is suspended
+		/// </summary>
+		public bool Suspended { get { return Proc.Threads[0].ThreadState == ThreadState.Wait && Proc.Threads[0].WaitReason == ThreadWaitReason.Suspended; } }
+
+		/// <summary>
+		/// Gets process command line
+		/// </summary>
 		public string CommandLine
 		{
 			get
@@ -61,6 +70,9 @@ namespace prkiller_ng
 			ProcessId = Proc.Id;
 		}
 
+		/// <summary>
+		/// Gets user-friendly process name wih its run status
+		/// </summary>
 		public override string ToString()
 		{
 			string str = "";
@@ -69,14 +81,13 @@ namespace prkiller_ng
 				WinApiProcName = Proc.GetProcessImageFileName();
 				if (!string.IsNullOrWhiteSpace(WinApiProcName))
 					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
-				//a bit slow, but not criminally
 			}
 			catch { }
-			if (!Proc.Responding) str += "<!> "; // MAY CAUSE FREEZE
+
+			if (!Suspended && !Proc.Responding) str += "<!> ";
+			if (Suspended) str += "<s> ";
 			str += ProcessName;
 			return str;
-
-			//todo: add cache of readable names
 		}
 
 		/// <summary>

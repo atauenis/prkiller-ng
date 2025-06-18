@@ -334,6 +334,7 @@ namespace prkiller_ng
 			this.procPauseToolStripMenuItem.Name = "procPauseToolStripMenuItem";
 			this.procPauseToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.procPauseToolStripMenuItem.Text = "Proc Pause";
+			this.procPauseToolStripMenuItem.Click += new System.EventHandler(this.procPauseToolStripMenuItem_Click);
 			// 
 			// procInfoToolStripMenuItem
 			// 

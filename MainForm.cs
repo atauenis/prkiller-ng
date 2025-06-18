@@ -475,10 +475,20 @@ true
 					NewProc.Start();
 					BaseProc.Proc.Kill();
 					break;
+				case "SuspendResumeProcess":
+					ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
+					if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
+					else SelProcSusRes.Proc.Suspend();
+					break;
+				case "SuspendProcess":
+					((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
+					break;
+				case "ResumeProcess":
+					((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
+					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
 					break;
-				case "Pause":
 				case "RestartExplorer":
 					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					break;
@@ -580,6 +590,19 @@ true
 		private void procKillTreeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			KillProcess(true);
+		}
+		private void procPauseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
+				if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
+				else SelProcSusRes.Proc.Suspend();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
 		}
 
 		private void SetProcessPriority(ProcessPriorityClass pri)
