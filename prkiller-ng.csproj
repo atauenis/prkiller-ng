@@ -11,8 +11,18 @@
     <Product>Process Killer NG 2.0</Product>
     <Description>Alternative for Windows Task Manager</Description>
     <ApplicationIcon>icons\prkiller.ico</ApplicationIcon>
-    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
   </PropertyGroup>
+
+	<PropertyGroup Condition="$(Configuration)=='Release'">
+		<PublishSingleFile>true</PublishSingleFile>
+		<PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="$(SelfContained)==true">
+		<PublishTrimmed>false</PublishTrimmed>
+    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+    <!-- Else produces an EXE with crash on KernelBase.dll call -->
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="6.0.0" />
