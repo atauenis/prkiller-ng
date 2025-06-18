@@ -13,7 +13,7 @@ namespace prkiller_ng
 
 		private void AboutForm_Load(object sender, EventArgs e)
 		{
-			lblVersion.Text += Application.ProductVersion + " Public Preview";
+			lblVersion.Text += Application.ProductVersion + " Beta";
 			lblLanguage.Text = Killer.Language.Read("Language", "Language");
 			cmdOk.Text = Killer.Language.Read("cmdOK", "Language");
 			this.Text = Killer.Language.Read("AboutTitle", "Language");
