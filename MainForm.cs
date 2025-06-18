@@ -57,6 +57,8 @@ true
 		{
 			string ErrorMessage = "Error loading configuration:\n";
 
+			if (CheckSecondInstance()) Application.Exit();
+
 			try
 			{
 				if (!File.Exists(Killer.Config.Read("Language"))) throw new FileNotFoundException("Language file not found.");
@@ -162,6 +164,28 @@ true
 			}
 		}
 
+		private bool CheckSecondInstance()
+		{
+			foreach (Process proc in Process.GetProcesses())
+			{
+				try
+				{
+					if (proc.Id == Process.GetCurrentProcess().Id) continue;
+					if (proc.MainModule.FileName == Process.GetCurrentProcess().MainModule.FileName)
+					{
+						MessageBox.Show(Killer.Language.Read("AnotherInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						return true;
+					}
+					if (proc.ProcessName == Process.GetCurrentProcess().ProcessName)
+					{
+						MessageBox.Show(Killer.Language.Read("AnotherSimilarInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						return true;
+					}
+				}
+				catch { }
+			}
+			return false;
+		}
 
 		private void Timer_Tick(object sender, EventArgs e)
 		{
