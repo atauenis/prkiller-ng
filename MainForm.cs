@@ -26,7 +26,9 @@ namespace prkiller_ng
 
 		Killer.DoubleClickAction doubleClickAction;
 		Killer.RightClickAction rightClickAction;
-		Killer.Selfkill selfkillAction;
+		Killer.KillPolicy selfkillAction;
+		Killer.KillPolicy killTreeAction;
+		Killer.KillPolicy killSystemProcAction;
 
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
@@ -113,7 +115,9 @@ true
 				}
 				Process.GetCurrentProcess().PriorityBoostEnabled = true;
 
-				selfkillAction = (Killer.Selfkill)Enum.Parse(typeof(Killer.Selfkill), Killer.Config.Read("Selfkill"));
+				selfkillAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("Selfkill"));
+				killTreeAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillTree"));
+				killSystemProcAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillSystem"));
 			}
 			catch (Exception ex)
 			{
@@ -536,33 +540,69 @@ true
 		/// <param name="hide">Override `Hide window after kill` setting</param>
 		private void KillProcess(bool tree = false, bool? hide = null)
 		{
+			// Check for need of hide the window
 			if (hide is null && Killer.Config.Read("HideAfterKill").ToLowerInvariant() == "true") hide = true;
 			if (hide is null) hide = false;
 			if (CtrlPressed) hide = false;
 
+			// Prepare variables
 			bool kill = false;
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null) kill = true;
 
-			if (selected.ProcessId == Process.GetCurrentProcess().Id)
+			// Check for system process kill
+			if (selected.Proc.IsCritical())
 			{
-				switch (selfkillAction)
+				switch (killSystemProcAction)
 				{
-					case Killer.Selfkill.Disable:
+					case Killer.KillPolicy.Disable:
 						kill = false;
-						this.Text = Killer.Language.Read("SelfkillDisabled", "Language");
+						this.Text = Killer.Language.Read("KillSystemDisabled", "Language");
 						break;
-					case Killer.Selfkill.Prompt:
-						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
+					case Killer.KillPolicy.Prompt:
+						DialogResult quest = MessageBox.Show(Killer.Language.Read("KillSystemQuestion", "Language"), Killer.Language.Read("KillSystemTitle", "Language"), MessageBoxButtons.YesNo);
 						kill = (quest == DialogResult.Yes);
 						break;
-					case Killer.Selfkill.Easy:
+					case Killer.KillPolicy.Enable:
 						kill = true;
 						break;
 				}
 				if (kill == false) return;
 			}
 
+			// Check for process tree kill
+			if (tree && killTreeAction == Killer.KillPolicy.Prompt)
+			{
+				DialogResult quest = MessageBox.Show(Killer.Language.Read("KillTreeQuestion", "Language"), Killer.Language.Read("KillTreeTitle", "Language"), MessageBoxButtons.YesNo);
+				if (quest == DialogResult.No) return;
+			}
+			if (tree && killTreeAction == Killer.KillPolicy.Disable)
+			{
+				this.Text = Killer.Language.Read("KillTreeDisabled", "Language");
+				return;
+			}
+
+			// Check for selfkill
+			if (selected.ProcessId == Process.GetCurrentProcess().Id)
+			{
+				switch (selfkillAction)
+				{
+					case Killer.KillPolicy.Disable:
+						kill = false;
+						this.Text = Killer.Language.Read("SelfkillDisabled", "Language");
+						break;
+					case Killer.KillPolicy.Prompt:
+						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
+						kill = (quest == DialogResult.Yes);
+						break;
+					case Killer.KillPolicy.Enable:
+						kill = true;
+						break;
+				}
+				if (kill == false) return;
+			}
+
+			// Fire!
 			try
 			{
 				if (kill) selected.Proc.Kill(tree);

@@ -23,6 +23,8 @@ public static class ProcessExtension
 	public static extern bool QueryFullProcessImageNameW(IntPtr hProcess, uint dwFlags, byte[] lpExeName, ref uint lpdwSize);
 	[DllImport("ntdll.dll")]
 	private static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ParentProcessUtilities processInformation, int processInformationLength, out int returnLength);
+	[DllImport("kernel32.dll", SetLastError = true)]
+	private static extern bool IsProcessCritical(IntPtr hProcess, ref bool Critical);
 
 
 	public static void Suspend(this Process process)
@@ -98,6 +100,17 @@ public static class ProcessExtension
 		if ((int)bufflen * 2 < 256)
 			return System.Text.Encoding.Unicode.GetString(buff, 0, (int)bufflen * 2);
 		else return "";
+	}
+
+	public static bool IsCritical(this Process process)
+	{
+		//https://stackoverflow.com/questions/53354644/find-out-whether-a-process-is-a-system-process
+
+		bool criticalProcess = false;
+		try
+		{ IsProcessCritical(process.Handle, ref criticalProcess); }
+		catch (System.ComponentModel.Win32Exception) { criticalProcess = true; }
+		return criticalProcess;
 	}
 }
 

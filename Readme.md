@@ -20,7 +20,7 @@ Main portion of the window is the list of running processes. Unlike many such ap
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu. If necessary, you can even suspend and later resume an running process (`Ctrl`+`←`). This may be useful, say, when copying a large file over network using FAR Manager, and you are need to temporarily free network bandwidth for other task. Suspended processes are marked by `<s>` icon.
 
-Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Click on the processor statistics using right button to choose update speed.
+Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Parent process which launched the selected process sometimes can be looked up by pressing `Ctrl`+`PgUp`. Click on the processor statistics using right button to choose update speed.
 
 The program interface can be localized to any language. Currently only English is available, but other languages will be added in future.
 
@@ -33,7 +33,7 @@ Process Killer NG is portable program. It does not saving anything on your compu
   - RightClick - Disable or ContextMenu
   - Hotkey buttons - [keyboard layout](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0)
   - StartupPriority - Normal, Idle, High, RealTime, BelowNormal or AboveNormal
-  - Selfkill - Disable, Prompt or Easy
+  - Selfkill, KillTree, KillSystem - Disable, Prompt or Enable
 
 ## Not implememted features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
