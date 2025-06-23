@@ -24,11 +24,29 @@ namespace prkiller_ng
 			WinKey = 8
 		}
 
+		[DllImport("user32.dll")]
+		private static extern bool LockSetForegroundWindow(UInt32 uLockCode);
+		[DllImport("user32.dll")]
+		private static extern bool AllowSetForegroundWindow(uint dwProcessId);
+
+		const UInt32 LSFW_LOCK = 1;
+		const UInt32 LSFW_UNLOCK = 2;
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool SetForegroundWindow(IntPtr hWnd);
+		[DllImport("user32.dll")]
+		static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
 		Killer.DoubleClickAction doubleClickAction;
 		Killer.RightClickAction rightClickAction;
 		Killer.KillPolicy selfkillAction;
 		Killer.KillPolicy killTreeAction;
 		Killer.KillPolicy killSystemProcAction;
+
+		bool AlwaysOnTop = true;
+		bool AlwaysActive = false;
+		bool AlwaysActivePause = false;
 
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
@@ -118,6 +136,17 @@ true
 				selfkillAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("Selfkill"));
 				killTreeAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillTree"));
 				killSystemProcAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillSystem"));
+
+				if (Killer.Config.Read("AlwaysOnTop").ToLowerInvariant() == "true") AlwaysOnTop = true;
+				if (Killer.Config.Read("AlwaysActive").ToLowerInvariant() == "true") AlwaysActive = true;
+
+				TopMost = AlwaysOnTop;
+
+				if (AlwaysActive)
+				{
+					AllowSetForegroundWindow((uint)Process.GetCurrentProcess().Id);
+					LockSetForegroundWindow(LSFW_LOCK);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -163,6 +192,7 @@ true
 			}
 			catch (Exception ex)
 			{
+				AlwaysActivePause = true;
 				MessageBox.Show(ErrorMessage + ex.Message, "Process Killer NG", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();
 			}
@@ -194,6 +224,13 @@ true
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			if (!Timer.Enabled) return;
+
+			//correct window focus
+			if (AlwaysActive && !AlwaysActivePause)
+			{
+				this.Activate();
+				this.Focus();
+			}
 
 			//backup previous state
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
@@ -360,7 +397,9 @@ true
 		private void cmdHelp_Click(object sender, EventArgs e)
 		{
 			// ABOUT button click
+			AlwaysActivePause = true;
 			new AboutForm().ShowDialog();
+			AlwaysActivePause = false;
 		}
 
 		private void Hotkey_Pressed(Keys key, KeyModifier modifier, int id)
@@ -518,10 +557,14 @@ true
 					Debug.Print("Unknown key: " + key);
 					break;
 				case "RestartExplorer":
+					AlwaysActivePause = true;
 					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					AlwaysActivePause = false;
 					break;
 				default:
+					AlwaysActivePause = true;
 					MessageBox.Show(Killer.Language.Read("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					AlwaysActivePause = false;
 					break;
 			}
 			e.Handled = true;
@@ -560,8 +603,10 @@ true
 						this.Text = Killer.Language.Read("KillSystemDisabled", "Language");
 						break;
 					case Killer.KillPolicy.Prompt:
+						AlwaysActivePause = true;
 						DialogResult quest = MessageBox.Show(Killer.Language.Read("KillSystemQuestion", "Language"), Killer.Language.Read("KillSystemTitle", "Language"), MessageBoxButtons.YesNo);
 						kill = (quest == DialogResult.Yes);
+						AlwaysActivePause = false;
 						break;
 					case Killer.KillPolicy.Enable:
 						kill = true;
@@ -573,7 +618,9 @@ true
 			// Check for process tree kill
 			if (tree && killTreeAction == Killer.KillPolicy.Prompt)
 			{
+				AlwaysActivePause = true;
 				DialogResult quest = MessageBox.Show(Killer.Language.Read("KillTreeQuestion", "Language"), Killer.Language.Read("KillTreeTitle", "Language"), MessageBoxButtons.YesNo);
+				AlwaysActivePause = false;
 				if (quest == DialogResult.No) return;
 			}
 			if (tree && killTreeAction == Killer.KillPolicy.Disable)
@@ -592,8 +639,10 @@ true
 						this.Text = Killer.Language.Read("SelfkillDisabled", "Language");
 						break;
 					case Killer.KillPolicy.Prompt:
+						AlwaysActivePause = true;
 						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
 						kill = (quest == DialogResult.Yes);
+						AlwaysActivePause = false;
 						break;
 					case Killer.KillPolicy.Enable:
 						kill = true;
@@ -620,8 +669,10 @@ true
 		/// </summary>
 		private void KillKiller()
 		{
+			AlwaysActivePause = true;
 			DialogResult questExit = MessageBox.Show(Killer.Language.Read("ExitQuestion", "Language"), Application.ProductName, MessageBoxButtons.YesNo);
 			if (questExit == DialogResult.Yes) { Application.Exit(); }
+			AlwaysActivePause = false;
 		}
 
 		/// <summary>
@@ -629,8 +680,10 @@ true
 		/// </summary>
 		private void ProcessInfo()
 		{
+			AlwaysActivePause = true;
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null) selected.ShowInfoDialog();
+			AlwaysActivePause = false;
 		}
 
 		/// <summary>
@@ -638,7 +691,9 @@ true
 		/// </summary>
 		private void RunDialog()
 		{
+			AlwaysActivePause = true;
 			new RunDialog().ShowDialog();
+			AlwaysActivePause = false;
 		}
 
 		private void procInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -665,7 +720,9 @@ true
 			}
 			catch (Exception ex)
 			{
+				AlwaysActivePause = true;
 				MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				AlwaysActivePause = false;
 			}
 		}
 
@@ -673,12 +730,11 @@ true
 		{
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected == null) return;
-
+			AlwaysActivePause = true;
 			try
-			{
-				selected.Proc.PriorityClass = pri;
-			}
+			{ selected.Proc.PriorityClass = pri; }
 			catch (Exception ex) { MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+			AlwaysActivePause = false;
 		}
 
 		private void SetProcessPriority(int change)

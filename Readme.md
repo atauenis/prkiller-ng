@@ -34,6 +34,7 @@ Process Killer NG is portable program. It does not saving anything on your compu
   - Hotkey buttons - [keyboard layout](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0)
   - StartupPriority - Normal, Idle, High, RealTime, BelowNormal or AboveNormal
   - Selfkill, KillTree, KillSystem - Disable, Prompt or Enable
+  - Other - integer, string or boolean values
 
 ## Not implememted features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
