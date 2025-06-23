@@ -37,7 +37,7 @@ Process Killer NG is portable program. It does not saving anything on your compu
   - ErrorSound - Disable, Beep, SpeakerBeep, Asterisk, Exclamination, Hand or Question
   - Other - integer, string or boolean values
 
-## Not implememted features
+## Not implemented features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
 
   - Restart Windows Shell

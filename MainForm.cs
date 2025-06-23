@@ -999,5 +999,12 @@ true
 				return;
 			}
 		}
+
+		private void cmdRestartExplorer_Click(object sender, EventArgs e)
+		{
+			AlwaysActivePause = true;
+			MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			AlwaysActivePause = false;
+		}
 	}
 }

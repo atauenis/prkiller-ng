@@ -206,6 +206,7 @@ namespace prkiller_ng
 			this.cmdRestartExplorer.TabIndex = 2;
 			this.cmdRestartExplorer.TabStop = false;
 			this.cmdRestartExplorer.UseVisualStyleBackColor = true;
+			this.cmdRestartExplorer.Click += new System.EventHandler(this.cmdRestartExplorer_Click);
 			// 
 			// cmdRun
 			// 
