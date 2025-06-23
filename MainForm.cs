@@ -47,6 +47,7 @@ namespace prkiller_ng
 		bool AlwaysOnTop = true;
 		bool AlwaysActive = false;
 		bool AlwaysActivePause = false;
+		bool ShowToolTips = false;
 
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
@@ -136,6 +137,10 @@ true
 				selfkillAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("Selfkill"));
 				killTreeAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillTree"));
 				killSystemProcAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillSystem"));
+
+				if (Killer.Config.Read("ShowToolTips").ToLowerInvariant() == "true") ShowToolTips = true;
+				toolTips.Active = ShowToolTips;
+				toolTips.UseAnimation = true;
 
 				if (Killer.Config.Read("AlwaysOnTop").ToLowerInvariant() == "true") AlwaysOnTop = true;
 				if (Killer.Config.Read("AlwaysActive").ToLowerInvariant() == "true") AlwaysActive = true;
