@@ -29,11 +29,12 @@ The program interface can be localized to any language. Currently only English i
 Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. At this moment, the settings dialog box is not implemented, so edit the INI file manually if you want.
 
   - CpuGraphStyle - Disable, Bar, Graph or Label
-  - DoubleClick - Disable , ProcessInfo or Kill
+  - DoubleClick - Disable, ProcessInfo or Kill
   - RightClick - Disable or ContextMenu
   - Hotkey buttons - [keyboard layout](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0)
   - StartupPriority - Normal, Idle, High, RealTime, BelowNormal or AboveNormal
   - Selfkill, KillTree, KillSystem - Disable, Prompt or Enable
+  - ErrorSound - Disable, Beep, SpeakerBeep, Asterisk, Exclamination, Hand or Question
   - Other - integer, string or boolean values
 
 ## Not implememted features

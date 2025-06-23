@@ -48,6 +48,11 @@ namespace prkiller_ng
 		{
 			Disable = 0, Prompt = 1, Enable = 2
 		}
+
+		internal enum ErrorSound
+		{
+			Disable = 0, Beep = 1, SpeakerBeep = 2, Asterisk = 3, Exclamination = 4, Hand = 5, Question = 6
+		}
 	}
 
 	internal static class NativeMethods

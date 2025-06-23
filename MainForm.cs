@@ -38,6 +38,9 @@ namespace prkiller_ng
 		[DllImport("user32.dll")]
 		static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
+		[DllImport("kernel32.dll")]
+		public static extern bool Beep(uint frequency, uint duration);
+
 		Killer.DoubleClickAction doubleClickAction;
 		Killer.RightClickAction rightClickAction;
 		Killer.KillPolicy selfkillAction;
@@ -48,6 +51,8 @@ namespace prkiller_ng
 		bool AlwaysActive = false;
 		bool AlwaysActivePause = false;
 		bool ShowToolTips = false;
+
+		Killer.ErrorSound Sound = Killer.ErrorSound.Beep;
 
 		PerformanceCounter cpuCounter;
 		bool RamVirtShowUsed = false;
@@ -152,6 +157,9 @@ true
 					AllowSetForegroundWindow((uint)Process.GetCurrentProcess().Id);
 					LockSetForegroundWindow(LSFW_LOCK);
 				}
+
+				Enum.TryParse(typeof(Killer.ErrorSound), Killer.Config.Read("ErrorSound"), out object snd);
+				if (snd != null) Sound = (Killer.ErrorSound)snd;
 			}
 			catch (Exception ex)
 			{
@@ -537,6 +545,7 @@ true
 						}
 					}
 					this.Text = Killer.Language.Read("ParentProcessNotFound", "Language");
+					PlayErrorSound();
 					break;
 				case "Restart":
 					ProcessInfo BaseProc = ((ProcessInfo)ProcessList.SelectedItem);
@@ -666,6 +675,34 @@ true
 			{
 				string KillErrMsg = string.Format(Killer.Language.Read("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
 				this.Text = KillErrMsg;
+				PlayErrorSound();
+			}
+		}
+
+		private void PlayErrorSound()
+		{
+			switch (Sound)
+			{
+				case Killer.ErrorSound.Disable:
+					break;
+				case Killer.ErrorSound.Beep:
+					System.Media.SystemSounds.Beep.Play();
+					break;
+				case Killer.ErrorSound.Asterisk:
+					System.Media.SystemSounds.Asterisk.Play();
+					break;
+				case Killer.ErrorSound.Exclamination:
+					System.Media.SystemSounds.Exclamation.Play();
+					break;
+				case Killer.ErrorSound.Hand:
+					System.Media.SystemSounds.Hand.Play();
+					break;
+				case Killer.ErrorSound.Question:
+					System.Media.SystemSounds.Question.Play();
+					break;
+				case Killer.ErrorSound.SpeakerBeep:
+					Beep(500, 250);
+					break;
 			}
 		}
 
@@ -816,6 +853,7 @@ true
 				if (ex is ArgumentException) throw;
 				string PriSetErrMsg = string.Format(Killer.Language.Read("CannotChangePriority", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
 				this.Text = PriSetErrMsg;
+				PlayErrorSound();
 			}
 		}
 
