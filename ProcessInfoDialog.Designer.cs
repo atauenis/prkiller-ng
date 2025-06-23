@@ -47,10 +47,10 @@ namespace prkiller_ng
 			this.lblProcImage = new System.Windows.Forms.Label();
 			this.lblProcDir = new System.Windows.Forms.Label();
 			this.lblProcCmd = new System.Windows.Forms.Label();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.pbxIcon = new System.Windows.Forms.PictureBox();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbxIcon)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -68,7 +68,7 @@ namespace prkiller_ng
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.ColumnCount = 3;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.Controls.Add(this.txtDescription, 2, 0);
@@ -87,7 +87,7 @@ namespace prkiller_ng
 			this.tableLayoutPanel1.Controls.Add(this.lblProcImage, 1, 6);
 			this.tableLayoutPanel1.Controls.Add(this.lblProcDir, 1, 7);
 			this.tableLayoutPanel1.Controls.Add(this.lblProcCmd, 1, 8);
-			this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.pbxIcon, 0, 0);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 15);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 9;
@@ -108,7 +108,7 @@ namespace prkiller_ng
 			this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDescription.Location = new System.Drawing.Point(76, 0);
+			this.txtDescription.Location = new System.Drawing.Point(82, 0);
 			this.txtDescription.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.PlaceholderText = "Описание файла";
@@ -122,7 +122,7 @@ namespace prkiller_ng
 			this.txtDescriptionCompany.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDescriptionCompany.Location = new System.Drawing.Point(76, 23);
+			this.txtDescriptionCompany.Location = new System.Drawing.Point(82, 23);
 			this.txtDescriptionCompany.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionCompany.Name = "txtDescriptionCompany";
 			this.txtDescriptionCompany.PlaceholderText = "Имя компании";
@@ -136,7 +136,7 @@ namespace prkiller_ng
 			this.txtDescriptionCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDescriptionCopyright.Location = new System.Drawing.Point(76, 46);
+			this.txtDescriptionCopyright.Location = new System.Drawing.Point(82, 46);
 			this.txtDescriptionCopyright.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionCopyright.Name = "txtDescriptionCopyright";
 			this.txtDescriptionCopyright.PlaceholderText = "Авторское право";
@@ -150,7 +150,7 @@ namespace prkiller_ng
 			this.txtDescriptionVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDescriptionVersion.Location = new System.Drawing.Point(76, 69);
+			this.txtDescriptionVersion.Location = new System.Drawing.Point(82, 69);
 			this.txtDescriptionVersion.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionVersion.Name = "txtDescriptionVersion";
 			this.txtDescriptionVersion.PlaceholderText = "Версия файла";
@@ -164,7 +164,7 @@ namespace prkiller_ng
 			this.txtProcessExtraInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProcessExtraInfo.Location = new System.Drawing.Point(76, 115);
+			this.txtProcessExtraInfo.Location = new System.Drawing.Point(82, 115);
 			this.txtProcessExtraInfo.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcessExtraInfo.Name = "txtProcessExtraInfo";
 			this.txtProcessExtraInfo.PlaceholderText = "Расширенная информация";
@@ -178,7 +178,7 @@ namespace prkiller_ng
 			this.txtProcImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProcImageName.Location = new System.Drawing.Point(76, 138);
+			this.txtProcImageName.Location = new System.Drawing.Point(82, 138);
 			this.txtProcImageName.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcImageName.Name = "txtProcImageName";
 			this.txtProcImageName.PlaceholderText = "Имя образа";
@@ -192,7 +192,7 @@ namespace prkiller_ng
 			this.txtProcWorkingDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProcWorkingDir.Location = new System.Drawing.Point(76, 161);
+			this.txtProcWorkingDir.Location = new System.Drawing.Point(82, 161);
 			this.txtProcWorkingDir.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcWorkingDir.Name = "txtProcWorkingDir";
 			this.txtProcWorkingDir.PlaceholderText = "Рабочий каталог";
@@ -206,7 +206,7 @@ namespace prkiller_ng
 			this.txtProcCmdLine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProcCmdLine.Location = new System.Drawing.Point(76, 184);
+			this.txtProcCmdLine.Location = new System.Drawing.Point(82, 184);
 			this.txtProcCmdLine.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcCmdLine.Name = "txtProcCmdLine";
 			this.txtProcCmdLine.PlaceholderText = "Командная строка";
@@ -220,7 +220,7 @@ namespace prkiller_ng
 			this.lblFileDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblFileDesc.AutoSize = true;
-			this.lblFileDesc.Location = new System.Drawing.Point(35, 0);
+			this.lblFileDesc.Location = new System.Drawing.Point(41, 0);
 			this.lblFileDesc.Name = "lblFileDesc";
 			this.lblFileDesc.Size = new System.Drawing.Size(38, 23);
 			this.lblFileDesc.TabIndex = 2;
@@ -231,7 +231,7 @@ namespace prkiller_ng
 			this.lblFileCompany.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblFileCompany.AutoSize = true;
-			this.lblFileCompany.Location = new System.Drawing.Point(35, 23);
+			this.lblFileCompany.Location = new System.Drawing.Point(41, 23);
 			this.lblFileCompany.Name = "lblFileCompany";
 			this.lblFileCompany.Size = new System.Drawing.Size(38, 23);
 			this.lblFileCompany.TabIndex = 2;
@@ -242,7 +242,7 @@ namespace prkiller_ng
 			this.lblFileCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblFileCopyright.AutoSize = true;
-			this.lblFileCopyright.Location = new System.Drawing.Point(35, 46);
+			this.lblFileCopyright.Location = new System.Drawing.Point(41, 46);
 			this.lblFileCopyright.Name = "lblFileCopyright";
 			this.lblFileCopyright.Size = new System.Drawing.Size(38, 23);
 			this.lblFileCopyright.TabIndex = 2;
@@ -253,7 +253,7 @@ namespace prkiller_ng
 			this.lblFileVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblFileVersion.AutoSize = true;
-			this.lblFileVersion.Location = new System.Drawing.Point(35, 69);
+			this.lblFileVersion.Location = new System.Drawing.Point(41, 69);
 			this.lblFileVersion.Name = "lblFileVersion";
 			this.lblFileVersion.Size = new System.Drawing.Size(38, 23);
 			this.lblFileVersion.TabIndex = 2;
@@ -264,7 +264,7 @@ namespace prkiller_ng
 			this.lblProcExtra.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblProcExtra.AutoSize = true;
-			this.lblProcExtra.Location = new System.Drawing.Point(35, 115);
+			this.lblProcExtra.Location = new System.Drawing.Point(41, 115);
 			this.lblProcExtra.Name = "lblProcExtra";
 			this.lblProcExtra.Size = new System.Drawing.Size(38, 23);
 			this.lblProcExtra.TabIndex = 2;
@@ -275,7 +275,7 @@ namespace prkiller_ng
 			this.lblProcImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblProcImage.AutoSize = true;
-			this.lblProcImage.Location = new System.Drawing.Point(35, 138);
+			this.lblProcImage.Location = new System.Drawing.Point(41, 138);
 			this.lblProcImage.Name = "lblProcImage";
 			this.lblProcImage.Size = new System.Drawing.Size(38, 23);
 			this.lblProcImage.TabIndex = 2;
@@ -286,7 +286,7 @@ namespace prkiller_ng
 			this.lblProcDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblProcDir.AutoSize = true;
-			this.lblProcDir.Location = new System.Drawing.Point(35, 161);
+			this.lblProcDir.Location = new System.Drawing.Point(41, 161);
 			this.lblProcDir.Name = "lblProcDir";
 			this.lblProcDir.Size = new System.Drawing.Size(38, 23);
 			this.lblProcDir.TabIndex = 2;
@@ -297,20 +297,21 @@ namespace prkiller_ng
 			this.lblProcCmd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblProcCmd.AutoSize = true;
-			this.lblProcCmd.Location = new System.Drawing.Point(35, 184);
+			this.lblProcCmd.Location = new System.Drawing.Point(41, 184);
 			this.lblProcCmd.Name = "lblProcCmd";
 			this.lblProcCmd.Size = new System.Drawing.Size(38, 23);
 			this.lblProcCmd.TabIndex = 2;
 			this.lblProcCmd.Text = "label1";
 			// 
-			// pictureBox1
+			// pbxIcon
 			// 
-			this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-			this.pictureBox1.Name = "pictureBox1";
-			this.tableLayoutPanel1.SetRowSpan(this.pictureBox1, 4);
-			this.pictureBox1.Size = new System.Drawing.Size(26, 32);
-			this.pictureBox1.TabIndex = 3;
-			this.pictureBox1.TabStop = false;
+			this.pbxIcon.Image = global::prkiller_ng.Properties.Resources._32noicon;
+			this.pbxIcon.Location = new System.Drawing.Point(3, 3);
+			this.pbxIcon.Name = "pbxIcon";
+			this.tableLayoutPanel1.SetRowSpan(this.pbxIcon, 4);
+			this.pbxIcon.Size = new System.Drawing.Size(32, 32);
+			this.pbxIcon.TabIndex = 3;
+			this.pbxIcon.TabStop = false;
 			// 
 			// ProcessInfoDialog
 			// 
@@ -329,7 +330,7 @@ namespace prkiller_ng
 			this.groupBox1.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbxIcon)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -354,6 +355,6 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblProcImage;
 		private System.Windows.Forms.Label lblProcDir;
 		private System.Windows.Forms.Label lblProcCmd;
-		private System.Windows.Forms.PictureBox pictureBox1;
+		internal System.Windows.Forms.PictureBox pbxIcon;
 	}
 }
