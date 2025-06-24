@@ -23,5 +23,10 @@ namespace prkiller_ng
 			lblProcDir.Text = Killer.Language.Read("lblProcDir", "Language");
 			lblProcCmd.Text = Killer.Language.Read("lblProcCmd", "Language");
 		}
+
+		private void ProcessInfoDialog_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape) Close();
+		}
 	}
 }

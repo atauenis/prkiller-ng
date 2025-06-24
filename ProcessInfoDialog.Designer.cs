@@ -104,7 +104,6 @@ namespace prkiller_ng
 			this.txtProcImageName.Location = new System.Drawing.Point(44, 0);
 			this.txtProcImageName.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcImageName.Name = "txtProcImageName";
-			this.txtProcImageName.PlaceholderText = "Имя образа";
 			this.txtProcImageName.ReadOnly = true;
 			this.txtProcImageName.Size = new System.Drawing.Size(401, 23);
 			this.txtProcImageName.TabIndex = 4;
@@ -130,7 +129,6 @@ namespace prkiller_ng
 			this.txtProcWorkingDir.Location = new System.Drawing.Point(44, 23);
 			this.txtProcWorkingDir.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcWorkingDir.Name = "txtProcWorkingDir";
-			this.txtProcWorkingDir.PlaceholderText = "Рабочий каталог";
 			this.txtProcWorkingDir.ReadOnly = true;
 			this.txtProcWorkingDir.Size = new System.Drawing.Size(401, 23);
 			this.txtProcWorkingDir.TabIndex = 5;
@@ -156,7 +154,6 @@ namespace prkiller_ng
 			this.txtProcessExtraInfo.Location = new System.Drawing.Point(44, 69);
 			this.txtProcessExtraInfo.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcessExtraInfo.Name = "txtProcessExtraInfo";
-			this.txtProcessExtraInfo.PlaceholderText = "Расширенная информация";
 			this.txtProcessExtraInfo.ReadOnly = true;
 			this.txtProcessExtraInfo.Size = new System.Drawing.Size(401, 23);
 			this.txtProcessExtraInfo.TabIndex = 7;
@@ -170,7 +167,6 @@ namespace prkiller_ng
 			this.txtProcCmdLine.Location = new System.Drawing.Point(44, 46);
 			this.txtProcCmdLine.Margin = new System.Windows.Forms.Padding(0);
 			this.txtProcCmdLine.Name = "txtProcCmdLine";
-			this.txtProcCmdLine.PlaceholderText = "Командная строка";
 			this.txtProcCmdLine.ReadOnly = true;
 			this.txtProcCmdLine.Size = new System.Drawing.Size(401, 23);
 			this.txtProcCmdLine.TabIndex = 6;
@@ -236,7 +232,6 @@ namespace prkiller_ng
 			this.txtDescription.Location = new System.Drawing.Point(82, 0);
 			this.txtDescription.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescription.Name = "txtDescription";
-			this.txtDescription.PlaceholderText = "Описание файла";
 			this.txtDescription.ReadOnly = true;
 			this.txtDescription.Size = new System.Drawing.Size(363, 23);
 			this.txtDescription.TabIndex = 0;
@@ -250,7 +245,6 @@ namespace prkiller_ng
 			this.txtDescriptionCompany.Location = new System.Drawing.Point(82, 23);
 			this.txtDescriptionCompany.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionCompany.Name = "txtDescriptionCompany";
-			this.txtDescriptionCompany.PlaceholderText = "Имя компании";
 			this.txtDescriptionCompany.ReadOnly = true;
 			this.txtDescriptionCompany.Size = new System.Drawing.Size(363, 23);
 			this.txtDescriptionCompany.TabIndex = 1;
@@ -264,7 +258,6 @@ namespace prkiller_ng
 			this.txtDescriptionCopyright.Location = new System.Drawing.Point(82, 46);
 			this.txtDescriptionCopyright.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionCopyright.Name = "txtDescriptionCopyright";
-			this.txtDescriptionCopyright.PlaceholderText = "Авторское право";
 			this.txtDescriptionCopyright.ReadOnly = true;
 			this.txtDescriptionCopyright.Size = new System.Drawing.Size(363, 23);
 			this.txtDescriptionCopyright.TabIndex = 2;
@@ -336,7 +329,6 @@ namespace prkiller_ng
 			this.txtDescriptionVersion.Location = new System.Drawing.Point(82, 69);
 			this.txtDescriptionVersion.Margin = new System.Windows.Forms.Padding(0);
 			this.txtDescriptionVersion.Name = "txtDescriptionVersion";
-			this.txtDescriptionVersion.PlaceholderText = "Версия файла";
 			this.txtDescriptionVersion.ReadOnly = true;
 			this.txtDescriptionVersion.Size = new System.Drawing.Size(363, 23);
 			this.txtDescriptionVersion.TabIndex = 3;
@@ -349,13 +341,15 @@ namespace prkiller_ng
 			this.ClientSize = new System.Drawing.Size(468, 228);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ProcessInfoDialog";
 			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "ProcessInfoDialog";
+			this.Text = "Process Information";
 			this.Load += new System.EventHandler(this.ProcessInfoDialog_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProcessInfoDialog_KeyDown);
 			this.groupBox1.ResumeLayout(false);
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
