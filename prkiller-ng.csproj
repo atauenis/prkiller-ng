@@ -1,56 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <RootNamespace>prkiller_ng</RootNamespace>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Authors>Alexander Tauenis</Authors>
-    <Version>2.0.0</Version>
-    <Product>Process Killer NG 2.0</Product>
-    <Description>Alternative for Windows Task Manager</Description>
-    <ApplicationIcon>icons\prkiller.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<RootNamespace>prkiller_ng</RootNamespace>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Authors>Alexander Tauenis</Authors>
+		<Version>2.0.0</Version>
+		<Product>Process Killer NG 2.0</Product>
+		<Description>Alternative for Windows Task Manager</Description>
+		<ApplicationIcon>icons\prkiller.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageArchitecture Condition="$(RuntimeIdentifier)=='win-x64'">x64</PackageArchitecture>
+		<PackageArchitecture Condition="$(RuntimeIdentifier)=='win-x86'">x86</PackageArchitecture>
+		<PackageArchitecture Condition="$(RuntimeIdentifier)=='win-arm64'">arm64</PackageArchitecture>
+		<PackageName>prkiller-ng.$(Version).$(PackageArchitecture)</PackageName>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="$(Configuration)=='Release'">
 		<PublishSingleFile>true</PublishSingleFile>
 		<PublishAot>true</PublishAot>
-  </PropertyGroup>
-
-	<PropertyGroup Condition="$(SelfContained)==true">
-		<OutputPath>bin\$(Configuration)-sc</OutputPath>
-		<PublishTrimmed>false</PublishTrimmed>
-    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
-    <!-- Else produces an EXE with crash on KernelBase.dll call -->
 	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Management" Version="6.0.0" />
-  </ItemGroup>
+	<PropertyGroup Condition="$(SelfContained)==true">
+		<PackageName>prkiller-ng.$(Version).$(PackageArchitecture)-SelfContained</PackageName>
+		<OutputPath>bin\$(Configuration)-sc</OutputPath>
+		<PublishTrimmed>false</PublishTrimmed>
+		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+		<!-- Else produces an EXE with crash on KernelBase.dll call -->
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Packaging.Targets" Version="0.1.*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Management" Version="6.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="prkiller-ng.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Readme.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="prkiller-ng.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Readme.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
