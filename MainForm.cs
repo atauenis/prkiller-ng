@@ -278,6 +278,12 @@ true
 			ulong RamAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailableVirtualMemory / 1024 / 1024 / 1024);
 			ulong RamPhysAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailablePhysicalMemory / 1024 / 1024);
 
+			if (!Environment.Is64BitProcess)
+			{
+				RamAll = (ulong)Environment.SystemPageSize;
+				RamAvail = (ulong)((GC.GetGCMemoryInfo().TotalAvailableMemoryBytes - (long)RamAll) / 1024 / 1024);
+			}
+
 			lblRamAll.Text = RamAll.ToString();
 			lblRamPhys.Text = RamPhys.ToString();
 

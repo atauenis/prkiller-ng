@@ -122,18 +122,31 @@ namespace prkiller_ng
 			{
 				wnd.txtProcessExtraInfo.Text = "ID=" + Proc.Id;
 				if (Proc.IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
-				//wnd.txtProcessExtraInfo.Text += " :)";
-				wnd.txtProcessExtraInfo.Text += " PARENT ID=" + Proc.GetParentProcess().Id;
+				var test32on64 = Proc.MainModule.FileName;
+			}
+			catch (System.ComponentModel.Win32Exception)
+			{
+				wnd.txtProcessExtraInfo.Text += ", 64-bit";
+			}
+			catch { }
+
+			try
+			{
+				wnd.txtProcessExtraInfo.Text += "\t PARENT ID=" + Proc.GetParentProcess().Id;
+				if (Proc.GetParentProcess().IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
+				//var test32on64 = Proc.GetParentProcess().MainModule.FileName;
 			}
 			catch { }
 
 			try { wnd.txtProcImageName.Text = Proc.MainModule.FileName; }
-			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\tPROCESS"; }
+			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\t(PROCESS)"; }
 
 			try { wnd.txtProcWorkingDir.Text = Proc.StartInfo.WorkingDirectory; }
 			catch { wnd.txtProcWorkingDir.Text = "?"; }
 
-			wnd.txtProcCmdLine.Text = CommandLine;
+			try
+			{ wnd.txtProcCmdLine.Text = CommandLine; }
+			catch { wnd.txtProcCmdLine.Text = "?"; }
 
 			try { wnd.pbxIcon.Image = ExtractIconFromFile(Proc.MainModule.FileName, true).ToBitmap(); }
 			catch (NullReferenceException)
@@ -148,6 +161,8 @@ namespace prkiller_ng
 			{ }
 
 			Application.UseWaitCursor = false;
+
+			//todo: other way, useful under wow64 with 64bit procs, maybe other too - https://stackoverflow.com/a/26234529
 		}
 
 
@@ -269,4 +284,5 @@ namespace prkiller_ng
 			return embeddedIcon;
 		}
 	}
+
 }

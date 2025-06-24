@@ -17,6 +17,9 @@ namespace prkiller_ng
 			lblLanguage.Text = Killer.Language.Read("Language", "Language");
 			cmdOk.Text = Killer.Language.Read("cmdOK", "Language");
 			this.Text = Killer.Language.Read("AboutTitle", "Language");
+
+			if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [WOW64]";
+			if (!Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [32]";
 		}
 
 		private void lnkUrl1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

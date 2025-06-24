@@ -19,6 +19,7 @@
   </PropertyGroup>
 
 	<PropertyGroup Condition="$(SelfContained)==true">
+		<OutputPath>bin\$(Configuration)-sc</OutputPath>
 		<PublishTrimmed>false</PublishTrimmed>
     <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
     <!-- Else produces an EXE with crash on KernelBase.dll call -->
