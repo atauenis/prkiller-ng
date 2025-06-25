@@ -14,9 +14,9 @@ namespace prkiller_ng
 		private void AboutForm_Load(object sender, EventArgs e)
 		{
 			lblVersion.Text += Application.ProductVersion + " Beta";
-			lblLanguage.Text = Killer.Language.Read("Language", "Language");
-			cmdOk.Text = Killer.Language.Read("cmdOK", "Language");
-			this.Text = Killer.Language.Read("AboutTitle", "Language");
+			lblLanguage.Text = Killer.Language.ReadString("Language", "Language");
+			cmdOk.Text = Killer.Language.ReadString("cmdOK", "Language");
+			this.Text = Killer.Language.ReadString("AboutTitle", "Language");
 
 			if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [WOW64]";
 			if (!Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [32]";

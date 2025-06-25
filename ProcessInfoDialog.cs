@@ -14,14 +14,14 @@ namespace prkiller_ng
 
 		private void ProcessInfoDialog_Load(object sender, EventArgs e)
 		{
-			lblFileDesc.Text = Killer.Language.Read("lblFileDesc", "Language");
-			lblFileCompany.Text = Killer.Language.Read("lblFileCompany", "Language");
-			lblFileCopyright.Text = Killer.Language.Read("lblFileCopyright", "Language");
-			lblFileVersion.Text = Killer.Language.Read("lblFileVersion", "Language");
-			lblProcExtra.Text = Killer.Language.Read("lblProcExtra", "Language");
-			lblProcImage.Text = Killer.Language.Read("lblProcImage", "Language");
-			lblProcDir.Text = Killer.Language.Read("lblProcDir", "Language");
-			lblProcCmd.Text = Killer.Language.Read("lblProcCmd", "Language");
+			lblFileDesc.Text = Killer.Language.ReadString("lblFileDesc", "Language");
+			lblFileCompany.Text = Killer.Language.ReadString("lblFileCompany", "Language");
+			lblFileCopyright.Text = Killer.Language.ReadString("lblFileCopyright", "Language");
+			lblFileVersion.Text = Killer.Language.ReadString("lblFileVersion", "Language");
+			lblProcExtra.Text = Killer.Language.ReadString("lblProcExtra", "Language");
+			lblProcImage.Text = Killer.Language.ReadString("lblProcImage", "Language");
+			lblProcDir.Text = Killer.Language.ReadString("lblProcDir", "Language");
+			lblProcCmd.Text = Killer.Language.ReadString("lblProcCmd", "Language");
 		}
 
 		private void ProcessInfoDialog_KeyDown(object sender, KeyEventArgs e)

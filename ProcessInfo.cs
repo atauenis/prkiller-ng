@@ -104,7 +104,7 @@ namespace prkiller_ng
 
 			try { wnd.Text = Proc.MainWindowTitle; }
 			catch { wnd.Text = Proc.ProcessName; }
-			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + Killer.Language.Read("NoWindows", "Language");
+			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + Killer.Language.ReadString("NoWindows", "Language");
 
 			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.ProductName; }
 			catch { wnd.txtDescription.Text = "?"; }

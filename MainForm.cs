@@ -41,11 +41,11 @@ namespace prkiller_ng
 		[DllImport("kernel32.dll")]
 		public static extern bool Beep(uint frequency, uint duration);
 
-		Killer.DoubleClickAction doubleClickAction;
-		Killer.RightClickAction rightClickAction;
-		Killer.KillPolicy selfkillAction;
-		Killer.KillPolicy killTreeAction;
-		Killer.KillPolicy killSystemProcAction;
+		Killer.DoubleClickAction doubleClickAction = Killer.DoubleClickAction.ProcessInfo;
+		Killer.RightClickAction rightClickAction = Killer.RightClickAction.ContextMenu;
+		Killer.KillPolicy selfkillAction = Killer.KillPolicy.Prompt;
+		Killer.KillPolicy killTreeAction = Killer.KillPolicy.Prompt;
+		Killer.KillPolicy killSystemProcAction = Killer.KillPolicy.Enable;
 
 		bool AlwaysOnTop = true;
 		bool AlwaysActive = false;
@@ -83,34 +83,29 @@ true
 		{
 			string ErrorMessage = "Error loading configuration:\n";
 
-			if (CheckSecondInstance()) Application.Exit();
-
 			try
 			{
+				if (!Killer.Config.KeyExists("Language")) throw new Exception("Language file is not specified.");
 				if (!File.Exists(Killer.Config.Read("Language"))) throw new FileNotFoundException("Language file not found.");
 				Killer.Language = new(Killer.Config.Read("Language"));
 
-				int width;
-				if (int.TryParse(Killer.Config.Read("Width"), out width)) Width = width;
-				int height;
-				if (int.TryParse(Killer.Config.Read("Height"), out height)) Height = height;
+				if (CheckSecondInstance()) Application.Exit();
 
-				string hotkeyModifierStr = "Control, Shift";
+				if (Killer.Config.KeyExists("Width"))
+					Width = Killer.Config.ReadInt("Width");
+				if (Killer.Config.KeyExists("Height"))
+					Height = Killer.Config.ReadInt("Height");
+
+				string hotkeyModifierStr = Killer.Config.Read("Control, Shift", "HotKeyModifier", null);
 				int hotkeyModifier = (int)Enum.Parse(typeof(KeyModifier), hotkeyModifierStr);
-				hotkeyModifierStr = Killer.Config.Read("HotKeyModifier");
-				if (!string.IsNullOrWhiteSpace(hotkeyModifierStr))
-					hotkeyModifier = (int)Enum.Parse(typeof(KeyModifier), hotkeyModifierStr);
 
-				string hotkeyButtonStr = "A";
+				string hotkeyButtonStr = Killer.Config.Read("A", "HotKeyButton", null);
 				int hotkeyButton = (int)Enum.Parse(typeof(Keys), hotkeyButtonStr);
-				hotkeyButtonStr = Killer.Config.Read("HotKeyButton");
-				if (!string.IsNullOrWhiteSpace(hotkeyButtonStr))
-					hotkeyButton = (int)Enum.Parse(typeof(Keys), hotkeyButtonStr);
 
 				RegisterHotKey(Handle, 0, hotkeyModifier, hotkeyButton);
 
-				if (Killer.Config.Read("RamVirtShowUsed").ToLowerInvariant() == "true") RamVirtShowUsed = true;
-				if (Killer.Config.Read("RamPhysShowUsed").ToLowerInvariant() == "true") RamPhysShowUsed = true;
+				RamVirtShowUsed = Killer.Config.ReadBool(false, "RamVirtShowUsed");
+				RamPhysShowUsed = Killer.Config.ReadBool(false, "RamPhysShowUsed");
 
 				int interval = 1000;
 				int.TryParse(Killer.Config.Read("UpdateInterval"), out interval);
@@ -126,30 +121,35 @@ true
 				Timer_Tick(this, EventArgs.Empty);
 				ProcessList.Select();
 
-				doubleClickAction = (Killer.DoubleClickAction)Enum.Parse(typeof(Killer.DoubleClickAction), Killer.Config.Read("DoubleClick"));
-				rightClickAction = (Killer.RightClickAction)Enum.Parse(typeof(Killer.RightClickAction), Killer.Config.Read("RightClick"));
+				if (Killer.Config.KeyExists("DoubleClick"))
+					doubleClickAction = Killer.Config.ReadEnum<Killer.DoubleClickAction>("DoubleClick");
+
+				if (Killer.Config.KeyExists("RightClick"))
+					rightClickAction = Killer.Config.ReadEnum<Killer.RightClickAction>("RightClick");
 
 				if (rightClickAction == Killer.RightClickAction.Disable) ProcessList.ContextMenuStrip = null;
 
-				CpuGraphStyle = (Killer.CpuGraphStyle)Enum.Parse(typeof(Killer.CpuGraphStyle), Killer.Config.Read("CpuGraphStyle"));
+				if (Killer.Config.KeyExists("CpuGraphStyle"))
+					CpuGraphStyle = Killer.Config.ReadEnum<Killer.CpuGraphStyle>("CpuGraphStyle");
 
-				if (Enum.TryParse(typeof(ProcessPriorityClass), Killer.Config.Read("StartupPriority"), out object startupPriority))
-				{
-					Process.GetCurrentProcess().PriorityClass = (ProcessPriorityClass)startupPriority;
-				}
+				if (Killer.Config.KeyExists("StartupPriority"))
+					Process.GetCurrentProcess().PriorityClass = Killer.Config.ReadEnum<ProcessPriorityClass>("StartupPriority");
+
 				Process.GetCurrentProcess().PriorityBoostEnabled = true;
 
-				selfkillAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("Selfkill"));
-				killTreeAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillTree"));
-				killSystemProcAction = (Killer.KillPolicy)Enum.Parse(typeof(Killer.KillPolicy), Killer.Config.Read("KillSystem"));
+				if (Killer.Config.KeyExists("Selfkill"))
+					selfkillAction = Killer.Config.ReadEnum<Killer.KillPolicy>("Selfkill");
+				if (Killer.Config.KeyExists("KillTree"))
+					killTreeAction = Killer.Config.ReadEnum<Killer.KillPolicy>("KillTree");
+				if (Killer.Config.KeyExists("KillSystem"))
+					killSystemProcAction = Killer.Config.ReadEnum<Killer.KillPolicy>("KillSystem");
 
-				if (Killer.Config.Read("ShowToolTips").ToLowerInvariant() == "true") ShowToolTips = true;
+				ShowToolTips = Killer.Config.ReadBool(true, "ShowToolTips");
 				toolTips.Active = ShowToolTips;
 				toolTips.UseAnimation = true;
 
-				if (Killer.Config.Read("AlwaysOnTop").ToLowerInvariant() == "true") AlwaysOnTop = true;
-				if (Killer.Config.Read("AlwaysActive").ToLowerInvariant() == "true") AlwaysActive = true;
-
+				AlwaysOnTop = Killer.Config.ReadBool(true, "AlwaysOnTop");
+				AlwaysActive = Killer.Config.ReadBool(true, "AlwaysActive");
 				TopMost = AlwaysOnTop;
 
 				if (AlwaysActive)
@@ -158,11 +158,12 @@ true
 					LockSetForegroundWindow(LSFW_LOCK);
 				}
 
-				Enum.TryParse(typeof(Killer.ErrorSound), Killer.Config.Read("ErrorSound"), out object snd);
-				if (snd != null) Sound = (Killer.ErrorSound)snd;
+				if (Killer.Config.KeyExists("ErrorSound"))
+					Sound = Killer.Config.ReadEnum<Killer.ErrorSound>("ErrorSound");
 			}
 			catch (Exception ex)
 			{
+				AlwaysActivePause = true;
 				MessageBox.Show(ErrorMessage + ex.Message, "Process Killer NG", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();
 			}
@@ -171,15 +172,15 @@ true
 			try
 			{
 				cmdKill.Text = Killer.Language.Read("cmdKillText", "Language");
-				toolTips.SetToolTip(cmdKill, Killer.Language.Read("cmdKill", "Language"));
-				toolTips.SetToolTip(cmdInfo, Killer.Language.Read("cmdInfo", "Language"));
-				toolTips.SetToolTip(cmdRestartExplorer, Killer.Language.Read("cmdRestartExplorer", "Language"));
-				toolTips.SetToolTip(cmdRun, Killer.Language.Read("cmdRun", "Language"));
-				toolTips.SetToolTip(cmdConfigure, Killer.Language.Read("cmdConfigure", "Language"));
-				toolTips.SetToolTip(cmdHelp, Killer.Language.Read("cmdHelp", "Language"));
-				toolTips.SetToolTip(lblPID, Killer.Language.Read("lblPID", "Language"));
-				toolTips.SetToolTip(lblThreads, Killer.Language.Read("lblThreads", "Language"));
-				toolTips.SetToolTip(lblPriority, Killer.Language.Read("lblPriority", "Language"));
+				toolTips.SetToolTip(cmdKill, Killer.Language.ReadString("cmdKill", "Language"));
+				toolTips.SetToolTip(cmdInfo, Killer.Language.ReadString("cmdInfo", "Language"));
+				toolTips.SetToolTip(cmdRestartExplorer, Killer.Language.ReadString("cmdRestartExplorer", "Language"));
+				toolTips.SetToolTip(cmdRun, Killer.Language.ReadString("cmdRun", "Language"));
+				toolTips.SetToolTip(cmdConfigure, Killer.Language.ReadString("cmdConfigure", "Language"));
+				toolTips.SetToolTip(cmdHelp, Killer.Language.ReadString("cmdHelp", "Language"));
+				toolTips.SetToolTip(lblPID, Killer.Language.ReadString("lblPID", "Language"));
+				toolTips.SetToolTip(lblThreads, Killer.Language.ReadString("lblThreads", "Language"));
+				toolTips.SetToolTip(lblPriority, Killer.Language.ReadString("lblPriority", "Language"));
 
 				priRTToolStripMenuItem.Text = Killer.Language.Read("priRTToolStripMenuItem", "Language");
 				priHighToolStripMenuItem.Text = Killer.Language.Read("priHighToolStripMenuItem", "Language");
@@ -198,8 +199,8 @@ true
 				freqVeryLowToolStripMenuItem.Text = Killer.Language.Read("freqVeryLowToolStripMenuItem", "Language");
 				freqPausedToolStripMenuItem.Text = Killer.Language.Read("freqPausedToolStripMenuItem", "Language");
 
-				toolTips.SetToolTip(lblRamAll, Killer.Language.Read("lblRamAll", "Language"));
-				toolTips.SetToolTip(lblRamPhys, Killer.Language.Read("lblRamPhys", "Language"));
+				toolTips.SetToolTip(lblRamAll, Killer.Language.ReadString("lblRamAll", "Language"));
+				toolTips.SetToolTip(lblRamPhys, Killer.Language.ReadString("lblRamPhys", "Language"));
 
 				if (!string.IsNullOrWhiteSpace(cmdKill.Text)) cmdKill.Image = null;
 			}
@@ -211,6 +212,10 @@ true
 			}
 		}
 
+		/// <summary>
+		/// Check for another running instance of PrKiller-NG
+		/// </summary>
+		/// <returns>`true` if another instance is running</returns>
 		private bool CheckSecondInstance()
 		{
 			foreach (Process proc in Process.GetProcesses())
@@ -220,12 +225,12 @@ true
 					if (proc.Id == Process.GetCurrentProcess().Id) continue;
 					if (proc.MainModule.FileName == Process.GetCurrentProcess().MainModule.FileName)
 					{
-						MessageBox.Show(Killer.Language.Read("AnotherInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						MessageBox.Show(Killer.Language.ReadString("AnotherInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return true;
 					}
 					if (proc.ProcessName == Process.GetCurrentProcess().ProcessName)
 					{
-						MessageBox.Show(Killer.Language.Read("AnotherSimilarInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						MessageBox.Show(Killer.Language.ReadString("AnotherSimilarInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return true;
 					}
 				}
@@ -290,23 +295,23 @@ true
 			if (RamVirtShowUsed)
 			{
 				lblRam2.Text = (RamAll - RamAvail).ToString();
-				toolTips.SetToolTip(lblRam2, Killer.Language.Read("lblRam2_Used", "Language"));
+				toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Used", "Language"));
 			}
 			else
 			{
 				lblRam2.Text = RamAvail.ToString();
-				toolTips.SetToolTip(lblRam2, Killer.Language.Read("lblRam2_Free", "Language"));
+				toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Free", "Language"));
 			}
 
 			if (RamPhysShowUsed)
 			{
 				lblRamPhys2.Text = (RamPhys - RamPhysAvail).ToString();
-				toolTips.SetToolTip(lblRamPhys2, Killer.Language.Read("lblRamPhys2_Used", "Language"));
+				toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Used", "Language"));
 			}
 			else
 			{
 				lblRamPhys2.Text = RamPhysAvail.ToString();
-				toolTips.SetToolTip(lblRamPhys2, Killer.Language.Read("lblRamPhys2_Free", "Language"));
+				toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Free", "Language"));
 			}
 
 			//update CPU statistics
@@ -550,7 +555,7 @@ true
 							break;
 						}
 					}
-					this.Text = Killer.Language.Read("ParentProcessNotFound", "Language");
+					this.Text = Killer.Language.ReadString("ParentProcessNotFound", "Language");
 					PlayErrorSound();
 					break;
 				case "Restart":
@@ -583,7 +588,7 @@ true
 					break;
 				default:
 					AlwaysActivePause = true;
-					MessageBox.Show(Killer.Language.Read("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					MessageBox.Show(Killer.Language.ReadString("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					AlwaysActivePause = false;
 					break;
 			}
@@ -604,7 +609,7 @@ true
 		private void KillProcess(bool tree = false, bool? hide = null)
 		{
 			// Check for need of hide the window
-			if (hide is null && Killer.Config.Read("HideAfterKill").ToLowerInvariant() == "true") hide = true;
+			if (hide is null && Killer.Config.ReadBool(true, "HideAfterKill")) hide = true;
 			if (hide is null) hide = false;
 			if (CtrlPressed) hide = false;
 
@@ -620,11 +625,11 @@ true
 				{
 					case Killer.KillPolicy.Disable:
 						kill = false;
-						this.Text = Killer.Language.Read("KillSystemDisabled", "Language");
+						this.Text = Killer.Language.ReadString("KillSystemDisabled", "Language");
 						break;
 					case Killer.KillPolicy.Prompt:
 						AlwaysActivePause = true;
-						DialogResult quest = MessageBox.Show(Killer.Language.Read("KillSystemQuestion", "Language"), Killer.Language.Read("KillSystemTitle", "Language"), MessageBoxButtons.YesNo);
+						DialogResult quest = MessageBox.Show(Killer.Language.ReadString("KillSystemQuestion", "Language"), Killer.Language.ReadString("KillSystemTitle", "Language"), MessageBoxButtons.YesNo);
 						kill = (quest == DialogResult.Yes);
 						AlwaysActivePause = false;
 						break;
@@ -639,13 +644,13 @@ true
 			if (tree && killTreeAction == Killer.KillPolicy.Prompt)
 			{
 				AlwaysActivePause = true;
-				DialogResult quest = MessageBox.Show(Killer.Language.Read("KillTreeQuestion", "Language"), Killer.Language.Read("KillTreeTitle", "Language"), MessageBoxButtons.YesNo);
+				DialogResult quest = MessageBox.Show(Killer.Language.ReadString("KillTreeQuestion", "Language"), Killer.Language.ReadString("KillTreeTitle", "Language"), MessageBoxButtons.YesNo);
 				AlwaysActivePause = false;
 				if (quest == DialogResult.No) return;
 			}
 			if (tree && killTreeAction == Killer.KillPolicy.Disable)
 			{
-				this.Text = Killer.Language.Read("KillTreeDisabled", "Language");
+				this.Text = Killer.Language.ReadString("KillTreeDisabled", "Language");
 				return;
 			}
 
@@ -656,11 +661,11 @@ true
 				{
 					case Killer.KillPolicy.Disable:
 						kill = false;
-						this.Text = Killer.Language.Read("SelfkillDisabled", "Language");
+						this.Text = Killer.Language.ReadString("SelfkillDisabled", "Language");
 						break;
 					case Killer.KillPolicy.Prompt:
 						AlwaysActivePause = true;
-						DialogResult quest = MessageBox.Show(Killer.Language.Read("SelfKillQuestion", "Language"), Killer.Language.Read("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
+						DialogResult quest = MessageBox.Show(Killer.Language.ReadString("SelfKillQuestion", "Language"), Killer.Language.ReadString("SelfKillTitle", "Language"), MessageBoxButtons.YesNo);
 						kill = (quest == DialogResult.Yes);
 						AlwaysActivePause = false;
 						break;
@@ -679,12 +684,15 @@ true
 			}
 			catch (Exception ex)
 			{
-				string KillErrMsg = string.Format(Killer.Language.Read("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
+				string KillErrMsg = string.Format(Killer.Language.ReadString("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
 				this.Text = KillErrMsg;
 				PlayErrorSound();
 			}
 		}
 
+		/// <summary>
+		/// Play sound that indicates error (and inform user to see to window title)
+		/// </summary>
 		private void PlayErrorSound()
 		{
 			switch (Sound)
@@ -774,6 +782,10 @@ true
 			}
 		}
 
+		/// <summary>
+		/// Set priority class of a running process
+		/// </summary>
+		/// <param name="pri">The priority class</param>
 		private void SetProcessPriority(ProcessPriorityClass pri)
 		{
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
@@ -785,6 +797,10 @@ true
 			AlwaysActivePause = false;
 		}
 
+		/// <summary>
+		/// Increase or decrease priority class of a running process
+		/// </summary>
+		/// <param name="change"><c>-1</c>, <c>0</c> or <c>+1</c></param>
 		private void SetProcessPriority(int change)
 		{
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
@@ -814,7 +830,7 @@ true
 								selected.Proc.PriorityClass = ProcessPriorityClass.RealTime;
 								break;
 							case ProcessPriorityClass.RealTime:
-								this.Text = Killer.Language.Read("MaximumPriority", "Language");
+								this.Text = Killer.Language.ReadString("MaximumPriority", "Language");
 								break;
 							default:
 								break;
@@ -857,7 +873,7 @@ true
 			catch (Exception ex)
 			{
 				if (ex is ArgumentException) throw;
-				string PriSetErrMsg = string.Format(Killer.Language.Read("CannotChangePriority", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
+				string PriSetErrMsg = string.Format(Killer.Language.ReadString("CannotChangePriority", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
 				this.Text = PriSetErrMsg;
 				PlayErrorSound();
 			}

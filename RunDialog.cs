@@ -13,15 +13,16 @@ namespace prkiller_ng
 
 		private void RunDialog_Load(object sender, EventArgs e)
 		{
-			this.Text = Killer.Language.Read("RunTitle", "Language");
-			lblIntro.Text = Killer.Language.Read("RunIntro", "Language");
-			lblOpen.Text = Killer.Language.Read("RunLabel", "Language");
+			this.Text = Killer.Language.ReadString("RunTitle", "Language");
+			lblIntro.Text = Killer.Language.ReadString("RunIntro", "Language");
+			lblOpen.Text = Killer.Language.ReadString("RunLabel", "Language");
 			cmdOk.Text = Killer.Language.Read("cmdOK", "Language");
 			cmdCancel.Text = Killer.Language.Read("cmdCancel", "Language");
 			cmdBrowse.Text = Killer.Language.Read("cmdBrowse", "Language");
 
 			string PathExt = Environment.GetEnvironmentVariable("PATHEXT").Replace(".", "*.");
-			openFileDialog1.Filter = Killer.Language.Read("RunFilter", "Language").Replace("%PATHEXT%", PathExt);
+			openFileDialog1.Filter = Killer.Language.ReadString("RunFilter", "Language").Replace("%PATHEXT%", PathExt);
+			openFileDialog1.FileName = "";
 		}
 
 		private void cmdOk_Click(object sender, EventArgs e)
