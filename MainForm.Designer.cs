@@ -230,6 +230,7 @@ namespace prkiller_ng
 			this.cmdConfigure.TabIndex = 4;
 			this.cmdConfigure.TabStop = false;
 			this.cmdConfigure.UseVisualStyleBackColor = true;
+			this.cmdConfigure.Click += new System.EventHandler(this.cmdConfigure_Click);
 			// 
 			// cmdHelp
 			// 

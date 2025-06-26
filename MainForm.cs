@@ -15,7 +15,8 @@ namespace prkiller_ng
 		[DllImport("user32.dll")]
 		private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-		enum KeyModifier
+		[Flags]
+		internal enum KeyModifier
 		{
 			None = 0,
 			Alt = 1,
@@ -1026,6 +1027,13 @@ true
 		{
 			AlwaysActivePause = true;
 			MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			AlwaysActivePause = false;
+		}
+
+		private void cmdConfigure_Click(object sender, EventArgs e)
+		{
+			AlwaysActivePause = true;
+			new SettingsForm(this).ShowDialog();
 			AlwaysActivePause = false;
 		}
 	}

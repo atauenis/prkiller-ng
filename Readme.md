@@ -26,7 +26,11 @@ The program interface can be localized to any language. Currently only English i
 
 ## Configuring
 
-Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. At this moment, the settings dialog box is not implemented, so edit the INI file manually if you want.
+Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. 
+
+To save main window size, open the Settings dialog box and click OK to save settings. This differs NG version from original Process Killer 1.4.2, which saved all without prompts.
+
+You may also edit the INI file manually if want.
 
   - CpuGraphStyle - Disable, Bar, Graph or Label
   - DoubleClick - Disable, ProcessInfo or Kill
@@ -42,8 +46,6 @@ These features, existing in original Process Killer, are planned to be included 
 
   - Restart Windows Shell
   - Find of heavy CPU-loading processes (`<*>`)
-  - Autosave of settings (including window size)
-  - Settings dialog box
   - Run dialog box history
   - Hexadecimal values display
   - Cleanup of tray icons
