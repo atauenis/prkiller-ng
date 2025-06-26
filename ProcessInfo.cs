@@ -31,8 +31,17 @@ namespace prkiller_ng
 			get
 			{
 				if (!string.IsNullOrWhiteSpace(WinApiProcName)) return WinApiProcName;
-				if (Proc.ProcessName == "System" || Proc.ProcessName == "Idle") return Proc.ProcessName;
-				return Proc.ProcessName + ".exe";
+				switch (Proc.ProcessName)
+				{
+					case "System":
+					case "Idle":
+					case "Registry":
+					case "Memory Compression":
+					case "Secure System":
+						return Proc.ProcessName;
+					default:
+						return Proc.ProcessName + ".exe";
+				}
 			}
 		}
 		/// <summary>

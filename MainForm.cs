@@ -260,39 +260,45 @@ true
 		{
 			if (!Timer.Enabled) return;
 
+			if (!Visible) return;
+
 			//correct window focus
 			if (AlwaysActive && !AlwaysActivePause)
 			{
 				this.Activate();
 				this.Focus();
 			}
-
-			//backup previous state
-			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
-			var top = ProcessList.TopIndex;
-
-			//update list of processes
-			ProcessList.BeginUpdate();
-			ProcessList.Items.Clear();
-			Process[] procs = Process.GetProcesses();
-			for (int i = procs.Length - 1; i >= 0; i--)
+			try
 			{
-				ProcessList.Items.Add(new ProcessInfo(procs[i]));
 
-				if (selected != null)
+				//backup previous state
+				ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+				var top = ProcessList.TopIndex;
+
+				//update list of processes
+				ProcessList.BeginUpdate();
+				ProcessList.Items.Clear();
+				Process[] procs = Process.GetProcesses();
+				for (int i = procs.Length - 1; i >= 0; i--)
 				{
-					//restore selection
-					if (procs[i].Id == selected.ProcessId)
-						ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+					ProcessList.Items.Add(new ProcessInfo(procs[i]));
+
+					if (selected != null)
+					{
+						//restore selection
+						if (procs[i].Id == selected.ProcessId)
+							ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+					}
 				}
+
+				//restore previous state
+				ProcessList.TopIndex = top;
+				ProcessList.EndUpdate();
+
+				//if selection is not defined, select 1st line
+				if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
 			}
-
-			//restore previous state
-			ProcessList.TopIndex = top;
-			ProcessList.EndUpdate();
-
-			//if selection is not defined, select 1st line
-			if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
+			catch (Exception ex) { this.Text = ex.Message; }
 
 			//update memory statictics
 			ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);
@@ -563,17 +569,7 @@ true
 					contextMenuStrip1.Show(ProcessList.Location);
 					break;
 				case "FindParent":
-					int ParentProcId = ((ProcessInfo)ProcessList.SelectedItem).Proc.GetParentProcess().Id;
-					foreach (ProcessInfo proc in ProcessList.Items)
-					{
-						if (proc.Proc.Id == ParentProcId)
-						{
-							ProcessList.SelectedItem = proc;
-							break;
-						}
-					}
-					this.Text = Killer.Language.ReadString("ParentProcessNotFound", "Language");
-					PlayErrorSound();
+					FindParentProcess();
 					break;
 				case "Restart":
 					ProcessInfo BaseProc = ((ProcessInfo)ProcessList.SelectedItem);
@@ -611,6 +607,32 @@ true
 			}
 			e.Handled = true;
 			e.SuppressKeyPress = true;
+		}
+
+		/// <summary>
+		/// Find parent process for selected process
+		/// </summary>
+		private void FindParentProcess()
+		{
+			try
+			{
+				int ParentProcId = ((ProcessInfo)ProcessList.SelectedItem).Proc.GetParentProcess().Id;
+				foreach (ProcessInfo proc in ProcessList.Items)
+				{
+					if (proc.Proc.Id == ParentProcId)
+					{
+						ProcessList.SelectedItem = proc;
+						return;
+					}
+				}
+				this.Text = Killer.Language.ReadString("ParentProcessNotFound", "Language");
+				PlayErrorSound();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
 		}
 
 		private void cmdRun_Click(object sender, EventArgs e)
