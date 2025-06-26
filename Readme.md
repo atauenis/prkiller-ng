@@ -4,7 +4,7 @@ An lightweight Task Manager replacement for Windows.
 
 It is always resident in memory (when is added to autorun), opens immediately, very lightweight, marks unresponsive processes, displays information about CPU load, and may help you to reanimate even near frozen system.
 
-Original idea of this program is going to *Process Killer 1.4.2* by `__alex` ([http://alex-home-pg.nm.ru/](https://web.archive.org/web/20080112112920/http://alex-home-pg.nm.ru/)). That program is great, but it is entirely abandoned by developer in 2005. So I have decided to made a new application, functionally identical to it, compatible with 64-bit systems.
+Original idea of this program is inspired by *Process Killer 1.4.2* by `__alex` ([http://alex-home-pg.nm.ru/](https://web.archive.org/web/20080112112920/http://alex-home-pg.nm.ru/)). That program is great, but it is entirely abandoned by developer in 2005. So I have decided to made a new application, functionally identical to it, compatible with 64-bit systems.
 
 The New Generation version supports Windows 7/8.1/10/11 and all server versions. You will need [Microsoft .NET Desktop Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run PrKillerNG.
 
@@ -12,7 +12,7 @@ Currently the application is under development, so its stability is not guarante
 
 ## Usage
 
-Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Alt`+`Shift`+`A` keys. By default it won't appear after launch - it's normal.
+Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal.
 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
