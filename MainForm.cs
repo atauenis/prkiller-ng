@@ -96,7 +96,8 @@ true
 
 			try
 			{
-				if (!File.Exists("prkiller-ng.ini")) throw new FileNotFoundException("prkiller-ng.ini not found.");
+				string ini = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".ini";
+				if (!File.Exists(ini)) throw new FileNotFoundException(ini + " not found.");
 				if (!Killer.Config.KeyExists("Language")) throw new Exception("Language file is not specified.");
 				if (!File.Exists(Killer.Config.Read("Language"))) throw new FileNotFoundException("Language file not found.");
 				Killer.Language = new(Killer.Config.Read("Language"));

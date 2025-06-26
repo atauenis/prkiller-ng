@@ -374,12 +374,13 @@ namespace prkiller_ng
 			// 
 			// lblConfFile
 			// 
-			this.lblConfFile.AutoSize = true;
+			this.lblConfFile.AutoEllipsis = true;
 			this.lblConfFile.Location = new System.Drawing.Point(12, 12);
 			this.lblConfFile.Name = "lblConfFile";
-			this.lblConfFile.Size = new System.Drawing.Size(38, 15);
+			this.lblConfFile.Size = new System.Drawing.Size(597, 15);
 			this.lblConfFile.TabIndex = 103;
 			this.lblConfFile.Text = "label1";
+			this.lblConfFile.UseMnemonic = false;
 			// 
 			// lblLanguage
 			// 
@@ -398,6 +399,7 @@ namespace prkiller_ng
 			this.cmbLanguage.Name = "cmbLanguage";
 			this.cmbLanguage.Size = new System.Drawing.Size(466, 23);
 			this.cmbLanguage.TabIndex = 1;
+			this.cmbLanguage.SelectionChangeCommitted += new System.EventHandler(this.cmbLanguage_SelectionChangeCommitted);
 			// 
 			// grpKeyboard
 			// 

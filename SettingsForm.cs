@@ -18,10 +18,17 @@ namespace prkiller_ng
 
 		private void SettingsForm_Load(object sender, EventArgs e)
 		{
-			ClearSettings();
-			Localize();
+			//display available languages and current language file
+			cmbLanguage.Items.Add(Killer.Language.Read("Language", "Language"));
+			cmbLanguage.SelectedIndex = 0;
+
+			//prepare interface and other settings
 			try
-			{ LoadSettings(); }
+			{
+				ClearSettings();
+				Localize();
+				LoadSettings();
+			}
 			catch (Exception ex)
 			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 		}
@@ -115,11 +122,7 @@ namespace prkiller_ng
 		{
 			//display current config file (Program Files or Application Data)
 			lblConfFile.Text = Killer.Language.ReadString("lblConfFile", "Language") + " " +
-			System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".ini";
-
-			//display available languages and current language file
-			cmbLanguage.Items.Add(Killer.Language.Read("Language", "Language"));
-			cmbLanguage.SelectedIndex = 0;
+			Killer.Config.IniPath;
 
 			//set all boxes to setted values
 			hotkeyModifiers = Killer.Config.ReadEnum<Keys>("HotKeyModifier");
@@ -268,6 +271,18 @@ namespace prkiller_ng
 				}
 				else MessageBox.Show(Killer.Language.ReadString("BadHotKey", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
+		}
+
+		private void cmbLanguage_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			try
+			{
+				ClearSettings();
+				Localize();
+				LoadSettings();
+			}
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 		}
 	}
 

@@ -11,7 +11,7 @@ namespace prkiller_ng
 	/// </summary>
 	class IniFile
 	{
-		string IniPath;
+		public string IniPath { get; private set; }
 		string ExeName = Assembly.GetExecutingAssembly().GetName().Name;
 
 		[DllImport("kernel32", CharSet = CharSet.Unicode)]
