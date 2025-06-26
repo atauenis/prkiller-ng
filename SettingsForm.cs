@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows.Forms;
 
 namespace prkiller_ng
@@ -124,6 +125,19 @@ namespace prkiller_ng
 			lblConfFile.Text = Killer.Language.ReadString("lblConfFile", "Language") + " " +
 			Killer.Config.IniPath;
 
+			//display autorun setting
+			RegistryKey HKCU = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+			RegistryKey HKLM = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+			object UserARParameter = HKCU.GetValue("prkiller-ng");
+			object MachineARParameter = HKLM.GetValue("prkiller-ng");
+			if (UserARParameter == null && MachineARParameter == null)
+			{ cbxAutorun.SelectedIndex = 0; }
+			else
+			{
+				if (MachineARParameter != null && MachineARParameter.ToString() == Application.ExecutablePath) cbxAutorun.SelectedIndex = 1;
+				if (UserARParameter != null && UserARParameter.ToString() == Application.ExecutablePath) cbxAutorun.SelectedIndex = 2;
+			}
+
 			//set all boxes to setted values
 			hotkeyModifiers = Killer.Config.ReadEnum<Keys>("HotKeyModifier");
 			hotkeyButton = Killer.Config.ReadEnum<Keys>("HotKeyButton");
@@ -219,6 +233,35 @@ namespace prkiller_ng
 				Killer.Config.Write("UpdateInterval", mainform.TimerInterval.ToString());
 				Killer.Config.Write("HotKeyModifier", hotkeyModifiers.ToString());
 				Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
+
+				string ARKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+				string ARParameter = "PrKiller-NG";
+
+				try
+				{ Registry.LocalMachine.OpenSubKey(ARKey, true).DeleteValue(ARParameter, false); }
+				catch { }
+				try
+				{ Registry.CurrentUser.OpenSubKey(ARKey, true).DeleteValue(ARParameter, false); }
+				catch { }
+
+				if (cbxAutorun.SelectedItem is SettingsOption)
+					switch (((SettingsOption)cbxAutorun.SelectedItem).Value)
+					{
+						case "Disabled":
+							break;
+						case "AllUsers":
+							try
+							{ Registry.LocalMachine.OpenSubKey(ARKey, true).SetValue(ARParameter, Application.ExecutablePath, RegistryValueKind.String); }
+							catch (Exception ex)
+							{ MessageBox.Show(ex.Message, "HKEY_LOCAL_MACHINE", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+							break;
+						case "CurrentUser":
+							try
+							{ Registry.CurrentUser.OpenSubKey(ARKey, true).SetValue(ARParameter, Application.ExecutablePath, RegistryValueKind.String); }
+							catch (Exception ex)
+							{ MessageBox.Show(ex.Message, "HKEY_CURRENT_USER", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+							break;
+					}
 
 				//save options from GroupBoxes
 				SaveGroupBox(grpMainSettings);

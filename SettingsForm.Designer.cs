@@ -190,7 +190,6 @@ namespace prkiller_ng
 			// cbxAutorun
 			// 
 			this.cbxAutorun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbxAutorun.Enabled = false;
 			this.cbxAutorun.FormattingEnabled = true;
 			this.cbxAutorun.Location = new System.Drawing.Point(131, 23);
 			this.cbxAutorun.Name = "cbxAutorun";
