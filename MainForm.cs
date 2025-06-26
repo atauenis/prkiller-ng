@@ -56,8 +56,8 @@ namespace prkiller_ng
 		Killer.ErrorSound Sound = Killer.ErrorSound.Beep;
 
 		PerformanceCounter cpuCounter;
-		bool RamVirtShowUsed = false;
-		bool RamPhysShowUsed = false;
+		internal bool RamVirtShowUsed = false;
+		internal bool RamPhysShowUsed = false;
 		bool CtrlPressed = false;
 		bool ShiftPressed = false;
 		bool AltPressed = false;
@@ -65,6 +65,8 @@ namespace prkiller_ng
 		int CpuLoad = 0;
 		List<int> CpuLoadHistory = new();
 		Killer.CpuGraphStyle CpuGraphStyle = Killer.CpuGraphStyle.Disable;
+
+		internal int TimerInterval { get { return Timer.Interval; } }
 
 		bool FirstTimeShow = true;
 
@@ -82,6 +84,14 @@ true
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			LoadConfiguration();
+		}
+
+		/// <summary>
+		/// Load or reload program configuration from initialization file
+		/// </summary>
+		public void LoadConfiguration()
+		{
 			string ErrorMessage = "Error loading configuration:\n";
 
 			try
@@ -96,6 +106,10 @@ true
 					Width = Killer.Config.ReadInt("Width");
 				if (Killer.Config.KeyExists("Height"))
 					Height = Killer.Config.ReadInt("Height");
+				if (Killer.Config.KeyExists("Top"))
+					Top = Killer.Config.ReadInt("Top");
+				if (Killer.Config.KeyExists("Left"))
+					Left = Killer.Config.ReadInt("Left");
 
 				string hotkeyModifierStr = Killer.Config.Read("Control, Shift", "HotKeyModifier", null);
 				int hotkeyModifier = (int)Enum.Parse(typeof(KeyModifier), hotkeyModifierStr);

@@ -28,7 +28,7 @@ The program interface can be localized to any language. Currently only English i
 
 Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. 
 
-To save main window size, open the Settings dialog box and click OK to save settings. This differs NG version from original Process Killer 1.4.2, which saved all without prompts.
+To save main window size and position, open the Settings dialog box and click OK to save settings. This differs NG version from original Process Killer 1.4.2, which saved all without prompts.
 
 You may also edit the INI file manually if want.
 

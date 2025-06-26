@@ -197,18 +197,29 @@ namespace prkiller_ng
 
 		private void cmdOk_Click(object sender, EventArgs e)
 		{
+			Application.UseWaitCursor = true;
+			cmdOk.Enabled = false;
+
+			//save options that are not binded to GroupBoxes
 			Killer.Config.Write("Width", mainform.Width.ToString());
 			Killer.Config.Write("Height", mainform.Height.ToString());
-			//todo: window position
-			//todo: UpdateInterval
-			//todo: RamVirtShowUsed, RamPhysShowUsed
+			Killer.Config.Write("Top", mainform.Top.ToString());
+			Killer.Config.Write("Left", mainform.Left.ToString());
+			Killer.Config.Write("RamVirtShowUsed", mainform.RamVirtShowUsed ? "true" : "false");
+			Killer.Config.Write("RamPhysShowUsed", mainform.RamPhysShowUsed ? "true" : "false");
+			Killer.Config.Write("UpdateInterval", mainform.TimerInterval.ToString());
 			Killer.Config.Write("HotKeyModifier", hotkeyModifiers.ToString());
 			Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
+
+			//save options from GroupBoxes
 			SaveGroupBox(grpMainSettings);
 			SaveGroupBox(grpMouse);
 			SaveGroupBox(grpOther);
 
-			MessageBox.Show("Restart the program to get effect of changes.", "Beta version note", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//reload settings on the application
+			cmdOk.Text = "...";
+			mainform.LoadConfiguration();
+			Application.UseWaitCursor = false;
 			Close();
 		}
 
@@ -216,7 +227,7 @@ namespace prkiller_ng
 		{
 			HotkeySelectDialog hsd = new(Killer.Language.ReadString("HotKeyMain", "Language"), hotkeyModifiers, hotkeyButton);
 			if (hsd.ShowDialog() == DialogResult.OK)
-			{ 
+			{
 				// validate selected hotkey
 				Keys mod = hsd.DetectedModifiers;
 				Keys key = hsd.DetectedKey;
