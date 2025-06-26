@@ -20,7 +20,10 @@ namespace prkiller_ng
 		{
 			ClearSettings();
 			Localize();
-			LoadSettings();
+			try
+			{ LoadSettings(); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 		}
 
 		private void Localize()
@@ -200,21 +203,31 @@ namespace prkiller_ng
 			Application.UseWaitCursor = true;
 			cmdOk.Enabled = false;
 
-			//save options that are not binded to GroupBoxes
-			Killer.Config.Write("Width", mainform.Width.ToString());
-			Killer.Config.Write("Height", mainform.Height.ToString());
-			Killer.Config.Write("Top", mainform.Top.ToString());
-			Killer.Config.Write("Left", mainform.Left.ToString());
-			Killer.Config.Write("RamVirtShowUsed", mainform.RamVirtShowUsed ? "true" : "false");
-			Killer.Config.Write("RamPhysShowUsed", mainform.RamPhysShowUsed ? "true" : "false");
-			Killer.Config.Write("UpdateInterval", mainform.TimerInterval.ToString());
-			Killer.Config.Write("HotKeyModifier", hotkeyModifiers.ToString());
-			Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
+			//save settings
+			try
+			{
+				//save options that are not binded to GroupBoxes
+				Killer.Config.Write("Width", mainform.Width.ToString());
+				Killer.Config.Write("Height", mainform.Height.ToString());
+				Killer.Config.Write("Top", mainform.Top.ToString());
+				Killer.Config.Write("Left", mainform.Left.ToString());
+				Killer.Config.Write("RamVirtShowUsed", mainform.RamVirtShowUsed ? "true" : "false");
+				Killer.Config.Write("RamPhysShowUsed", mainform.RamPhysShowUsed ? "true" : "false");
+				Killer.Config.Write("UpdateInterval", mainform.TimerInterval.ToString());
+				Killer.Config.Write("HotKeyModifier", hotkeyModifiers.ToString());
+				Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
 
-			//save options from GroupBoxes
-			SaveGroupBox(grpMainSettings);
-			SaveGroupBox(grpMouse);
-			SaveGroupBox(grpOther);
+				//save options from GroupBoxes
+				SaveGroupBox(grpMainSettings);
+				SaveGroupBox(grpMouse);
+				SaveGroupBox(grpOther);
+			}
+			catch (Exception ex)
+			{
+				Application.UseWaitCursor = false;
+				MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+			}
 
 			//reload settings on the application
 			cmdOk.Text = "...";
