@@ -9,8 +9,18 @@ namespace prkiller_ng
 	/// </summary>
 	internal static class Killer
 	{
-		internal static IniFile Config = new();
-		internal static IniFile Language = new();
+		internal static IniFile Config;
+		internal static IniFile Language;
+
+		static Killer()
+		{
+			try
+			{
+				Config = new();
+				Language = new();
+			}
+			catch { }
+		}
 
 		/// <summary>
 		/// Find if the process is running under WOW64.

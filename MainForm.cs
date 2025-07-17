@@ -96,11 +96,20 @@ true
 
 			try
 			{
-				string ini = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".ini";
-				if (!File.Exists(ini)) throw new FileNotFoundException(ini + " not found.");
+				string exePath = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName + @"\";
+				string iniPath = exePath + System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".ini";
+				if (!File.Exists(iniPath)) throw new FileNotFoundException(iniPath + " not found.");
+				Killer.Config = new(iniPath);
+
 				if (!Killer.Config.KeyExists("Language")) throw new Exception("Language file is not specified.");
-				if (!File.Exists(Killer.Config.Read("Language"))) throw new FileNotFoundException("Language file not found.");
-				Killer.Language = new(Killer.Config.Read("Language"));
+				string iniLangPath = Killer.Config.Read("Language");
+				string altLangPath = exePath + Killer.Config.Read("Language");
+				string langPath = string.Empty;
+				if (File.Exists(iniLangPath)) langPath = iniLangPath;
+				if (File.Exists(altLangPath)) langPath = altLangPath;
+				if (!File.Exists(iniLangPath) && !File.Exists(altLangPath))
+				{ throw new FileNotFoundException("Language file not found."); }
+				Killer.Language = new(langPath);
 
 				if (CheckSecondInstance()) Application.Exit();
 
