@@ -110,6 +110,7 @@ public static class ProcessExtension
 		try
 		{ IsProcessCritical(process.Handle, ref criticalProcess); }
 		catch (System.ComponentModel.Win32Exception) { criticalProcess = true; }
+		catch (EntryPointNotFoundException) { criticalProcess = false; } //Minimum supported client	Windows 8.1
 		return criticalProcess;
 	}
 }
