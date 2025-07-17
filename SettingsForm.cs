@@ -225,10 +225,13 @@ namespace prkiller_ng
 			try
 			{
 				//save options that are not binded to GroupBoxes
-				Killer.Config.Write("Width", mainform.Width.ToString());
-				Killer.Config.Write("Height", mainform.Height.ToString());
-				Killer.Config.Write("Top", mainform.Top.ToString());
-				Killer.Config.Write("Left", mainform.Left.ToString());
+				if (mainform.WindowState == FormWindowState.Normal)
+				{
+					Killer.Config.Write("Width", mainform.Width.ToString());
+					Killer.Config.Write("Height", mainform.Height.ToString());
+					Killer.Config.Write("Top", mainform.Top.ToString());
+					Killer.Config.Write("Left", mainform.Left.ToString());
+				}
 				Killer.Config.Write("RamVirtShowUsed", mainform.RamVirtShowUsed ? "true" : "false");
 				Killer.Config.Write("RamPhysShowUsed", mainform.RamPhysShowUsed ? "true" : "false");
 				Killer.Config.Write("UpdateInterval", mainform.TimerInterval.ToString());
