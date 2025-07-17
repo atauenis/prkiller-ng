@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -11,6 +12,8 @@ namespace prkiller_ng
 	{
 		internal static IniFile Config;
 		internal static IniFile Language;
+
+		internal static Dictionary<int, ProcessInfo> ProcessCache = new();
 
 		static Killer()
 		{

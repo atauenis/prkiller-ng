@@ -293,7 +293,9 @@ true
 				Process[] procs = Process.GetProcesses();
 				for (int i = procs.Length - 1; i >= 0; i--)
 				{
-					ProcessList.Items.Add(new ProcessInfo(procs[i]));
+					int PID = procs[i].Id;
+					if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
+					ProcessList.Items.Add(Killer.ProcessCache[PID]);
 
 					if (selected != null)
 					{
