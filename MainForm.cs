@@ -122,6 +122,9 @@ true
 				if (Killer.Config.KeyExists("Left"))
 					Left = Killer.Config.ReadInt("Left");
 
+				if (Top > Screen.FromControl(this).Bounds.Height) Top = Screen.FromControl(this).Bounds.Height - Height;
+				if (Left > Screen.FromControl(this).Bounds.Width) Left = Screen.FromControl(this).Bounds.Width - Width;
+
 				string hotkeyModifierStr = Killer.Config.Read("Control, Shift", "HotKeyModifier", null);
 				int hotkeyModifier = (int)Enum.Parse(typeof(KeyModifier), hotkeyModifierStr);
 
