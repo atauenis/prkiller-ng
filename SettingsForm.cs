@@ -29,6 +29,7 @@ namespace prkiller_ng
 				ClearSettings();
 				Localize();
 				LoadSettings();
+				TopMost = Killer.Config.ReadBool(true, "AlwaysOnTop");
 			}
 			catch (Exception ex)
 			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }

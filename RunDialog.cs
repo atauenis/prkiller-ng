@@ -23,6 +23,8 @@ namespace prkiller_ng
 			string PathExt = Environment.GetEnvironmentVariable("PATHEXT").Replace(".", "*.");
 			openFileDialog1.Filter = Killer.Language.ReadString("RunFilter", "Language").Replace("%PATHEXT%", PathExt);
 			openFileDialog1.FileName = "";
+
+			TopMost = Killer.Config.ReadBool(true, "AlwaysOnTop");
 		}
 
 		private void cmdOk_Click(object sender, EventArgs e)

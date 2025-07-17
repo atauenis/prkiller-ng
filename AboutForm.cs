@@ -20,6 +20,8 @@ namespace prkiller_ng
 
 			if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [WOW64]";
 			if (!Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [32]";
+
+			TopMost = Killer.Config.ReadBool(true, "AlwaysOnTop");
 		}
 
 		private void lnkUrl1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -40,6 +40,8 @@ namespace prkiller_ng
 			cmdCancel.Text = Killer.Language.ReadString("cmdCancel", "Language");
 
 			DisplayDetectedKeys();
+
+			TopMost = Killer.Config.ReadBool(true, "AlwaysOnTop");
 		}
 
 		private void HotkeySelectDialog_KeyDown(object sender, KeyEventArgs e)
