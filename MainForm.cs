@@ -518,6 +518,9 @@ true
 			// PROCESS LIST - keyboard press
 			if (e.Handled) return;
 
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+
 			CtrlPressed = e.Control;
 			ShiftPressed = e.Shift;
 			AltPressed = e.Alt;
@@ -605,6 +608,8 @@ true
 					break;
 				case "":
 					Debug.Print("Unknown key: " + key);
+					e.Handled = false;
+					e.SuppressKeyPress = false;
 					break;
 				case "RestartExplorer":
 					AlwaysActivePause = true;
@@ -617,8 +622,6 @@ true
 					AlwaysActivePause = false;
 					break;
 			}
-			e.Handled = true;
-			e.SuppressKeyPress = true;
 		}
 
 		/// <summary>
