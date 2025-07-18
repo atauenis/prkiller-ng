@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 public static class ProcessExtension
 {
 	[DllImport("kernel32.dll")]
+	static extern bool IsWow64Process(IntPtr process, out bool wow64Process);
+	[DllImport("kernel32.dll")]
 	static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 	[DllImport("kernel32.dll")]
 	static extern uint SuspendThread(IntPtr hThread);
@@ -56,6 +58,24 @@ public static class ProcessExtension
 	public static void Print(this Process process)
 	{
 		Console.WriteLine("{0,8}    {1}", process.Id, process.ProcessName);
+	}
+
+	/// <summary>
+	/// Find if the process is running under WOW64.
+	/// </summary>
+	/// <param name="process">The process.</param>
+	/// <returns><c>true</c> if the process is running under WOW64 on 64-bit OS.</returns>
+	internal static bool IsUnderWow64(this Process process)
+	{
+		if (IntPtr.Size != 8) return false; // the PrKiller-NG is running on a 32-bit OS
+
+		if ((Environment.OSVersion.Version.Major > 5)
+			|| ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1)))
+		{
+			bool retVal;
+			return IsWow64Process(process.Handle, out retVal) && retVal;
+		}
+		return false; // not on 64-bit Windows Emulator
 	}
 
 	public static IntPtr ApiOpenProcess(this Process process, ProcessAccess access)
