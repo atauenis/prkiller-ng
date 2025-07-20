@@ -61,14 +61,7 @@ namespace prkiller_ng
 		{
 			get
 			{
-				using (ManagementObjectSearcher mos = new("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + Proc.Id))
-				{
-					foreach (ManagementObject mo in mos.Get())
-					{
-						return (string)mo["CommandLine"];
-					}
-				}
-				return "";
+				return Proc.GetCommandLine();
 			}
 		}
 
@@ -147,6 +140,12 @@ namespace prkiller_ng
 			}
 			catch { }
 
+			try
+			{
+				wnd.txtProcessExtraInfo.Text += "\t USER=" + Proc.GetProcessUser().Name;
+			}
+			catch { }
+
 			try { wnd.txtProcImageName.Text = Proc.MainModule.FileName; }
 			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\t(PROCESS)"; }
 
@@ -154,7 +153,7 @@ namespace prkiller_ng
 			catch { wnd.txtProcWorkingDir.Text = "?"; }
 
 			try
-			{ wnd.txtProcCmdLine.Text = CommandLine; }
+			{ wnd.txtProcCmdLine.Text = Proc.GetCommandLine(); }
 			catch { wnd.txtProcCmdLine.Text = "?"; }
 
 			try { wnd.pbxIcon.Image = ExtractIconFromFile(Proc.MainModule.FileName, true).ToBitmap(); }

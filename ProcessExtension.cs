@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Management;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 //Code source from 
 //http://stackoverflow.com/questions/71257/suspend-process-in-c-sharp
@@ -18,15 +20,18 @@ public static class ProcessExtension
 	[DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
 	static extern bool CloseHandle(IntPtr handle);
 	[DllImport("kernel32.dll", SetLastError = true)]
-	public static extern IntPtr OpenProcess(UInt32 dwDesiredAccess, bool bInheritHandle, Int32 dwProcessId);
+	static extern IntPtr OpenProcess(UInt32 dwDesiredAccess, bool bInheritHandle, Int32 dwProcessId);
 	[DllImport("Psapi.dll")]
-	public static extern Int32 GetProcessImageFileNameW(IntPtr hProcess, byte[] lpImageFileName, Int32 nSize);
+	static extern Int32 GetProcessImageFileNameW(IntPtr hProcess, byte[] lpImageFileName, Int32 nSize);
 	[DllImport("kernel32.dll")]
-	public static extern bool QueryFullProcessImageNameW(IntPtr hProcess, uint dwFlags, byte[] lpExeName, ref uint lpdwSize);
+	static extern bool QueryFullProcessImageNameW(IntPtr hProcess, uint dwFlags, byte[] lpExeName, ref uint lpdwSize);
 	[DllImport("ntdll.dll")]
-	private static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ParentProcessUtilities processInformation, int processInformationLength, out int returnLength);
+	static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ProcessBasicInformation processInformation, int processInformationLength, out int returnLength);
 	[DllImport("kernel32.dll", SetLastError = true)]
-	private static extern bool IsProcessCritical(IntPtr hProcess, ref bool Critical);
+	static extern bool IsProcessCritical(IntPtr hProcess, ref bool Critical);
+	[DllImport("advapi32.dll", SetLastError = true)]
+	static extern bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
+
 
 
 	public static void Suspend(this Process process)
@@ -90,7 +95,7 @@ public static class ProcessExtension
 	/// <returns>An instance of the Process class.</returns>
 	public static Process GetParentProcess(this Process process)
 	{
-		ParentProcessUtilities pbi = new();
+		ProcessBasicInformation pbi = new();
 		int returnLength;
 		int status = NtQueryInformationProcess(process.Handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
 		if (status != 0)
@@ -132,6 +137,39 @@ public static class ProcessExtension
 		catch (System.ComponentModel.Win32Exception) { criticalProcess = true; }
 		catch (EntryPointNotFoundException) { criticalProcess = false; } //Minimum supported client	Windows 8.1
 		return criticalProcess;
+	}
+
+	public static string GetCommandLine(this Process process)
+	{
+		using (ManagementObjectSearcher mos = new("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
+		{
+			foreach (ManagementObject mo in mos.Get())
+			{
+				return (string)mo["CommandLine"];
+			}
+		}
+		return "";
+	}
+
+	public static WindowsIdentity GetProcessUser(this Process process)
+	{
+		IntPtr processHandle = IntPtr.Zero;
+		try
+		{
+			OpenProcessToken(process.Handle, 8, out processHandle);
+			return new(processHandle);
+		}
+		catch
+		{
+			throw;
+		}
+		finally
+		{
+			if (processHandle != IntPtr.Zero)
+			{
+				CloseHandle(processHandle);
+			}
+		}
 	}
 }
 
@@ -189,18 +227,19 @@ public enum ProcessAccess : uint
 
 
 /// <summary>
-/// A utility class to determine a process parent.
+/// Layout of memory to store process information retreived from NtQueryInformationProcess
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct ParentProcessUtilities
+public struct ProcessBasicInformation
 {
 	// These members must match PROCESS_BASIC_INFORMATION
-	internal IntPtr Reserved1;
-	internal IntPtr PebBaseAddress;
-	internal IntPtr Reserved2_0;
-	internal IntPtr Reserved2_1;
-	internal IntPtr UniqueProcessId;
-	internal IntPtr InheritedFromUniqueProcessId;
+	internal IntPtr ExitStatus; //NTSTATUS -- Contains the same value that GetExitCodeProcess returns.
+	internal IntPtr PebBaseAddress; //PPEB -- Points to a PEB structure.
+	internal IntPtr AffinityMask; //ULONG_PTR -- Can be cast to a DWORD; same as GetProcessAffinityMask().
+	internal IntPtr BasePriority; //KPRIORITY -- Contains the process priority as described in Scheduling Priorities.
+	internal IntPtr UniqueProcessId; //ULONG_PTR -- Can be cast to a DWORD; same as GetProcessId().
+	internal IntPtr InheritedFromUniqueProcessId; //ULONG_PTR -- Can be cast to a DWORD and contains a unique identifier for the parent process.
 
 	//https://stackoverflow.com/a/3346055
+	//https://learn.microsoft.com/ru-ru/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess?redirectedfrom=MSDN#process_basic_information
 }
