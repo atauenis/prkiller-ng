@@ -22,6 +22,41 @@ namespace prkiller_ng
 			catch { }
 		}
 
+		/// <summary>
+		/// Creant an ProcessStartInfo instance for specified <paramref name="commandLine"/>.
+		/// </summary>
+		/// <param name="commandLine">String like used in cmd.exe prompt.</param>
+		/// <returns>An ProcessStartInfo instance.</returns>
+		public static System.Diagnostics.ProcessStartInfo CreateProcessStartInfo(string commandLine)
+		{
+			string cmdLine = commandLine.Trim();
+			string exe = "";
+			string args = "";
+			char exeEnd = ' ';
+			bool inExe = true;
+
+			for (int c = 0; c < cmdLine.Length; c++)
+			{
+				if (c == 0 && cmdLine[c] == '\"')
+				{
+					//start of quoted exe name
+					exeEnd = cmdLine[c];
+					continue;
+				}
+				if (cmdLine[c] == exeEnd) { inExe = false; continue; } //end of exe name
+
+				if (inExe) exe += cmdLine[c];
+				if (!inExe) args += cmdLine[c];
+			}
+
+			exe.TrimStart(' ');
+			exe.TrimEnd(' ');
+			args.TrimStart(' ');
+			args.TrimEnd(' ');
+
+			return new(exe, args) { UseShellExecute = true };
+		}
+
 		internal enum DoubleClickAction
 		{
 			Disable = 0, ProcessInfo = 1, Kill = 2

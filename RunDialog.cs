@@ -31,10 +31,7 @@ namespace prkiller_ng
 		{
 			try
 			{
-				ProcessStartInfo psi = new();
-				psi.FileName = "cmd.exe";
-				psi.Arguments = @"/c start """" """ + cbxOpen.Text + @"""";
-				psi.CreateNoWindow = true;
+				ProcessStartInfo psi = Killer.CreateProcessStartInfo(cbxOpen.Text);
 				Process.Start(psi);
 				this.Close();
 			}
