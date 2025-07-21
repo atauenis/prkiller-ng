@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Management;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -149,7 +148,7 @@ namespace prkiller_ng
 			try { wnd.txtProcImageName.Text = Proc.MainModule.FileName; }
 			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\t(PROCESS)"; }
 
-			try { wnd.txtProcWorkingDir.Text = Proc.StartInfo.WorkingDirectory; }
+			try { wnd.txtProcWorkingDir.Text = Proc.GetCurrentDirectory(); }
 			catch { wnd.txtProcWorkingDir.Text = "?"; }
 
 			try

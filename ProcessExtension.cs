@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -137,18 +136,6 @@ public static class ProcessExtension
 		catch (System.ComponentModel.Win32Exception) { criticalProcess = true; }
 		catch (EntryPointNotFoundException) { criticalProcess = false; } //Minimum supported client	Windows 8.1
 		return criticalProcess;
-	}
-
-	public static string GetCommandLine(this Process process)
-	{
-		using (ManagementObjectSearcher mos = new("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
-		{
-			foreach (ManagementObject mo in mos.Get())
-			{
-				return (string)mo["CommandLine"];
-			}
-		}
-		return "";
 	}
 
 	public static WindowsIdentity GetProcessUser(this Process process)
