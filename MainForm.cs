@@ -589,13 +589,7 @@ true
 					FindParentProcess();
 					break;
 				case "Restart":
-					ProcessInfo BaseProc = ((ProcessInfo)ProcessList.SelectedItem);
-					ProcessStartInfo NewProcStartInfo = new();
-					NewProcStartInfo.FileName = "cmd.exe";
-					NewProcStartInfo.Arguments = @"/c start """" """ + ((ProcessInfo)ProcessList.SelectedItem).CommandLine + @"""";
-					Process NewProc = new() { StartInfo = NewProcStartInfo };
-					NewProc.Start();
-					BaseProc.Proc.Kill();
+					RestartProcess();
 					break;
 				case "SuspendResumeProcess":
 					ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
@@ -623,6 +617,25 @@ true
 					MessageBox.Show(Killer.Language.ReadString("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					AlwaysActivePause = false;
 					break;
+			}
+		}
+
+		/// <summary>
+		/// Restart the selected process
+		/// </summary>
+		private void RestartProcess()
+		{
+			try
+			{
+				ProcessInfo BaseProc = (ProcessInfo)ProcessList.SelectedItem;
+				Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(((ProcessInfo)ProcessList.SelectedItem).CommandLine) };
+				NewProc.Start();
+				BaseProc.Proc.Kill();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
 			}
 		}
 
