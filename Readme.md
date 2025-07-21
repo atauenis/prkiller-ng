@@ -6,9 +6,9 @@ It is always resident in memory (when is added to autorun), opens immediately, v
 
 Original idea of this program is inspired by *Process Killer 1.4.2* by `__alex` ([http://alex-home-pg.nm.ru/](https://web.archive.org/web/20080112112920/http://alex-home-pg.nm.ru/)). That program is great, but it is entirely abandoned by developer in 2005. So I have decided to made a new application, functionally identical to it, compatible with 64-bit systems.
 
-The New Generation version supports Windows 7/8.1/10/11 and all server versions. You will need [Microsoft .NET Desktop Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run PrKillerNG.
+The New Generation version supports Windows 7/8.1/10/11 and all server counterpart versions. You will need [Microsoft .NET Desktop Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run PrKillerNG.
 
-Currently the application is under development, so its stability is not guaranteed.
+Report about found bugs at [GitHub](https://github.com/atauenis/prkiller-ng). Also you can find here source code of the application, including latest pre-release versions.
 
 ## Usage
 
@@ -40,6 +40,8 @@ You may also edit the INI file manually if want.
   - Selfkill, KillTree, KillSystem - Disable, Prompt or Enable
   - ErrorSound - Disable, Beep, SpeakerBeep, Asterisk, Exclamination, Hand or Question
   - Other - integer, string or boolean values
+
+If the program is running on a removable device, such as flash drive, manually specify `Language=.\prkiller-ng.ini` line in configuration file to allow Process Killer NG run with any drive letter on different machines.
 
 ## Not implemented features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
