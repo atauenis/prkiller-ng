@@ -272,83 +272,85 @@ true
 		{
 			if (!Timer.Enabled) return;
 
-			if (!Visible) return;
-
-			//correct window focus
-			if (AlwaysActive && !AlwaysActivePause)
-			{
-				this.Activate();
-				this.Focus();
-			}
-			try
+			if (Visible)
 			{
 
-				//backup previous state
-				ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
-				var top = ProcessList.TopIndex;
-
-				//update list of processes
-				ProcessList.BeginUpdate();
-				ProcessList.Items.Clear();
-				Process[] procs = Process.GetProcesses();
-				for (int i = procs.Length - 1; i >= 0; i--)
+				//correct window focus
+				if (AlwaysActive && !AlwaysActivePause)
 				{
-					int PID = procs[i].Id;
-					if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
-					ProcessList.Items.Add(Killer.ProcessCache[PID]);
+					this.Activate();
+					this.Focus();
+				}
+				try
+				{
 
-					if (selected != null)
+					//backup previous state
+					ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
+					var top = ProcessList.TopIndex;
+
+					//update list of processes
+					ProcessList.BeginUpdate();
+					ProcessList.Items.Clear();
+					Process[] procs = Process.GetProcesses();
+					for (int i = procs.Length - 1; i >= 0; i--)
 					{
-						//restore selection
-						if (procs[i].Id == selected.ProcessId)
-							ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+						int PID = procs[i].Id;
+						if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
+						ProcessList.Items.Add(Killer.ProcessCache[PID]);
+
+						if (selected != null)
+						{
+							//restore selection
+							if (procs[i].Id == selected.ProcessId)
+								ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+						}
 					}
+
+					//restore previous state
+					ProcessList.TopIndex = top;
+					ProcessList.EndUpdate();
+
+					//if selection is not defined, select 1st line
+					if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
+				}
+				catch (Exception ex) { this.Text = ex.Message; }
+
+				//update memory statictics
+				ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);
+				ulong RamPhys = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory / 1024 / 1024);
+				ulong RamAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailableVirtualMemory / 1024 / 1024 / 1024);
+				ulong RamPhysAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailablePhysicalMemory / 1024 / 1024);
+
+				if (!Environment.Is64BitProcess)
+				{
+					RamAll = (ulong)Environment.SystemPageSize;
+					RamAvail = (ulong)((GC.GetGCMemoryInfo().TotalAvailableMemoryBytes - (long)RamAll) / 1024 / 1024);
 				}
 
-				//restore previous state
-				ProcessList.TopIndex = top;
-				ProcessList.EndUpdate();
+				lblRamAll.Text = RamAll.ToString();
+				lblRamPhys.Text = RamPhys.ToString();
 
-				//if selection is not defined, select 1st line
-				if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
-			}
-			catch (Exception ex) { this.Text = ex.Message; }
+				if (RamVirtShowUsed)
+				{
+					lblRam2.Text = (RamAll - RamAvail).ToString();
+					toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Used", "Language"));
+				}
+				else
+				{
+					lblRam2.Text = RamAvail.ToString();
+					toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Free", "Language"));
+				}
 
-			//update memory statictics
-			ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);
-			ulong RamPhys = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory / 1024 / 1024);
-			ulong RamAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailableVirtualMemory / 1024 / 1024 / 1024);
-			ulong RamPhysAvail = (new Microsoft.VisualBasic.Devices.ComputerInfo().AvailablePhysicalMemory / 1024 / 1024);
-
-			if (!Environment.Is64BitProcess)
-			{
-				RamAll = (ulong)Environment.SystemPageSize;
-				RamAvail = (ulong)((GC.GetGCMemoryInfo().TotalAvailableMemoryBytes - (long)RamAll) / 1024 / 1024);
-			}
-
-			lblRamAll.Text = RamAll.ToString();
-			lblRamPhys.Text = RamPhys.ToString();
-
-			if (RamVirtShowUsed)
-			{
-				lblRam2.Text = (RamAll - RamAvail).ToString();
-				toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Used", "Language"));
-			}
-			else
-			{
-				lblRam2.Text = RamAvail.ToString();
-				toolTips.SetToolTip(lblRam2, Killer.Language.ReadString("lblRam2_Free", "Language"));
-			}
-
-			if (RamPhysShowUsed)
-			{
-				lblRamPhys2.Text = (RamPhys - RamPhysAvail).ToString();
-				toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Used", "Language"));
-			}
-			else
-			{
-				lblRamPhys2.Text = RamPhysAvail.ToString();
-				toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Free", "Language"));
+				if (RamPhysShowUsed)
+				{
+					lblRamPhys2.Text = (RamPhys - RamPhysAvail).ToString();
+					toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Used", "Language"));
+				}
+				else
+				{
+					lblRamPhys2.Text = RamPhysAvail.ToString();
+					toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Free", "Language"));
+				}
 			}
 
 			//update CPU statistics
