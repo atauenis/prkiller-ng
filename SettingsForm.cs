@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace prkiller_ng
@@ -20,8 +22,19 @@ namespace prkiller_ng
 		private void SettingsForm_Load(object sender, EventArgs e)
 		{
 			//display available languages and current language file
-			cmbLanguage.Items.Add(Killer.Language.Read("Language", "Language"));
-			cmbLanguage.SelectedIndex = 0;
+			string[] allFiles = Directory.GetFiles(new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName, "*.ini");
+			foreach (string iniFile in allFiles)
+			{
+				try
+				{
+					IniFile langIniFile = new(iniFile);
+					if (!string.IsNullOrWhiteSpace(langIniFile.Read("Language", "Language")))
+					{ cmbLanguage.Items.Add(new SettingsOption(iniFile, langIniFile.Read("Language", "Language"))); }
+					if (langIniFile.IniPath == Killer.Language.IniPath) cmbLanguage.SelectedIndex = cmbLanguage.Items.Count - 1;
+					langIniFile = null;
+				}
+				catch { /*just do not add incorrect file*/ }
+			}
 
 			//prepare interface and other settings
 			try
@@ -238,6 +251,9 @@ namespace prkiller_ng
 				Killer.Config.Write("HotKeyModifier", hotkeyModifiers.ToString());
 				Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
 
+				if (cmbLanguage.SelectedItem is SettingsOption sel)
+					Killer.Config.Write("Language", sel.Value);
+
 				string ARKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 				string ARParameter = "PrKiller-NG";
 
@@ -324,6 +340,9 @@ namespace prkiller_ng
 		{
 			try
 			{
+				if (cmbLanguage.SelectedItem is SettingsOption sel)
+					Killer.Language = new(sel.Value);
+
 				ClearSettings();
 				Localize();
 				LoadSettings();
