@@ -294,9 +294,12 @@ true
 					Process[] procs = Process.GetProcesses();
 					for (int i = procs.Length - 1; i >= 0; i--)
 					{
-						int PID = procs[i].Id;
+						/*int PID = procs[i].Id;
 						if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
 						ProcessList.Items.Add(Killer.ProcessCache[PID]);
+						*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
+
+						ProcessList.Items.Add(new ProcessInfo(procs[i]));
 
 						if (selected != null)
 						{
