@@ -114,9 +114,8 @@ true
 				{ throw new FileNotFoundException("Language file not found."); }
 				Killer.Language = new(langPath);
 
-				if (CheckSecondInstance()) Application.Exit();
-
 				CurrentUserName = Process.GetCurrentProcess().GetProcessUser().Name;
+				if (CheckSecondInstance()) Application.Exit();
 
 				if (Killer.Config.KeyExists("Width"))
 					Width = Killer.Config.ReadInt("Width");
@@ -257,12 +256,14 @@ true
 				try
 				{
 					if (proc.Id == Process.GetCurrentProcess().Id) continue;
-					if (proc.MainModule.FileName == Process.GetCurrentProcess().MainModule.FileName)
+					if (proc.MainModule.FileName == Process.GetCurrentProcess().MainModule.FileName
+					&& proc.GetProcessUser().Name == CurrentUserName)
 					{
 						MessageBox.Show(Killer.Language.ReadString("AnotherInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return true;
 					}
-					if (proc.ProcessName == Process.GetCurrentProcess().ProcessName)
+					if (proc.ProcessName == Process.GetCurrentProcess().ProcessName
+					&& proc.GetProcessUser().Name == CurrentUserName)
 					{
 						MessageBox.Show(Killer.Language.ReadString("AnotherSimilarInstanceRunning", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return true;
