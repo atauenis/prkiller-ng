@@ -115,7 +115,6 @@ namespace prkiller_ng
 			// 
 			// txtSystemShell
 			// 
-			this.txtSystemShell.Enabled = false;
 			this.txtSystemShell.Location = new System.Drawing.Point(7, 216);
 			this.txtSystemShell.Name = "txtSystemShell";
 			this.txtSystemShell.Size = new System.Drawing.Size(309, 23);
@@ -126,7 +125,6 @@ namespace prkiller_ng
 			// chkAutomaticFindShell
 			// 
 			this.chkAutomaticFindShell.AutoSize = true;
-			this.chkAutomaticFindShell.Enabled = false;
 			this.chkAutomaticFindShell.Location = new System.Drawing.Point(7, 194);
 			this.chkAutomaticFindShell.Name = "chkAutomaticFindShell";
 			this.chkAutomaticFindShell.Size = new System.Drawing.Size(82, 19);

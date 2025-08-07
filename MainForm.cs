@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -70,6 +71,8 @@ namespace prkiller_ng
 
 		bool FirstTimeShow = true;
 
+		string CurrentUserName = @"localhost\root";
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -112,6 +115,8 @@ true
 				Killer.Language = new(langPath);
 
 				if (CheckSecondInstance()) Application.Exit();
+
+				CurrentUserName = Process.GetCurrentProcess().GetProcessUser().Name;
 
 				if (Killer.Config.KeyExists("Width"))
 					Width = Killer.Config.ReadInt("Width");
@@ -676,11 +681,20 @@ true
 		}
 
 		/// <summary>
-		/// Kill selected process
+		/// Kill the selected process
 		/// </summary>
 		/// <param name="tree">Kill entire process tree</param>
 		/// <param name="hide">Override `Hide window after kill` setting</param>
 		private void KillProcess(bool tree = false, bool? hide = null)
+		{ KillProcess(ProcessList.SelectedItem as ProcessInfo, tree, hide); }
+
+		/// <summary>
+		/// Kill the specified process
+		/// </summary>
+		/// <param name="ProcToKill">The process to kill</param>
+		/// <param name="tree">Kill entire process tree</param>
+		/// <param name="hide">Override `Hide window after kill` setting</param>
+		private void KillProcess(ProcessInfo ProcToKill, bool tree = false, bool? hide = null)
 		{
 			// Check for need of hide the window
 			if (hide is null && Killer.Config.ReadBool(true, "HideAfterKill")) hide = true;
@@ -689,11 +703,10 @@ true
 
 			// Prepare variables
 			bool kill = false;
-			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
-			if (selected != null) kill = true;
+			if (ProcToKill != null) kill = true;
 
 			// Check for system process kill
-			if (selected.Proc.IsCritical())
+			if (ProcToKill.Proc.IsCritical())
 			{
 				switch (killSystemProcAction)
 				{
@@ -729,7 +742,7 @@ true
 			}
 
 			// Check for selfkill
-			if (selected.ProcessId == Process.GetCurrentProcess().Id)
+			if (ProcToKill.ProcessId == Process.GetCurrentProcess().Id)
 			{
 				switch (selfkillAction)
 				{
@@ -753,12 +766,12 @@ true
 			// Fire!
 			try
 			{
-				if (kill) selected.Proc.Kill(tree);
+				if (kill) ProcToKill.Proc.Kill(tree);
 				if (hide ?? false) this.Hide();
 			}
 			catch (Exception ex)
 			{
-				string KillErrMsg = string.Format(Killer.Language.ReadString("CannotKill", "Language"), ex.Message, selected.ProcessName, selected.ProcessId);
+				string KillErrMsg = string.Format(Killer.Language.ReadString("CannotKill", "Language"), ex.Message, ProcToKill.ProcessName, ProcToKill.ProcessId);
 				this.Text = KillErrMsg;
 				PlayErrorSound();
 			}
@@ -953,6 +966,86 @@ true
 			}
 		}
 
+		/// <summary>
+		/// Restart Windows shell by killing all its processes, then WinLogon should restart the shell
+		/// </summary>
+		private void RestartWindowsShell()
+		{
+			//Find Windows shell process image
+			string WinShell = Killer.Config.Read(@"c:\windows\explorer.exe", "WindowsShell", null);
+			if (Killer.Config.ReadBool(true, "AutomaticFindShell"))
+			{
+				//Automatically detect Windows shell
+				RegistryKey HKLM = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Winlogon");
+				RegistryKey HKCU = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Winlogon");
+				object MachineShell = HKLM.GetValue("Shell");
+				object UserShell = HKCU.GetValue("Shell");
+
+				if (UserShell != null) WinShell = UserShell.ToString();
+				else if (MachineShell != null) WinShell = MachineShell.ToString();
+				else WinShell = "explorer.exe";
+			}
+			if (!WinShell.Contains("\\")) WinShell = @"c:\windows\" + WinShell;
+			WinShell = WinShell.ToLowerInvariant();
+
+			bool EnableTimer = Timer.Enabled;
+
+			//Kill old shell before launching new copy
+			Timer.Enabled = false;
+			foreach (ProcessInfo procinf in ProcessList.Items)
+			{
+				try
+				{
+					if (procinf.Proc.MainModule.FileName.ToLowerInvariant().Replace("\"", "").StartsWith(WinShell)
+					&& procinf.Proc.GetProcessUser().Name == CurrentUserName)
+					{ KillProcess(procinf); }
+				}
+				catch { }
+			}
+			Timer.Enabled = true;
+
+			//Wait 1 sec for WinLogon restarts the shell
+			Timer_Tick(null, null);
+			this.Text = WinShell;
+			Application.UseWaitCursor = true;
+			Application.DoEvents();
+			System.Threading.Thread.Sleep(1000);
+			Timer_Tick(null, null);
+			Application.UseWaitCursor = false;
+
+			//Check for does it got restarted
+			bool Restarted = false;
+			Timer.Enabled = false;
+			foreach (ProcessInfo procinf in ProcessList.Items)
+			{
+				try
+				{
+					if (procinf.Proc.MainModule.FileName.ToLowerInvariant().Contains(WinShell)
+					&& procinf.Proc.GetProcessUser().Name == CurrentUserName)
+					{ Restarted = true; }
+				}
+				catch { }
+			}
+			Timer.Enabled = true;
+			Timer_Tick(null, null);
+
+			//Start shell process manually if WinLogon does not have restarted it
+			if (!Restarted)
+			{
+				try
+				{
+					this.Text = WinShell;
+					ProcessStartInfo psi = Killer.CreateProcessStartInfo(WinShell);
+					Process.Start(psi);
+				}
+				catch (Exception ex)
+				{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+			}
+
+			Timer_Tick(null, null);
+			Timer.Enabled = EnableTimer;
+		}
+
 		private void priLowToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SetProcessPriority(ProcessPriorityClass.Idle);
@@ -1098,9 +1191,7 @@ true
 
 		private void cmdRestartExplorer_Click(object sender, EventArgs e)
 		{
-			AlwaysActivePause = true;
-			MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			AlwaysActivePause = false;
+			RestartWindowsShell();
 		}
 
 		private void cmdConfigure_Click(object sender, EventArgs e)

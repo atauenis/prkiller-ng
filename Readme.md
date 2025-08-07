@@ -46,7 +46,6 @@ If the program is running on a removable device, such as flash drive, manually s
 ## Not implemented features
 These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
 
-  - Restart Windows Shell
   - Find of heavy CPU-loading processes (`<*>`)
   - Run dialog box history
   - Hexadecimal values display

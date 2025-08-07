@@ -190,6 +190,15 @@ namespace prkiller_ng
 					}
 					else checkbox.CheckState = CheckState.Indeterminate;
 				}
+
+				if (ctrl is TextBox textbox)
+				{
+					if (Killer.Config.KeyExists(Key))
+					{
+						textbox.Text = Killer.Config.Read("", Key, null);
+					}
+					else textbox.Text = "";
+				}
 			}
 		}
 
@@ -215,6 +224,12 @@ namespace prkiller_ng
 					if (checkbox.CheckState == CheckState.Indeterminate) continue;
 					if (checkbox.Checked) Killer.Config.Write(Key, "true");
 					else Killer.Config.Write(Key, "false");
+				}
+
+				if (ctrl is TextBox textbox)
+				{
+					if (textbox.Text == "") continue;
+					Killer.Config.Write(Key, textbox.Text);
 				}
 			}
 		}
