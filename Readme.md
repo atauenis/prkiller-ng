@@ -26,6 +26,8 @@ Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say
 
 The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
+**Tip**: consider run Process Killer NG with Administrator rights. This will allow reading information about system processes and killing them. 
+
 ## Configuring
 
 Process Killer NG is portable program. It does not saving anything on your computer. The program's settings are stored in `prkiller-ng.ini` file in same directory with EXE file. 
@@ -53,3 +55,5 @@ These features, existing in original Process Killer, are planned to be included 
   - Hexadecimal values display
   - Cleanup of tray icons
   - Installer
+
+Also other new features are planned to future updates of the application.
