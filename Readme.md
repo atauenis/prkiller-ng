@@ -24,7 +24,7 @@ Also at the top of the window you can see memory and processor statistics, selec
 
 Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon.
 
-The program interface can be localized to any language. Currently only English is available, but other languages will be added in future.
+The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
 ## Configuring
 
