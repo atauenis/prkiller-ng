@@ -22,6 +22,8 @@ It is possible to increase/decrease priority class of any process. To change pri
 
 Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Parent process which launched the selected process sometimes can be looked up by pressing `Ctrl`+`PgUp`. Click on the processor statistics using right button to choose update speed.
 
+Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon.
+
 The program interface can be localized to any language. Currently only English is available, but other languages will be added in future.
 
 ## Configuring

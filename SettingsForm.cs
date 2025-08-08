@@ -60,7 +60,7 @@ namespace prkiller_ng
 			lblKillSystem.Text = Killer.Language.ReadString("lblKillSystem", "Language");
 			lblKillTree.Text = Killer.Language.ReadString("lblKillTree", "Language");
 			lblOwnPriority.Text = Killer.Language.ReadString("lblOwnPriority", "Language");
-			chkKillOldShell.Text = Killer.Language.ReadString("chkKillOldShell", "Language");
+			lblRestartShell.Text = Killer.Language.ReadString("lblRestartShell", "Language");
 			chkAutomaticFindShell.Text = Killer.Language.ReadString("chkAutomaticFindShell", "Language");
 
 			grpMouse.Text = Killer.Language.ReadString("grpMouse", "Language");
@@ -98,6 +98,10 @@ namespace prkiller_ng
 			cbxKillTree.Items.Add(new SettingsOption("Prompt", Killer.Language.ReadString("KillPrompt", "Language")));
 			cbxKillTree.Items.Add(new SettingsOption("Disable", Killer.Language.ReadString("KillDisable", "Language")));
 
+			cbxRestartShell.Items.Add(new SettingsOption("Enable", Killer.Language.ReadString("KillEnable", "Language")));
+			cbxRestartShell.Items.Add(new SettingsOption("Prompt", Killer.Language.ReadString("KillPrompt", "Language")));
+			cbxRestartShell.Items.Add(new SettingsOption("Disable", Killer.Language.ReadString("KillDisable", "Language")));
+
 			cbxPriority.Items.Add(new SettingsOption("Idle", Killer.Language.ReadString("OwnPriorityIdle", "Language")));
 			cbxPriority.Items.Add(new SettingsOption("Normal", Killer.Language.ReadString("OwnPriorityNormal", "Language")));
 			cbxPriority.Items.Add(new SettingsOption("High", Killer.Language.ReadString("OwnPriorityHigh", "Language")));
@@ -123,7 +127,7 @@ namespace prkiller_ng
 			cbxKillSystem.Items.Clear();
 			cbxKillTree.Items.Clear();
 			cbxPriority.Items.Clear();
-			chkKillOldShell.Checked = false;
+			cbxRestartShell.Items.Clear();
 			chkAutomaticFindShell.Checked = false;
 			cbxDoubleClick.Items.Clear();
 			cbxRightClick.Items.Clear();

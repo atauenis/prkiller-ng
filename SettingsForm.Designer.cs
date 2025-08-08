@@ -34,11 +34,12 @@ namespace prkiller_ng
 			this.grpMainSettings = new System.Windows.Forms.GroupBox();
 			this.txtSystemShell = new System.Windows.Forms.TextBox();
 			this.chkAutomaticFindShell = new System.Windows.Forms.CheckBox();
-			this.chkKillOldShell = new System.Windows.Forms.CheckBox();
+			this.cbxRestartShell = new System.Windows.Forms.ComboBox();
 			this.cbxPriority = new System.Windows.Forms.ComboBox();
 			this.cbxKillTree = new System.Windows.Forms.ComboBox();
 			this.cbxKillSystem = new System.Windows.Forms.ComboBox();
 			this.cbxSelfkill = new System.Windows.Forms.ComboBox();
+			this.lblRestartShell = new System.Windows.Forms.Label();
 			this.cbxAutorun = new System.Windows.Forms.ComboBox();
 			this.lblOwnPriority = new System.Windows.Forms.Label();
 			this.lblKillTree = new System.Windows.Forms.Label();
@@ -95,11 +96,12 @@ namespace prkiller_ng
 			// 
 			this.grpMainSettings.Controls.Add(this.txtSystemShell);
 			this.grpMainSettings.Controls.Add(this.chkAutomaticFindShell);
-			this.grpMainSettings.Controls.Add(this.chkKillOldShell);
+			this.grpMainSettings.Controls.Add(this.cbxRestartShell);
 			this.grpMainSettings.Controls.Add(this.cbxPriority);
 			this.grpMainSettings.Controls.Add(this.cbxKillTree);
 			this.grpMainSettings.Controls.Add(this.cbxKillSystem);
 			this.grpMainSettings.Controls.Add(this.cbxSelfkill);
+			this.grpMainSettings.Controls.Add(this.lblRestartShell);
 			this.grpMainSettings.Controls.Add(this.cbxAutorun);
 			this.grpMainSettings.Controls.Add(this.lblOwnPriority);
 			this.grpMainSettings.Controls.Add(this.lblKillTree);
@@ -133,17 +135,15 @@ namespace prkiller_ng
 			this.chkAutomaticFindShell.Text = "checkBox1";
 			this.chkAutomaticFindShell.UseVisualStyleBackColor = true;
 			// 
-			// chkKillOldShell
+			// cbxRestartShell
 			// 
-			this.chkKillOldShell.AutoSize = true;
-			this.chkKillOldShell.Enabled = false;
-			this.chkKillOldShell.Location = new System.Drawing.Point(7, 168);
-			this.chkKillOldShell.Name = "chkKillOldShell";
-			this.chkKillOldShell.Size = new System.Drawing.Size(82, 19);
-			this.chkKillOldShell.TabIndex = 2;
-			this.chkKillOldShell.Tag = "KillOldShell";
-			this.chkKillOldShell.Text = "checkBox1";
-			this.chkKillOldShell.UseVisualStyleBackColor = true;
+			this.cbxRestartShell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbxRestartShell.FormattingEnabled = true;
+			this.cbxRestartShell.Location = new System.Drawing.Point(131, 168);
+			this.cbxRestartShell.Name = "cbxRestartShell";
+			this.cbxRestartShell.Size = new System.Drawing.Size(185, 23);
+			this.cbxRestartShell.TabIndex = 1;
+			this.cbxRestartShell.Tag = "RestartShell";
 			// 
 			// cbxPriority
 			// 
@@ -184,6 +184,15 @@ namespace prkiller_ng
 			this.cbxSelfkill.Size = new System.Drawing.Size(185, 23);
 			this.cbxSelfkill.TabIndex = 1;
 			this.cbxSelfkill.Tag = "Selfkill";
+			// 
+			// lblRestartShell
+			// 
+			this.lblRestartShell.AutoSize = true;
+			this.lblRestartShell.Location = new System.Drawing.Point(7, 171);
+			this.lblRestartShell.Name = "lblRestartShell";
+			this.lblRestartShell.Size = new System.Drawing.Size(38, 15);
+			this.lblRestartShell.TabIndex = 0;
+			this.lblRestartShell.Text = "label1";
 			// 
 			// cbxAutorun
 			// 
@@ -496,7 +505,6 @@ namespace prkiller_ng
 		private System.Windows.Forms.GroupBox grpMainSettings;
 		private System.Windows.Forms.TextBox txtSystemShell;
 		private System.Windows.Forms.CheckBox chkAutomaticFindShell;
-		private System.Windows.Forms.CheckBox chkKillOldShell;
 		private System.Windows.Forms.ComboBox cbxPriority;
 		private System.Windows.Forms.ComboBox cbxKillTree;
 		private System.Windows.Forms.ComboBox cbxKillSystem;
@@ -527,5 +535,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.Button cmdOtherKeys;
 		private System.Windows.Forms.Button cmdHotkey;
 		private System.Windows.Forms.Label lblHotkey;
+		private System.Windows.Forms.ComboBox cbxRestartShell;
+		private System.Windows.Forms.Label lblRestartShell;
 	}
 }

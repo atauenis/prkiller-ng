@@ -48,6 +48,7 @@ namespace prkiller_ng
 		Killer.KillPolicy selfkillAction = Killer.KillPolicy.Prompt;
 		Killer.KillPolicy killTreeAction = Killer.KillPolicy.Prompt;
 		Killer.KillPolicy killSystemProcAction = Killer.KillPolicy.Enable;
+		Killer.KillPolicy restartShellAction = Killer.KillPolicy.Enable;
 
 		bool AlwaysOnTop = true;
 		bool AlwaysActive = false;
@@ -176,6 +177,8 @@ true
 					killTreeAction = Killer.Config.ReadEnum<Killer.KillPolicy>("KillTree");
 				if (Killer.Config.KeyExists("KillSystem"))
 					killSystemProcAction = Killer.Config.ReadEnum<Killer.KillPolicy>("KillSystem");
+				if (Killer.Config.KeyExists("RestartShell"))
+					restartShellAction = Killer.Config.ReadEnum<Killer.KillPolicy>("RestartShell");
 
 				ShowToolTips = Killer.Config.ReadBool(true, "ShowToolTips");
 				toolTips.Active = ShowToolTips;
@@ -972,6 +975,26 @@ true
 		/// </summary>
 		private void RestartWindowsShell()
 		{
+			//Ask if need
+			bool restart = false;
+			switch (restartShellAction)
+			{
+				case Killer.KillPolicy.Disable:
+					restart = false;
+					this.Text = Killer.Language.ReadString("RestartShellDisabled", "Language");
+					break;
+				case Killer.KillPolicy.Prompt:
+					AlwaysActivePause = true;
+					DialogResult quest = MessageBox.Show(Killer.Language.ReadString("RestartShellQuestion", "Language"), Killer.Language.ReadString("RestartShellTitle", "Language"), MessageBoxButtons.YesNo);
+					restart = (quest == DialogResult.Yes);
+					AlwaysActivePause = false;
+					break;
+				case Killer.KillPolicy.Enable:
+					restart = true;
+					break;
+			}
+			if (restart == false) return;
+
 			//Find Windows shell process image
 			string WinShell = Killer.Config.Read(@"c:\windows\explorer.exe", "WindowsShell", null);
 			if (Killer.Config.ReadBool(true, "AutomaticFindShell"))
