@@ -105,7 +105,7 @@ namespace prkiller_ng
 
 			try { wnd.Text = Proc.MainWindowTitle; }
 			catch { wnd.Text = Proc.ProcessName; }
-			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + Killer.Language.ReadString("NoWindows", "Language");
+			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + " " + Killer.Language.ReadString("NoWindows", "Language");
 
 			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.ProductName; }
 			catch { wnd.txtDescription.Text = "?"; }
@@ -127,7 +127,8 @@ namespace prkiller_ng
 			}
 			catch (System.ComponentModel.Win32Exception)
 			{
-				wnd.txtProcessExtraInfo.Text += ", 64-bit";
+				if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+					wnd.txtProcessExtraInfo.Text += ", 64-bit";
 			}
 			catch { }
 
