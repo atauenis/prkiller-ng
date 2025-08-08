@@ -264,7 +264,7 @@ namespace prkiller_ng
 			// lblRightClick
 			// 
 			this.lblRightClick.AutoSize = true;
-			this.lblRightClick.Location = new System.Drawing.Point(6, 58);
+			this.lblRightClick.Location = new System.Drawing.Point(6, 54);
 			this.lblRightClick.Name = "lblRightClick";
 			this.lblRightClick.Size = new System.Drawing.Size(38, 15);
 			this.lblRightClick.TabIndex = 0;
@@ -273,7 +273,7 @@ namespace prkiller_ng
 			// lblDoubleClick
 			// 
 			this.lblDoubleClick.AutoSize = true;
-			this.lblDoubleClick.Location = new System.Drawing.Point(6, 29);
+			this.lblDoubleClick.Location = new System.Drawing.Point(6, 26);
 			this.lblDoubleClick.Name = "lblDoubleClick";
 			this.lblDoubleClick.Size = new System.Drawing.Size(38, 15);
 			this.lblDoubleClick.TabIndex = 0;
@@ -283,9 +283,9 @@ namespace prkiller_ng
 			// 
 			this.cbxRightClick.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxRightClick.FormattingEnabled = true;
-			this.cbxRightClick.Location = new System.Drawing.Point(111, 55);
+			this.cbxRightClick.Location = new System.Drawing.Point(101, 51);
 			this.cbxRightClick.Name = "cbxRightClick";
-			this.cbxRightClick.Size = new System.Drawing.Size(152, 23);
+			this.cbxRightClick.Size = new System.Drawing.Size(162, 23);
 			this.cbxRightClick.TabIndex = 1;
 			this.cbxRightClick.Tag = "RightClick";
 			// 
@@ -293,9 +293,9 @@ namespace prkiller_ng
 			// 
 			this.cbxDoubleClick.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxDoubleClick.FormattingEnabled = true;
-			this.cbxDoubleClick.Location = new System.Drawing.Point(111, 26);
+			this.cbxDoubleClick.Location = new System.Drawing.Point(101, 22);
 			this.cbxDoubleClick.Name = "cbxDoubleClick";
-			this.cbxDoubleClick.Size = new System.Drawing.Size(152, 23);
+			this.cbxDoubleClick.Size = new System.Drawing.Size(162, 23);
 			this.cbxDoubleClick.TabIndex = 1;
 			this.cbxDoubleClick.Tag = "DoubleClick";
 			// 
@@ -327,9 +327,9 @@ namespace prkiller_ng
 			// 
 			this.cbxErrorSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxErrorSound.FormattingEnabled = true;
-			this.cbxErrorSound.Location = new System.Drawing.Point(111, 24);
+			this.cbxErrorSound.Location = new System.Drawing.Point(101, 24);
 			this.cbxErrorSound.Name = "cbxErrorSound";
-			this.cbxErrorSound.Size = new System.Drawing.Size(152, 23);
+			this.cbxErrorSound.Size = new System.Drawing.Size(162, 23);
 			this.cbxErrorSound.TabIndex = 1;
 			this.cbxErrorSound.Tag = "ErrorSound";
 			// 
