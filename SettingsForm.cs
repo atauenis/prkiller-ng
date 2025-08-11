@@ -158,7 +158,11 @@ namespace prkiller_ng
 			//detect admin autorun by task scheduler
 			try
 			{
-				if (Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskeng")
+				if (Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskeng" || //Win7+
+				Process.GetCurrentProcess().GetParentProcess().ProcessName == "svchost" || //Win10 1511+
+				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhost" || //alt Win7+
+				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhostex" || //alt Win8+
+				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhostw") //alt Win10+
 				{
 					cbxAutorun.Items.Add(new SettingsOption("Disabled", Killer.Language.ReadString("AutorunScheduler", "Language")));
 					cbxAutorun.SelectedItem = cbxAutorun.Items[cbxAutorun.Items.Count - 1];
