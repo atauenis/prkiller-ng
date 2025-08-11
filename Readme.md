@@ -10,6 +10,9 @@ The New Generation version supports Windows 7/8.1/10/11 and all server counterpa
 
 Report about found bugs at [GitHub](https://github.com/atauenis/prkiller-ng). Also you can find here source code of the application, including latest pre-release versions.
 
+![](https://github.com/user-attachments/assets/5eaf0dc3-0ab0-47f0-9c95-d4797b2317d9)
+
+
 ## Usage
 
 Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal.
@@ -55,12 +58,20 @@ You may also edit the INI file manually if want.
 
 If the program is running on a removable device, such as flash drive, manually specify `Language=.\prkiller-ng.ini` line in configuration file to allow Process Killer NG run with any drive letter on different machines.
 
-## Not implemented features
-These features, existing in original Process Killer, are planned to be included in the Process Killer NG, but at this moment are not implemented:
+## Differences from version 1.4.2 by \_\_alex:
 
-  - Find of heavy CPU-loading processes (`<*>`)
-  - Hexadecimal values display
-  - Cleanup of tray icons
-  - Installer
+* Supports only Windows 7 and up (32-bit, 64-bit). Optimized for Windows 8.1 (64-bit) and up.
+* No support for Windows 98/XP/Vista. SP1 is required to run on Windows 7 or Windows Server 2008 R2.
+* Default hot key is `Ctrl`+`Shift`+`1` , however you may set up `Ctrl`+`Shift`+`~` via Settings window.
+* You may set up a confirmation for "Restart Shell" button action.
+* The "Restart Shell" button is always killing the shell process, and there is no option to disable this (it were actual only on Windows 9x).
+* Unlimited history in Run dialog box. `Ctrl`+`[OK]` in Run dialog is starting an application without save to history.
+* Multilanguage support, new configuration file syntax, a bit different dialog boxes.
+* Total threads count does not displaying in title bar.
+* Currently does not displaying processes with big CPU load (the `<*>` icon).
+* Currently does not removing "dead" icons from taskbar notification area after killing a process with such icons. Just point over them mouse, and they will disappear.
+* Currently can't display data in hexadecimal mode.
+* Currently have no installer.
+* Probably some other changes, as the NG version is written from scratch by other human.
 
 Also other new features are planned to future updates of the application.
