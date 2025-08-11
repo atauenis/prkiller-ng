@@ -155,6 +155,16 @@ namespace prkiller_ng
 				if (MachineARParameter != null && MachineARParameter.ToString() == Application.ExecutablePath) cbxAutorun.SelectedIndex = 1;
 				if (UserARParameter != null && UserARParameter.ToString() == Application.ExecutablePath) cbxAutorun.SelectedIndex = 2;
 			}
+			//detect admin autorun by task scheduler
+			try
+			{
+				if (Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskeng")
+				{
+					cbxAutorun.Items.Add(new SettingsOption("Disabled", Killer.Language.ReadString("AutorunScheduler", "Language")));
+					cbxAutorun.SelectedItem = cbxAutorun.Items[cbxAutorun.Items.Count - 1];
+				}
+			}
+			catch { }
 
 			//set all boxes to setted values
 			hotkeyModifiers = Killer.Config.ReadEnum<Keys>("HotKeyModifier");
