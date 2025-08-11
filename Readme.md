@@ -56,8 +56,6 @@ You may also edit the INI file manually if want.
   - ErrorSound - Disable, Beep, SpeakerBeep, Asterisk, Exclamination, Hand or Question
   - Other - integer, string or boolean values
 
-If the program is running on a removable device, such as flash drive, manually specify `Language=.\prkiller-ng.ini` line in configuration file to allow Process Killer NG run with any drive letter on different machines.
-
 ## Differences from version 1.4.2 by \_\_alex:
 
 * Supports only Windows 7 and up (32-bit, 64-bit). Optimized for Windows 8.1 (64-bit) and up.

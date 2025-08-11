@@ -285,7 +285,16 @@ namespace prkiller_ng
 				Killer.Config.Write("HotKeyButton", hotkeyButton.ToString());
 
 				if (cmbLanguage.SelectedItem is SettingsOption sel)
-					Killer.Config.Write("Language", sel.Value);
+				{
+					if (new FileInfo(Killer.Config.IniPath).DirectoryName == new FileInfo(sel.Value).DirectoryName)
+					{
+						Killer.Config.Write("Language", @".\" + new FileInfo(sel.Value).Name);
+					}
+					else
+					{
+						Killer.Config.Write("Language", sel.Value);
+					}
+				}
 
 				string ARKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 				string ARParameter = "PrKiller-NG";
