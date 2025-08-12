@@ -94,15 +94,15 @@ namespace prkiller_ng
 			// 
 			// grpMainSettings
 			// 
-			this.grpMainSettings.Controls.Add(this.txtSystemShell);
-			this.grpMainSettings.Controls.Add(this.chkAutomaticFindShell);
 			this.grpMainSettings.Controls.Add(this.cbxRestartShell);
 			this.grpMainSettings.Controls.Add(this.cbxPriority);
 			this.grpMainSettings.Controls.Add(this.cbxKillTree);
 			this.grpMainSettings.Controls.Add(this.cbxKillSystem);
 			this.grpMainSettings.Controls.Add(this.cbxSelfkill);
-			this.grpMainSettings.Controls.Add(this.lblRestartShell);
 			this.grpMainSettings.Controls.Add(this.cbxAutorun);
+			this.grpMainSettings.Controls.Add(this.txtSystemShell);
+			this.grpMainSettings.Controls.Add(this.chkAutomaticFindShell);
+			this.grpMainSettings.Controls.Add(this.lblRestartShell);
 			this.grpMainSettings.Controls.Add(this.lblOwnPriority);
 			this.grpMainSettings.Controls.Add(this.lblKillTree);
 			this.grpMainSettings.Controls.Add(this.lblKillSystem);
@@ -250,10 +250,10 @@ namespace prkiller_ng
 			// 
 			// grpMouse
 			// 
-			this.grpMouse.Controls.Add(this.lblRightClick);
-			this.grpMouse.Controls.Add(this.lblDoubleClick);
 			this.grpMouse.Controls.Add(this.cbxRightClick);
 			this.grpMouse.Controls.Add(this.cbxDoubleClick);
+			this.grpMouse.Controls.Add(this.lblRightClick);
+			this.grpMouse.Controls.Add(this.lblDoubleClick);
 			this.grpMouse.Location = new System.Drawing.Point(340, 67);
 			this.grpMouse.Name = "grpMouse";
 			this.grpMouse.Size = new System.Drawing.Size(269, 85);
@@ -301,8 +301,8 @@ namespace prkiller_ng
 			// 
 			// grpOther
 			// 
-			this.grpOther.Controls.Add(this.lblErrorSound);
 			this.grpOther.Controls.Add(this.cbxErrorSound);
+			this.grpOther.Controls.Add(this.lblErrorSound);
 			this.grpOther.Controls.Add(this.chkTooltipsInOptions);
 			this.grpOther.Controls.Add(this.chkTooltips);
 			this.grpOther.Controls.Add(this.chkMinimizeOnKill);
@@ -465,10 +465,10 @@ namespace prkiller_ng
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cmdCancel;
 			this.ClientSize = new System.Drawing.Size(623, 420);
+			this.Controls.Add(this.cmbLanguage);
 			this.Controls.Add(this.grpKeyboard);
 			this.Controls.Add(this.lblLanguage);
 			this.Controls.Add(this.lblConfFile);
-			this.Controls.Add(this.cmbLanguage);
 			this.Controls.Add(this.grpOther);
 			this.Controls.Add(this.grpMouse);
 			this.Controls.Add(this.grpMainSettings);
