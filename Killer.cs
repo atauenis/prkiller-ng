@@ -43,7 +43,7 @@ namespace prkiller_ng
 					exeEnd = cmdLine[c];
 					continue;
 				}
-				if (cmdLine[c] == exeEnd) { inExe = false; continue; } //end of exe name
+				if (cmdLine[c] == exeEnd && inExe) { inExe = false; continue; } //end of exe name
 
 				if (inExe) exe += cmdLine[c];
 				if (!inExe) args += cmdLine[c];
