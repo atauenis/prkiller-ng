@@ -159,7 +159,11 @@ namespace prkiller_ng
 			//detect admin autorun by task scheduler
 			try
 			{
-				if (Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskeng" || //Win7+
+				string TaskSchedulerKey = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\PrKiller-NG";
+				RegistryKey PkngTaskSubKey = Registry.LocalMachine.OpenSubKey(TaskSchedulerKey);
+				if (PkngTaskSubKey != null && PkngTaskSubKey.GetValue("Id") != null) cbxAutorun.SelectedIndex = 3;
+
+				/*if (Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskeng" || //Win7+
 				Process.GetCurrentProcess().GetParentProcess().ProcessName == "svchost" || //Win10 1511+
 				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhost" || //alt Win7+
 				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhostex" || //alt Win8+
@@ -167,6 +171,7 @@ namespace prkiller_ng
 				{
 					cbxAutorun.SelectedIndex = 3;
 				}
+				*/
 			}
 			catch { }
 
@@ -310,8 +315,8 @@ namespace prkiller_ng
 				try
 				{
 					string TaskSchedulerKey = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\PrKiller-NG";
-					string PkngTaskId = Registry.LocalMachine.OpenSubKey(TaskSchedulerKey).GetValue("Id").ToString();
-					IsInTaskScheduler = true;
+					RegistryKey PkngTaskSubKey = Registry.LocalMachine.OpenSubKey(TaskSchedulerKey);
+					if (PkngTaskSubKey != null && PkngTaskSubKey.GetValue("Id") != null) IsInTaskScheduler = true;
 				}
 				catch { IsInTaskScheduler = false; }
 
