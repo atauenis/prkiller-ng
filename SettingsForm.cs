@@ -118,6 +118,31 @@ namespace prkiller_ng
 			cbxErrorSound.Items.Add(new SettingsOption("Beep", Killer.Language.ReadString("ErrorSoundBeep", "Language")));
 			cbxErrorSound.Items.Add(new SettingsOption("SpeakerBeep", Killer.Language.ReadString("ErrorSoundSpeakerBeep", "Language")));
 			cbxErrorSound.Items.Add(new SettingsOption("Disable", Killer.Language.ReadString("ErrorSoundDisable", "Language")));
+
+
+
+			//set tooltips
+			if (Killer.Config.ReadBool(true, "ShowToolTipsInSettings"))
+			{
+				toolTip1.SetToolTip(cmbLanguage, Killer.Language.ReadString("cbxLanguageTT", "Language"));
+				toolTip1.SetToolTip(cbxAutorun, Killer.Language.ReadString("cbxAutorunTT", "Language"));
+				toolTip1.SetToolTip(cbxSelfkill, Killer.Language.ReadString("cbxSelfkillTT", "Language"));
+				toolTip1.SetToolTip(cbxKillSystem, Killer.Language.ReadString("cbxKillSystemTT", "Language"));
+				toolTip1.SetToolTip(cbxKillTree, Killer.Language.ReadString("cbxKillTreeTT", "Language"));
+				toolTip1.SetToolTip(cbxRestartShell, Killer.Language.ReadString("cbxRestartShellTT", "Language"));
+				toolTip1.SetToolTip(chkAutomaticFindShell, Killer.Language.ReadString("chkAutomaticFindShellTT", "Language"));
+				toolTip1.SetToolTip(txtSystemShell, Killer.Language.ReadString("txtSystemShellTT", "Language"));
+				toolTip1.SetToolTip(cbxPriority, Killer.Language.ReadString("cbxPriorityTT", "Language"));
+				toolTip1.SetToolTip(cbxDoubleClick, Killer.Language.ReadString("cbxDoubleClickTT", "Language"));
+				toolTip1.SetToolTip(cbxRightClick, Killer.Language.ReadString("cbxRightClickTT", "Language"));
+				toolTip1.SetToolTip(cbxErrorSound, Killer.Language.ReadString("cbxErrorSoundTT", "Language"));
+				toolTip1.SetToolTip(chkAlwaysActive, Killer.Language.ReadString("chkAlwaysActiveTT", "Language"));
+				toolTip1.SetToolTip(chkMinimizeOnKill, Killer.Language.ReadString("chkMinimizeOnKillTT", "Language"));
+				toolTip1.SetToolTip(chkTooltips, Killer.Language.ReadString("chkTooltipsTT", "Language"));
+				toolTip1.SetToolTip(chkTooltipsInOptions, Killer.Language.ReadString("chkTooltipsInOptionsTT", "Language"));
+				toolTip1.SetToolTip(cmdHotkey, Killer.Language.ReadString("cmdHotkeyTT", "Language"));
+				toolTip1.SetToolTip(cmdOtherKeys, Killer.Language.ReadString("cmdOtherKeysTT", "Language"));
+			}
 		}
 
 		private void ClearSettings()

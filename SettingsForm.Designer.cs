@@ -29,31 +29,32 @@ namespace prkiller_ng
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.cmdOk = new System.Windows.Forms.Button();
 			this.cmdCancel = new System.Windows.Forms.Button();
 			this.grpMainSettings = new System.Windows.Forms.GroupBox();
-			this.txtSystemShell = new System.Windows.Forms.TextBox();
-			this.chkAutomaticFindShell = new System.Windows.Forms.CheckBox();
 			this.cbxRestartShell = new System.Windows.Forms.ComboBox();
 			this.cbxPriority = new System.Windows.Forms.ComboBox();
 			this.cbxKillTree = new System.Windows.Forms.ComboBox();
 			this.cbxKillSystem = new System.Windows.Forms.ComboBox();
 			this.cbxSelfkill = new System.Windows.Forms.ComboBox();
-			this.lblRestartShell = new System.Windows.Forms.Label();
 			this.cbxAutorun = new System.Windows.Forms.ComboBox();
+			this.txtSystemShell = new System.Windows.Forms.TextBox();
+			this.chkAutomaticFindShell = new System.Windows.Forms.CheckBox();
+			this.lblRestartShell = new System.Windows.Forms.Label();
 			this.lblOwnPriority = new System.Windows.Forms.Label();
 			this.lblKillTree = new System.Windows.Forms.Label();
 			this.lblKillSystem = new System.Windows.Forms.Label();
 			this.lblSelfkill = new System.Windows.Forms.Label();
 			this.lblAutorun = new System.Windows.Forms.Label();
 			this.grpMouse = new System.Windows.Forms.GroupBox();
-			this.lblRightClick = new System.Windows.Forms.Label();
-			this.lblDoubleClick = new System.Windows.Forms.Label();
 			this.cbxRightClick = new System.Windows.Forms.ComboBox();
 			this.cbxDoubleClick = new System.Windows.Forms.ComboBox();
+			this.lblRightClick = new System.Windows.Forms.Label();
+			this.lblDoubleClick = new System.Windows.Forms.Label();
 			this.grpOther = new System.Windows.Forms.GroupBox();
-			this.lblErrorSound = new System.Windows.Forms.Label();
 			this.cbxErrorSound = new System.Windows.Forms.ComboBox();
+			this.lblErrorSound = new System.Windows.Forms.Label();
 			this.chkTooltipsInOptions = new System.Windows.Forms.CheckBox();
 			this.chkTooltips = new System.Windows.Forms.CheckBox();
 			this.chkMinimizeOnKill = new System.Windows.Forms.CheckBox();
@@ -66,6 +67,7 @@ namespace prkiller_ng
 			this.cmdOtherKeys = new System.Windows.Forms.Button();
 			this.cmdHotkey = new System.Windows.Forms.Button();
 			this.lblHotkey = new System.Windows.Forms.Label();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.grpMainSettings.SuspendLayout();
 			this.grpMouse.SuspendLayout();
 			this.grpOther.SuspendLayout();
@@ -114,26 +116,6 @@ namespace prkiller_ng
 			this.grpMainSettings.TabIndex = 100;
 			this.grpMainSettings.TabStop = false;
 			this.grpMainSettings.Text = "groupBox1";
-			// 
-			// txtSystemShell
-			// 
-			this.txtSystemShell.Location = new System.Drawing.Point(7, 216);
-			this.txtSystemShell.Name = "txtSystemShell";
-			this.txtSystemShell.Size = new System.Drawing.Size(309, 23);
-			this.txtSystemShell.TabIndex = 3;
-			this.txtSystemShell.Tag = "WindowsShell";
-			this.txtSystemShell.Text = "explorer.exe";
-			// 
-			// chkAutomaticFindShell
-			// 
-			this.chkAutomaticFindShell.AutoSize = true;
-			this.chkAutomaticFindShell.Location = new System.Drawing.Point(7, 194);
-			this.chkAutomaticFindShell.Name = "chkAutomaticFindShell";
-			this.chkAutomaticFindShell.Size = new System.Drawing.Size(82, 19);
-			this.chkAutomaticFindShell.TabIndex = 2;
-			this.chkAutomaticFindShell.Tag = "AutomaticFindShell";
-			this.chkAutomaticFindShell.Text = "checkBox1";
-			this.chkAutomaticFindShell.UseVisualStyleBackColor = true;
 			// 
 			// cbxRestartShell
 			// 
@@ -185,15 +167,6 @@ namespace prkiller_ng
 			this.cbxSelfkill.TabIndex = 1;
 			this.cbxSelfkill.Tag = "Selfkill";
 			// 
-			// lblRestartShell
-			// 
-			this.lblRestartShell.AutoSize = true;
-			this.lblRestartShell.Location = new System.Drawing.Point(7, 171);
-			this.lblRestartShell.Name = "lblRestartShell";
-			this.lblRestartShell.Size = new System.Drawing.Size(38, 15);
-			this.lblRestartShell.TabIndex = 0;
-			this.lblRestartShell.Text = "label1";
-			// 
 			// cbxAutorun
 			// 
 			this.cbxAutorun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -202,6 +175,35 @@ namespace prkiller_ng
 			this.cbxAutorun.Name = "cbxAutorun";
 			this.cbxAutorun.Size = new System.Drawing.Size(185, 23);
 			this.cbxAutorun.TabIndex = 1;
+			// 
+			// txtSystemShell
+			// 
+			this.txtSystemShell.Location = new System.Drawing.Point(7, 216);
+			this.txtSystemShell.Name = "txtSystemShell";
+			this.txtSystemShell.Size = new System.Drawing.Size(309, 23);
+			this.txtSystemShell.TabIndex = 3;
+			this.txtSystemShell.Tag = "WindowsShell";
+			this.txtSystemShell.Text = "explorer.exe";
+			// 
+			// chkAutomaticFindShell
+			// 
+			this.chkAutomaticFindShell.AutoSize = true;
+			this.chkAutomaticFindShell.Location = new System.Drawing.Point(7, 194);
+			this.chkAutomaticFindShell.Name = "chkAutomaticFindShell";
+			this.chkAutomaticFindShell.Size = new System.Drawing.Size(82, 19);
+			this.chkAutomaticFindShell.TabIndex = 2;
+			this.chkAutomaticFindShell.Tag = "AutomaticFindShell";
+			this.chkAutomaticFindShell.Text = "checkBox1";
+			this.chkAutomaticFindShell.UseVisualStyleBackColor = true;
+			// 
+			// lblRestartShell
+			// 
+			this.lblRestartShell.AutoSize = true;
+			this.lblRestartShell.Location = new System.Drawing.Point(7, 171);
+			this.lblRestartShell.Name = "lblRestartShell";
+			this.lblRestartShell.Size = new System.Drawing.Size(38, 15);
+			this.lblRestartShell.TabIndex = 0;
+			this.lblRestartShell.Text = "label1";
 			// 
 			// lblOwnPriority
 			// 
@@ -261,24 +263,6 @@ namespace prkiller_ng
 			this.grpMouse.TabStop = false;
 			this.grpMouse.Text = "groupBox1";
 			// 
-			// lblRightClick
-			// 
-			this.lblRightClick.AutoSize = true;
-			this.lblRightClick.Location = new System.Drawing.Point(6, 54);
-			this.lblRightClick.Name = "lblRightClick";
-			this.lblRightClick.Size = new System.Drawing.Size(38, 15);
-			this.lblRightClick.TabIndex = 0;
-			this.lblRightClick.Text = "label1";
-			// 
-			// lblDoubleClick
-			// 
-			this.lblDoubleClick.AutoSize = true;
-			this.lblDoubleClick.Location = new System.Drawing.Point(6, 26);
-			this.lblDoubleClick.Name = "lblDoubleClick";
-			this.lblDoubleClick.Size = new System.Drawing.Size(38, 15);
-			this.lblDoubleClick.TabIndex = 0;
-			this.lblDoubleClick.Text = "label1";
-			// 
 			// cbxRightClick
 			// 
 			this.cbxRightClick.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -299,6 +283,24 @@ namespace prkiller_ng
 			this.cbxDoubleClick.TabIndex = 1;
 			this.cbxDoubleClick.Tag = "DoubleClick";
 			// 
+			// lblRightClick
+			// 
+			this.lblRightClick.AutoSize = true;
+			this.lblRightClick.Location = new System.Drawing.Point(6, 54);
+			this.lblRightClick.Name = "lblRightClick";
+			this.lblRightClick.Size = new System.Drawing.Size(38, 15);
+			this.lblRightClick.TabIndex = 0;
+			this.lblRightClick.Text = "label1";
+			// 
+			// lblDoubleClick
+			// 
+			this.lblDoubleClick.AutoSize = true;
+			this.lblDoubleClick.Location = new System.Drawing.Point(6, 26);
+			this.lblDoubleClick.Name = "lblDoubleClick";
+			this.lblDoubleClick.Size = new System.Drawing.Size(38, 15);
+			this.lblDoubleClick.TabIndex = 0;
+			this.lblDoubleClick.Text = "label1";
+			// 
 			// grpOther
 			// 
 			this.grpOther.Controls.Add(this.cbxErrorSound);
@@ -314,15 +316,6 @@ namespace prkiller_ng
 			this.grpOther.TabStop = false;
 			this.grpOther.Text = "groupBox1";
 			// 
-			// lblErrorSound
-			// 
-			this.lblErrorSound.AutoSize = true;
-			this.lblErrorSound.Location = new System.Drawing.Point(6, 27);
-			this.lblErrorSound.Name = "lblErrorSound";
-			this.lblErrorSound.Size = new System.Drawing.Size(38, 15);
-			this.lblErrorSound.TabIndex = 0;
-			this.lblErrorSound.Text = "label1";
-			// 
 			// cbxErrorSound
 			// 
 			this.cbxErrorSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -333,10 +326,18 @@ namespace prkiller_ng
 			this.cbxErrorSound.TabIndex = 1;
 			this.cbxErrorSound.Tag = "ErrorSound";
 			// 
+			// lblErrorSound
+			// 
+			this.lblErrorSound.AutoSize = true;
+			this.lblErrorSound.Location = new System.Drawing.Point(6, 27);
+			this.lblErrorSound.Name = "lblErrorSound";
+			this.lblErrorSound.Size = new System.Drawing.Size(38, 15);
+			this.lblErrorSound.TabIndex = 0;
+			this.lblErrorSound.Text = "label1";
+			// 
 			// chkTooltipsInOptions
 			// 
 			this.chkTooltipsInOptions.AutoSize = true;
-			this.chkTooltipsInOptions.Enabled = false;
 			this.chkTooltipsInOptions.Location = new System.Drawing.Point(6, 127);
 			this.chkTooltipsInOptions.Name = "chkTooltipsInOptions";
 			this.chkTooltipsInOptions.Size = new System.Drawing.Size(82, 19);
@@ -458,6 +459,12 @@ namespace prkiller_ng
 			this.lblHotkey.TabIndex = 0;
 			this.lblHotkey.Text = "label1";
 			// 
+			// toolTip1
+			// 
+			this.toolTip1.AutoPopDelay = 5000;
+			this.toolTip1.InitialDelay = 500;
+			this.toolTip1.ReshowDelay = 100;
+			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.cmdOk;
@@ -537,5 +544,6 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblHotkey;
 		private System.Windows.Forms.ComboBox cbxRestartShell;
 		private System.Windows.Forms.Label lblRestartShell;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }
