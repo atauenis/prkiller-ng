@@ -85,6 +85,7 @@ namespace prkiller_ng
 			cbxAutorun.Items.Add(new SettingsOption("Disabled", Killer.Language.ReadString("AutorunDisabled", "Language")));
 			cbxAutorun.Items.Add(new SettingsOption("AllUsers", Killer.Language.ReadString("AutorunAllUsers", "Language")));
 			cbxAutorun.Items.Add(new SettingsOption("CurrentUser", Killer.Language.ReadString("AutorunCurrentuser", "Language")));
+			cbxAutorun.Items.Add(new SettingsOption("Scheduler", Killer.Language.ReadString("AutorunScheduler", "Language")));
 
 			cbxSelfkill.Items.Add(new SettingsOption("Enable", Killer.Language.ReadString("KillEnable", "Language")));
 			cbxSelfkill.Items.Add(new SettingsOption("Prompt", Killer.Language.ReadString("KillPrompt", "Language")));
@@ -164,8 +165,7 @@ namespace prkiller_ng
 				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhostex" || //alt Win8+
 				Process.GetCurrentProcess().GetParentProcess().ProcessName == "taskhostw") //alt Win10+
 				{
-					cbxAutorun.Items.Add(new SettingsOption("Disabled", Killer.Language.ReadString("AutorunScheduler", "Language")));
-					cbxAutorun.SelectedItem = cbxAutorun.Items[cbxAutorun.Items.Count - 1];
+					cbxAutorun.SelectedIndex = 3;
 				}
 			}
 			catch { }
@@ -306,22 +306,44 @@ namespace prkiller_ng
 				{ Registry.CurrentUser.OpenSubKey(ARKey, true).DeleteValue(ARParameter, false); }
 				catch { }
 
+				bool IsInTaskScheduler = false;
+				try
+				{
+					string TaskSchedulerKey = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\PrKiller-NG";
+					string PkngTaskId = Registry.LocalMachine.OpenSubKey(TaskSchedulerKey).GetValue("Id").ToString();
+					IsInTaskScheduler = true;
+				}
+				catch { IsInTaskScheduler = false; }
+
 				if (cbxAutorun.SelectedItem is SettingsOption)
 					switch (((SettingsOption)cbxAutorun.SelectedItem).Value)
 					{
 						case "Disabled":
+							if (IsInTaskScheduler) RemoveFromTaskScheduler();
 							break;
 						case "AllUsers":
+							if (IsInTaskScheduler) RemoveFromTaskScheduler();
 							try
 							{ Registry.LocalMachine.OpenSubKey(ARKey, true).SetValue(ARParameter, Application.ExecutablePath, RegistryValueKind.String); }
 							catch (Exception ex)
 							{ MessageBox.Show(ex.Message, "HKEY_LOCAL_MACHINE", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 							break;
 						case "CurrentUser":
+							if (IsInTaskScheduler) RemoveFromTaskScheduler();
 							try
 							{ Registry.CurrentUser.OpenSubKey(ARKey, true).SetValue(ARParameter, Application.ExecutablePath, RegistryValueKind.String); }
 							catch (Exception ex)
 							{ MessageBox.Show(ex.Message, "HKEY_CURRENT_USER", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+							break;
+						case "Scheduler":
+							if (IsInTaskScheduler) { /*do nothing, already in it*/ }
+							else
+							{
+								ProcessStartInfo psi = Killer.CreateProcessStartInfo
+								(@"schtasks.exe /create  /RL HIGHEST /SC ONLOGON /TN ""PrKiller-NG"" /TR ""\""" + Process.GetCurrentProcess().MainModule.FileName + @"\""""");
+								psi.Verb = "runas";
+								Process.Start(psi);
+							}
 							break;
 					}
 
@@ -388,6 +410,21 @@ namespace prkiller_ng
 				ClearSettings();
 				Localize();
 				LoadSettings();
+			}
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+		}
+
+		/// <summary>
+		/// Remove PrKiller-NG task from Windows Task Scheduler (disable admin autorun)
+		/// </summary>
+		private void RemoveFromTaskScheduler()
+		{
+			try
+			{
+				ProcessStartInfo psi = Killer.CreateProcessStartInfo(@"SCHTASKS /Delete /TN ""PrKiller-NG"" /F");
+				psi.Verb = "runas";
+				Process.Start(psi);
 			}
 			catch (Exception ex)
 			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }

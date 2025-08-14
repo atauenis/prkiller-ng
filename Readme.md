@@ -29,15 +29,7 @@ Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say
 
 The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
-**Tip**: consider run Process Killer NG with Administrator rights. This will allow reading information about all processes, including system, and killing them. 
-
-To add the application to system autorun with Administrator rights, set _Autorun at logon=Disabled_ in Process Killer NG settings, then open Command Prompt with Administrator rights, and execute the command (with correct path to `prkiller-ng.exe` file): 
-
-```
-schtasks.exe /create  /RL HIGHEST /SC ONLOGON /TN "PrKiller-NG" /TR "\"C:\Program Files\PrKiller-NG\PrKiller-NG.exe\""
-```
-
-If you want to remove Process Killer NG from autorun, use Windows Task Scheduler (`taskschd.msc`).
+**Tip**: consider run Process Killer NG with Administrator rights. This will allow reading information about all processes, including system, and killing them.
 
 ## Configuring
 
