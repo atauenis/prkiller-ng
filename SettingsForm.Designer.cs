@@ -79,7 +79,7 @@ namespace prkiller_ng
 			this.cmdOk.Location = new System.Drawing.Point(453, 383);
 			this.cmdOk.Name = "cmdOk";
 			this.cmdOk.Size = new System.Drawing.Size(75, 23);
-			this.cmdOk.TabIndex = 98;
+			this.cmdOk.TabIndex = 19;
 			this.cmdOk.Text = "button1";
 			this.cmdOk.UseVisualStyleBackColor = true;
 			this.cmdOk.Click += new System.EventHandler(this.cmdOk_Click);
@@ -89,7 +89,7 @@ namespace prkiller_ng
 			this.cmdCancel.Location = new System.Drawing.Point(534, 383);
 			this.cmdCancel.Name = "cmdCancel";
 			this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-			this.cmdCancel.TabIndex = 99;
+			this.cmdCancel.TabIndex = 20;
 			this.cmdCancel.Text = "button1";
 			this.cmdCancel.UseVisualStyleBackColor = true;
 			this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -124,7 +124,7 @@ namespace prkiller_ng
 			this.cbxRestartShell.Location = new System.Drawing.Point(131, 168);
 			this.cbxRestartShell.Name = "cbxRestartShell";
 			this.cbxRestartShell.Size = new System.Drawing.Size(185, 23);
-			this.cbxRestartShell.TabIndex = 1;
+			this.cbxRestartShell.TabIndex = 7;
 			this.cbxRestartShell.Tag = "RestartShell";
 			// 
 			// cbxPriority
@@ -134,7 +134,7 @@ namespace prkiller_ng
 			this.cbxPriority.Location = new System.Drawing.Point(131, 139);
 			this.cbxPriority.Name = "cbxPriority";
 			this.cbxPriority.Size = new System.Drawing.Size(185, 23);
-			this.cbxPriority.TabIndex = 1;
+			this.cbxPriority.TabIndex = 6;
 			this.cbxPriority.Tag = "StartupPriority";
 			// 
 			// cbxKillTree
@@ -144,7 +144,7 @@ namespace prkiller_ng
 			this.cbxKillTree.Location = new System.Drawing.Point(131, 110);
 			this.cbxKillTree.Name = "cbxKillTree";
 			this.cbxKillTree.Size = new System.Drawing.Size(185, 23);
-			this.cbxKillTree.TabIndex = 1;
+			this.cbxKillTree.TabIndex = 5;
 			this.cbxKillTree.Tag = "KillTree";
 			// 
 			// cbxKillSystem
@@ -154,7 +154,7 @@ namespace prkiller_ng
 			this.cbxKillSystem.Location = new System.Drawing.Point(131, 81);
 			this.cbxKillSystem.Name = "cbxKillSystem";
 			this.cbxKillSystem.Size = new System.Drawing.Size(185, 23);
-			this.cbxKillSystem.TabIndex = 1;
+			this.cbxKillSystem.TabIndex = 4;
 			this.cbxKillSystem.Tag = "KillSystem";
 			// 
 			// cbxSelfkill
@@ -164,7 +164,7 @@ namespace prkiller_ng
 			this.cbxSelfkill.Location = new System.Drawing.Point(131, 52);
 			this.cbxSelfkill.Name = "cbxSelfkill";
 			this.cbxSelfkill.Size = new System.Drawing.Size(185, 23);
-			this.cbxSelfkill.TabIndex = 1;
+			this.cbxSelfkill.TabIndex = 3;
 			this.cbxSelfkill.Tag = "Selfkill";
 			// 
 			// cbxAutorun
@@ -174,14 +174,14 @@ namespace prkiller_ng
 			this.cbxAutorun.Location = new System.Drawing.Point(131, 23);
 			this.cbxAutorun.Name = "cbxAutorun";
 			this.cbxAutorun.Size = new System.Drawing.Size(185, 23);
-			this.cbxAutorun.TabIndex = 1;
+			this.cbxAutorun.TabIndex = 2;
 			// 
 			// txtSystemShell
 			// 
 			this.txtSystemShell.Location = new System.Drawing.Point(7, 216);
 			this.txtSystemShell.Name = "txtSystemShell";
 			this.txtSystemShell.Size = new System.Drawing.Size(309, 23);
-			this.txtSystemShell.TabIndex = 3;
+			this.txtSystemShell.TabIndex = 9;
 			this.txtSystemShell.Tag = "WindowsShell";
 			this.txtSystemShell.Text = "explorer.exe";
 			// 
@@ -191,7 +191,7 @@ namespace prkiller_ng
 			this.chkAutomaticFindShell.Location = new System.Drawing.Point(7, 194);
 			this.chkAutomaticFindShell.Name = "chkAutomaticFindShell";
 			this.chkAutomaticFindShell.Size = new System.Drawing.Size(82, 19);
-			this.chkAutomaticFindShell.TabIndex = 2;
+			this.chkAutomaticFindShell.TabIndex = 8;
 			this.chkAutomaticFindShell.Tag = "AutomaticFindShell";
 			this.chkAutomaticFindShell.Text = "checkBox1";
 			this.chkAutomaticFindShell.UseVisualStyleBackColor = true;
@@ -270,7 +270,7 @@ namespace prkiller_ng
 			this.cbxRightClick.Location = new System.Drawing.Point(101, 51);
 			this.cbxRightClick.Name = "cbxRightClick";
 			this.cbxRightClick.Size = new System.Drawing.Size(162, 23);
-			this.cbxRightClick.TabIndex = 1;
+			this.cbxRightClick.TabIndex = 11;
 			this.cbxRightClick.Tag = "RightClick";
 			// 
 			// cbxDoubleClick
@@ -280,7 +280,7 @@ namespace prkiller_ng
 			this.cbxDoubleClick.Location = new System.Drawing.Point(101, 22);
 			this.cbxDoubleClick.Name = "cbxDoubleClick";
 			this.cbxDoubleClick.Size = new System.Drawing.Size(162, 23);
-			this.cbxDoubleClick.TabIndex = 1;
+			this.cbxDoubleClick.TabIndex = 10;
 			this.cbxDoubleClick.Tag = "DoubleClick";
 			// 
 			// lblRightClick
@@ -323,7 +323,7 @@ namespace prkiller_ng
 			this.cbxErrorSound.Location = new System.Drawing.Point(101, 24);
 			this.cbxErrorSound.Name = "cbxErrorSound";
 			this.cbxErrorSound.Size = new System.Drawing.Size(162, 23);
-			this.cbxErrorSound.TabIndex = 1;
+			this.cbxErrorSound.TabIndex = 12;
 			this.cbxErrorSound.Tag = "ErrorSound";
 			// 
 			// lblErrorSound
@@ -341,7 +341,7 @@ namespace prkiller_ng
 			this.chkTooltipsInOptions.Location = new System.Drawing.Point(6, 127);
 			this.chkTooltipsInOptions.Name = "chkTooltipsInOptions";
 			this.chkTooltipsInOptions.Size = new System.Drawing.Size(82, 19);
-			this.chkTooltipsInOptions.TabIndex = 2;
+			this.chkTooltipsInOptions.TabIndex = 16;
 			this.chkTooltipsInOptions.Tag = "ShowToolTipsInSettings";
 			this.chkTooltipsInOptions.Text = "checkBox1";
 			this.chkTooltipsInOptions.UseVisualStyleBackColor = true;
@@ -352,7 +352,7 @@ namespace prkiller_ng
 			this.chkTooltips.Location = new System.Drawing.Point(6, 102);
 			this.chkTooltips.Name = "chkTooltips";
 			this.chkTooltips.Size = new System.Drawing.Size(82, 19);
-			this.chkTooltips.TabIndex = 2;
+			this.chkTooltips.TabIndex = 15;
 			this.chkTooltips.Tag = "ShowToolTips";
 			this.chkTooltips.Text = "checkBox1";
 			this.chkTooltips.UseVisualStyleBackColor = true;
@@ -363,7 +363,7 @@ namespace prkiller_ng
 			this.chkMinimizeOnKill.Location = new System.Drawing.Point(6, 77);
 			this.chkMinimizeOnKill.Name = "chkMinimizeOnKill";
 			this.chkMinimizeOnKill.Size = new System.Drawing.Size(82, 19);
-			this.chkMinimizeOnKill.TabIndex = 2;
+			this.chkMinimizeOnKill.TabIndex = 14;
 			this.chkMinimizeOnKill.Tag = "HideAfterKill";
 			this.chkMinimizeOnKill.Text = "checkBox1";
 			this.chkMinimizeOnKill.UseVisualStyleBackColor = true;
@@ -374,7 +374,7 @@ namespace prkiller_ng
 			this.chkAlwaysActive.Location = new System.Drawing.Point(6, 52);
 			this.chkAlwaysActive.Name = "chkAlwaysActive";
 			this.chkAlwaysActive.Size = new System.Drawing.Size(82, 19);
-			this.chkAlwaysActive.TabIndex = 2;
+			this.chkAlwaysActive.TabIndex = 13;
 			this.chkAlwaysActive.Tag = "AlwaysActive";
 			this.chkAlwaysActive.Text = "checkBox1";
 			this.chkAlwaysActive.UseVisualStyleBackColor = true;
@@ -435,7 +435,7 @@ namespace prkiller_ng
 			this.cmdOtherKeys.Location = new System.Drawing.Point(439, 19);
 			this.cmdOtherKeys.Name = "cmdOtherKeys";
 			this.cmdOtherKeys.Size = new System.Drawing.Size(152, 23);
-			this.cmdOtherKeys.TabIndex = 1;
+			this.cmdOtherKeys.TabIndex = 18;
 			this.cmdOtherKeys.Text = "button1";
 			this.cmdOtherKeys.UseVisualStyleBackColor = true;
 			this.cmdOtherKeys.Click += new System.EventHandler(this.cmdOtherKeys_Click);
@@ -445,7 +445,7 @@ namespace prkiller_ng
 			this.cmdHotkey.Location = new System.Drawing.Point(131, 19);
 			this.cmdHotkey.Name = "cmdHotkey";
 			this.cmdHotkey.Size = new System.Drawing.Size(185, 23);
-			this.cmdHotkey.TabIndex = 1;
+			this.cmdHotkey.TabIndex = 17;
 			this.cmdHotkey.Text = "button1";
 			this.cmdHotkey.UseVisualStyleBackColor = true;
 			this.cmdHotkey.Click += new System.EventHandler(this.cmdHotkey_Click);
