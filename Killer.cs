@@ -80,5 +80,15 @@ namespace prkiller_ng
 		{
 			Disable = 0, Beep = 1, SpeakerBeep = 2, Asterisk = 3, Exclamination = 4, Hand = 5, Question = 6
 		}
+
+		internal enum KeyboardCommand
+		{
+			Hide, Exit, MoveUp, MoveDown, ContextMenu,
+			Kill, KillDontHide, KillProcessTree, KillProcessTreeDontHide,
+			ProcessInfo, RunDialog,
+			PriorityIncrease, PriorityDecrease, PriorityIdle, PriorityNormal, PriorityHigh, PriorityRealTime,
+			FindParent, Restart, SuspendResumeProcess, SuspendProcess, ResumeProcess,
+			RestartExplorer
+		}
 	}
 }

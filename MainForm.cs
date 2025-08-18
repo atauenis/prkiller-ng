@@ -543,94 +543,104 @@ true
 
 			string key = (e.Modifiers + "+" + e.KeyCode).Replace(", ", "+").Replace("None+", "");
 			string cmd = Killer.Config.Read(key);
-			switch (cmd)
+
+			if (string.IsNullOrWhiteSpace(cmd))
 			{
-				case "Hide":
-					Hide();
-					break;
-				case "MoveUp":
-					if (ProcessList.SelectedIndex > 0)
-						ProcessList.SelectedIndex--;
-					break;
-				case "MoveDown":
-					if (ProcessList.SelectedIndex < ProcessList.Items.Count - 1)
-						ProcessList.SelectedIndex++;
-					break;
-				case "Kill":
-				case "KillProcess":
-					KillProcess();
-					break;
-				case "KillProcessTree":
-					KillProcess(true);
-					break;
-				case "KillDontHide":
-					KillProcess(false, false);
-					break;
-				case "KillProcessTreeDontHide":
-					KillProcess(true, false);
-					break;
-				case "ProcessInfo":
-					ProcessInfo();
-					break;
-				case "Exit":
-					KillKiller();
-					break;
-				case "RunDialog":
-					RunDialog();
-					break;
-				case "PriorityIncrease":
-					SetProcessPriority(1);
-					break;
-				case "PriorityDecrease":
-					SetProcessPriority(-1);
-					break;
-				case "PriorityIdle":
-					SetProcessPriority(ProcessPriorityClass.Idle);
-					break;
-				case "PriorityNormal":
-					SetProcessPriority(ProcessPriorityClass.Normal);
-					break;
-				case "PriorityHigh":
-					SetProcessPriority(ProcessPriorityClass.High);
-					break;
-				case "PriorityRealTime":
-					SetProcessPriority(ProcessPriorityClass.RealTime);
-					break;
-				case "ContextMenu":
-					contextMenuStrip1.Show(ProcessList.Location);
-					break;
-				case "FindParent":
-					FindParentProcess();
-					break;
-				case "Restart":
-					RestartProcess();
-					break;
-				case "SuspendResumeProcess":
-					ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
-					if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
-					else SelProcSusRes.Proc.Suspend();
-					break;
-				case "SuspendProcess":
-					((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
-					break;
-				case "ResumeProcess":
-					((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
-					break;
-				case "":
-					Debug.Print("Unknown key: " + key);
-					e.Handled = false;
-					e.SuppressKeyPress = false;
-					break;
-				case "RestartExplorer":
-					AlwaysActivePause = true;
-					MessageBox.Show("Not implemented", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					AlwaysActivePause = false;
-					break;
-				default:
-					AlwaysActivePause = true;
-					MessageBox.Show(Killer.Language.ReadString("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					AlwaysActivePause = false;
-					break;
+				Debug.Print("Unknown key: " + key);
+				e.Handled = false;
+				e.SuppressKeyPress = false;
+				return;
+			}
+
+			if (Enum.TryParse(cmd, out Killer.KeyboardCommand Command))
+			{
+				switch (Command)
+				{
+					case Killer.KeyboardCommand.Hide:
+						Hide();
+						break;
+					case Killer.KeyboardCommand.MoveUp:
+						if (ProcessList.SelectedIndex > 0)
+							ProcessList.SelectedIndex--;
+						break;
+					case Killer.KeyboardCommand.MoveDown:
+						if (ProcessList.SelectedIndex < ProcessList.Items.Count - 1)
+							ProcessList.SelectedIndex++;
+						break;
+					case Killer.KeyboardCommand.Kill:
+						KillProcess();
+						break;
+					case Killer.KeyboardCommand.KillProcessTree:
+						KillProcess(true);
+						break;
+					case Killer.KeyboardCommand.KillDontHide:
+						KillProcess(false, false);
+						break;
+					case Killer.KeyboardCommand.KillProcessTreeDontHide:
+						KillProcess(true, false);
+						break;
+					case Killer.KeyboardCommand.ProcessInfo:
+						ProcessInfo();
+						break;
+					case Killer.KeyboardCommand.Exit:
+						KillKiller();
+						break;
+					case Killer.KeyboardCommand.RunDialog:
+						RunDialog();
+						break;
+					case Killer.KeyboardCommand.PriorityIncrease:
+						SetProcessPriority(1);
+						break;
+					case Killer.KeyboardCommand.PriorityDecrease:
+						SetProcessPriority(-1);
+						break;
+					case Killer.KeyboardCommand.PriorityIdle:
+						SetProcessPriority(ProcessPriorityClass.Idle);
+						break;
+					case Killer.KeyboardCommand.PriorityNormal:
+						SetProcessPriority(ProcessPriorityClass.Normal);
+						break;
+					case Killer.KeyboardCommand.PriorityHigh:
+						SetProcessPriority(ProcessPriorityClass.High);
+						break;
+					case Killer.KeyboardCommand.PriorityRealTime:
+						SetProcessPriority(ProcessPriorityClass.RealTime);
+						break;
+					case Killer.KeyboardCommand.ContextMenu:
+						contextMenuStrip1.Show(ProcessList.Location);
+						break;
+					case Killer.KeyboardCommand.FindParent:
+						FindParentProcess();
+						break;
+					case Killer.KeyboardCommand.Restart:
+						RestartProcess();
+						break;
+					case Killer.KeyboardCommand.SuspendResumeProcess:
+						ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
+						if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
+						else SelProcSusRes.Proc.Suspend();
+						break;
+					case Killer.KeyboardCommand.SuspendProcess:
+						((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
+						break;
+					case Killer.KeyboardCommand.ResumeProcess:
+						((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
+						break;
+					case Killer.KeyboardCommand.RestartExplorer:
+						RestartWindowsShell();
+						break;
+					default:
+						AlwaysActivePause = true;
+						MessageBox.Show("Not implemented: " + Command, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						AlwaysActivePause = false;
+						break;
+				}
+			}
+			else
+			{
+				AlwaysActivePause = true;
+				MessageBox.Show(Killer.Language.ReadString("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				AlwaysActivePause = false;
 			}
 		}
 

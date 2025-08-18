@@ -432,13 +432,13 @@ namespace prkiller_ng
 			// 
 			// cmdOtherKeys
 			// 
-			this.cmdOtherKeys.Enabled = false;
 			this.cmdOtherKeys.Location = new System.Drawing.Point(439, 19);
 			this.cmdOtherKeys.Name = "cmdOtherKeys";
 			this.cmdOtherKeys.Size = new System.Drawing.Size(152, 23);
 			this.cmdOtherKeys.TabIndex = 1;
 			this.cmdOtherKeys.Text = "button1";
 			this.cmdOtherKeys.UseVisualStyleBackColor = true;
+			this.cmdOtherKeys.Click += new System.EventHandler(this.cmdOtherKeys_Click);
 			// 
 			// cmdHotkey
 			// 

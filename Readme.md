@@ -52,7 +52,7 @@ You may also edit the INI file manually if want.
 
 * Supports only Windows 7 and up (32-bit, 64-bit). Optimized for Windows 8.1 (64-bit) and up.
 * No support for Windows 98/XP/Vista. SP1 is required to run on Windows 7 or Windows Server 2008 R2.
-* Default hot key is `Ctrl`+`Shift`+`1` , however you may set up `Ctrl`+`Shift`+`~` via Settings window.
+* Default hot key is `Ctrl`+`Shift`+`1` , however you may set up `Ctrl`+`Shift`+`~` via Settings window. Every keyboard button is configurable in Process Killer NG.
 * You may set up a confirmation for "Restart Shell" button action.
 * The "Restart Shell" button is always killing the shell process, and there is no option to disable this (it were actual only on Windows 9x).
 * Unlimited history in Run dialog box. `Ctrl`+`[OK]` in Run dialog is starting an application without save to history.

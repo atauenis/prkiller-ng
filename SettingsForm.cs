@@ -459,6 +459,11 @@ namespace prkiller_ng
 			catch (Exception ex)
 			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 		}
+
+		private void cmdOtherKeys_Click(object sender, EventArgs e)
+		{
+			new HotkeysEditorForm() { TopMost = this.TopMost }.ShowDialog();
+		}
 	}
 
 	/// <summary>
