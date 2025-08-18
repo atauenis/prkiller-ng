@@ -552,6 +552,8 @@ true
 				return;
 			}
 
+			if (key == "Left") return;
+
 			if (Enum.TryParse(cmd, out Killer.KeyboardCommand Command))
 			{
 				switch (Command)
@@ -616,15 +618,13 @@ true
 						RestartProcess();
 						break;
 					case Killer.KeyboardCommand.SuspendResumeProcess:
-						ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
-						if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
-						else SelProcSusRes.Proc.Suspend();
+						SuspendResumeProcess();
 						break;
 					case Killer.KeyboardCommand.SuspendProcess:
-						((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
+						SuspendResumeProcess(true);
 						break;
 					case Killer.KeyboardCommand.ResumeProcess:
-						((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
+						SuspendResumeProcess(false);
 						break;
 					case Killer.KeyboardCommand.RestartExplorer:
 						RestartWindowsShell();
@@ -641,6 +641,41 @@ true
 				AlwaysActivePause = true;
 				MessageBox.Show(Killer.Language.ReadString("BadKeyMapping", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				AlwaysActivePause = false;
+			}
+		}
+
+		/// <summary>
+		/// Suspend or resume the selected process
+		/// </summary>
+		private void SuspendResumeProcess(bool Suspend)
+		{
+			try
+			{
+				if (Suspend) ((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
+				else ((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
+		}
+
+		/// <summary>
+		/// Suspend or resume the selected process, depending on its current state
+		/// </summary>
+		private void SuspendResumeProcess()
+		{
+			try
+			{
+				ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
+				if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
+				else SelProcSusRes.Proc.Suspend();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
 			}
 		}
 
