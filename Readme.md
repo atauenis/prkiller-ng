@@ -37,16 +37,7 @@ Process Killer NG is portable program. It does not saving anything on your compu
 
 To save main window size and position, open the Settings dialog box and click OK to save settings. This differs NG version from original Process Killer 1.4.2, which saved all without prompts.
 
-You may also edit the INI file manually if want.
-
-  - CpuGraphStyle - Disable, Bar, Graph or Label
-  - DoubleClick - Disable, ProcessInfo or Kill
-  - RightClick - Disable or ContextMenu
-  - Hotkey buttons - [keyboard layout](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0)
-  - StartupPriority - Normal, Idle, High, RealTime, BelowNormal or AboveNormal
-  - Selfkill, KillTree, KillSystem - Disable, Prompt or Enable
-  - ErrorSound - Disable, Beep, SpeakerBeep, Asterisk, Exclamination, Hand or Question
-  - Other - integer, string or boolean values
+In the Settings window you can configure the program for yourself.
 
 ## Differences from version 1.4.2 by \_\_alex:
 
