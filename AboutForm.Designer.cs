@@ -91,7 +91,7 @@ namespace prkiller_ng
 			this.lnkUrl2.Location = new System.Drawing.Point(-2, 97);
 			this.lnkUrl2.Name = "lnkUrl2";
 			this.lnkUrl2.Size = new System.Drawing.Size(232, 23);
-			this.lnkUrl2.TabIndex = 4;
+			this.lnkUrl2.TabIndex = 2;
 			this.lnkUrl2.TabStop = true;
 			this.lnkUrl2.Text = "https://github.com/atauenis/prkiller-ng";
 			this.lnkUrl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -102,7 +102,7 @@ namespace prkiller_ng
 			this.lnkUrl1.Location = new System.Drawing.Point(12, 74);
 			this.lnkUrl1.Name = "lnkUrl1";
 			this.lnkUrl1.Size = new System.Drawing.Size(204, 23);
-			this.lnkUrl1.TabIndex = 4;
+			this.lnkUrl1.TabIndex = 1;
 			this.lnkUrl1.TabStop = true;
 			this.lnkUrl1.Text = "https://atauenis.ru";
 			this.lnkUrl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -113,6 +113,7 @@ namespace prkiller_ng
 			this.AcceptButton = this.cmdOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cmdOk;
 			this.ClientSize = new System.Drawing.Size(228, 168);
 			this.Controls.Add(this.lnkUrl1);
 			this.Controls.Add(this.lnkUrl2);

@@ -116,6 +116,7 @@ namespace prkiller_ng
 			this.AcceptButton = this.cmdOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cmdCancel;
 			this.ClientSize = new System.Drawing.Size(330, 147);
 			this.Controls.Add(this.cbxOpen);
 			this.Controls.Add(this.lblOpen);
