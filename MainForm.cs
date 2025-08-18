@@ -651,6 +651,13 @@ true
 		{
 			try
 			{
+				if (((ProcessInfo)ProcessList.SelectedItem).ProcessId == Process.GetCurrentProcess().Id)
+				{
+					this.Text = Killer.Language.ReadString("SelfharmPrevented", "Language");
+					PlayErrorSound();
+					return;
+				}
+
 				if (Suspend) ((ProcessInfo)ProcessList.SelectedItem).Proc.Suspend();
 				else ((ProcessInfo)ProcessList.SelectedItem).Proc.Resume();
 			}
@@ -668,6 +675,13 @@ true
 		{
 			try
 			{
+				if (((ProcessInfo)ProcessList.SelectedItem).ProcessId == Process.GetCurrentProcess().Id)
+				{
+					this.Text = Killer.Language.ReadString("SelfharmPrevented", "Language");
+					PlayErrorSound();
+					return;
+				}
+
 				ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
 				if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
 				else SelProcSusRes.Proc.Suspend();
@@ -907,6 +921,14 @@ true
 			try
 			{
 				ProcessInfo SelProcSusRes = ((ProcessInfo)ProcessList.SelectedItem);
+				if (SelProcSusRes.ProcessId == Process.GetCurrentProcess().Id)
+				{
+					AlwaysActivePause = true;
+					MessageBox.Show(Killer.Language.ReadString("SelfharmPrevented", "Language"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					AlwaysActivePause = false;
+					return;
+				}
+
 				if (SelProcSusRes.Suspended) SelProcSusRes.Proc.Resume();
 				else SelProcSusRes.Proc.Suspend();
 			}
