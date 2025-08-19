@@ -258,6 +258,11 @@ true
 
 				shellRestartToolStripMenuItem.Text = Killer.Language.Read("shellRestartToolStripMenuItem", "Language");
 				shellRestartPkngAsAdminToolStripMenuItem.Text = Killer.Language.Read("shellRestartPkngAsAdminToolStripMenuItem", "Language");
+				shellLockToolStripMenuItem.Text = Killer.Language.Read("shellLockToolStripMenuItem", "Language");
+				shellLogoffToolStripMenuItem.Text = Killer.Language.Read("shellLogoffToolStripMenuItem", "Language");
+				shellRebootToolStripMenuItem.Text = Killer.Language.Read("shellRebootToolStripMenuItem", "Language");
+				shellShutdownToolStripMenuItem.Text = Killer.Language.Read("shellShutdownToolStripMenuItem", "Language");
+				shellLogoffToolStripMenuItem.Text = string.Format(shellLogoffToolStripMenuItem.Text, Environment.UserName);
 
 				toolTips.SetToolTip(lblRamAll, Killer.Language.ReadString("lblRamAll", "Language"));
 				toolTips.SetToolTip(lblRamPhys, Killer.Language.ReadString("lblRamPhys", "Language"));
@@ -1364,5 +1369,22 @@ true
 		{
 			RestartWindowsShell();
 		}
+
+		private void shellLockToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{ LockWorkStation(); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+		/// <summary>
+		/// Locks the workstation's display. Locking a workstation protects it from unauthorized use.
+		/// </summary>
+		/// <returns>If the function succeeds, the return value is nonzero. Because the function executes asynchronously, a nonzero return value indicates that the operation has been initiated. It does not indicate whether the workstation has been successfully locked.
+		///
+		///If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
+		[DllImport("user32.dll")]
+		private static extern bool LockWorkStation();
 	}
 }

@@ -572,6 +572,7 @@ namespace prkiller_ng
 			this.shellLockToolStripMenuItem.Name = "shellLockToolStripMenuItem";
 			this.shellLockToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
 			this.shellLockToolStripMenuItem.Text = "lock";
+			this.shellLockToolStripMenuItem.Click += new System.EventHandler(this.shellLockToolStripMenuItem_Click);
 			// 
 			// shellLogoffToolStripMenuItem
 			// 
