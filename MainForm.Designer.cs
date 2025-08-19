@@ -45,7 +45,7 @@ namespace prkiller_ng
 			this.cmdConfigure = new System.Windows.Forms.Button();
 			this.cmdHelp = new System.Windows.Forms.Button();
 			this.ProcessList = new System.Windows.Forms.ListBox();
-			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuProcessListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.priRTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.priHighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.priNormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,13 +54,14 @@ namespace prkiller_ng
 			this.procKillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procKillTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.procInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblRamAll = new System.Windows.Forms.Label();
 			this.lblRamPhys = new System.Windows.Forms.Label();
 			this.lblRam2 = new System.Windows.Forms.Label();
 			this.lblCPU = new System.Windows.Forms.Label();
-			this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuGraphMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.frequTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.freqHighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,9 +75,9 @@ namespace prkiller_ng
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
-			this.contextMenuStrip1.SuspendLayout();
+			this.mnuProcessListMenu.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
-			this.contextMenuStrip2.SuspendLayout();
+			this.mnuGraphMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -246,7 +247,7 @@ namespace prkiller_ng
 			// 
 			// ProcessList
 			// 
-			this.ProcessList.ContextMenuStrip = this.contextMenuStrip1;
+			this.ProcessList.ContextMenuStrip = this.mnuProcessListMenu;
 			this.ProcessList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ProcessList.FormattingEnabled = true;
 			this.ProcessList.ItemHeight = 15;
@@ -270,9 +271,9 @@ namespace prkiller_ng
 			this.ProcessList.Leave += new System.EventHandler(this.ProcessList_Leave);
 			this.ProcessList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ProcessList_MouseDoubleClick);
 			// 
-			// contextMenuStrip1
+			// mnuProcessListMenu
 			// 
-			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.mnuProcessListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.priRTToolStripMenuItem,
             this.priHighToolStripMenuItem,
             this.priNormToolStripMenuItem,
@@ -281,9 +282,10 @@ namespace prkiller_ng
             this.procKillToolStripMenuItem,
             this.procKillTreeToolStripMenuItem,
             this.procPauseToolStripMenuItem,
+            this.toolStripSeparator3,
             this.procInfoToolStripMenuItem});
-			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(141, 186);
+			this.mnuProcessListMenu.Name = "contextMenuStrip1";
+			this.mnuProcessListMenu.Size = new System.Drawing.Size(141, 192);
 			// 
 			// priRTToolStripMenuItem
 			// 
@@ -338,6 +340,11 @@ namespace prkiller_ng
 			this.procPauseToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.procPauseToolStripMenuItem.Text = "Proc Pause";
 			this.procPauseToolStripMenuItem.Click += new System.EventHandler(this.procPauseToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(137, 6);
 			// 
 			// procInfoToolStripMenuItem
 			// 
@@ -409,7 +416,7 @@ namespace prkiller_ng
 			// 
 			this.lblCPU.AutoSize = true;
 			this.lblCPU.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblCPU.ContextMenuStrip = this.contextMenuStrip2;
+			this.lblCPU.ContextMenuStrip = this.mnuGraphMenu;
 			this.lblCPU.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblCPU.Location = new System.Drawing.Point(71, 0);
 			this.lblCPU.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -420,9 +427,9 @@ namespace prkiller_ng
 			this.lblCPU.Text = "CPU Load";
 			this.lblCPU.Paint += new System.Windows.Forms.PaintEventHandler(this.lblCPU_Paint);
 			// 
-			// contextMenuStrip2
+			// mnuGraphMenu
 			// 
-			this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.mnuGraphMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.frequTitleToolStripMenuItem,
             this.toolStripSeparator2,
             this.freqHighToolStripMenuItem,
@@ -430,8 +437,8 @@ namespace prkiller_ng
             this.freqLowToolStripMenuItem,
             this.freqVeryLowToolStripMenuItem,
             this.freqPausedToolStripMenuItem});
-			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(152, 142);
+			this.mnuGraphMenu.Name = "contextMenuStrip2";
+			this.mnuGraphMenu.Size = new System.Drawing.Size(152, 142);
 			// 
 			// frequTitleToolStripMenuItem
 			// 
@@ -517,10 +524,10 @@ namespace prkiller_ng
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
-			this.contextMenuStrip1.ResumeLayout(false);
+			this.mnuProcessListMenu.ResumeLayout(false);
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
-			this.contextMenuStrip2.ResumeLayout(false);
+			this.mnuGraphMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -542,7 +549,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.ListBox ProcessList;
 		private System.Windows.Forms.Timer Timer;
 		private System.Windows.Forms.ToolTip toolTips;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ContextMenuStrip mnuProcessListMenu;
 		private System.Windows.Forms.ToolStripMenuItem priRTToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem priHighToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem priNormToolStripMenuItem;
@@ -558,7 +565,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblRamPhys;
 		private System.Windows.Forms.Label lblRam2;
 		private System.Windows.Forms.Label lblCPU;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+		private System.Windows.Forms.ContextMenuStrip mnuGraphMenu;
 		private System.Windows.Forms.ToolStripMenuItem frequTitleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem freqHighToolStripMenuItem;
@@ -566,5 +573,6 @@ namespace prkiller_ng
 		private System.Windows.Forms.ToolStripMenuItem freqLowToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem freqVeryLowToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem freqPausedToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 	}
 }

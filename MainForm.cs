@@ -611,7 +611,7 @@ true
 						SetProcessPriority(ProcessPriorityClass.RealTime);
 						break;
 					case Killer.KeyboardCommand.ContextMenu:
-						contextMenuStrip1.Show(ProcessList.Location);
+						mnuProcessListMenu.Show(ProcessList.Location);
 						break;
 					case Killer.KeyboardCommand.FindParent:
 						FindParentProcess();
