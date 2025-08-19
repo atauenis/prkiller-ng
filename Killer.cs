@@ -87,7 +87,7 @@ namespace prkiller_ng
 			Kill, KillDontHide, KillProcessTree, KillProcessTreeDontHide,
 			ProcessInfo, RunDialog,
 			PriorityIncrease, PriorityDecrease, PriorityIdle, PriorityNormal, PriorityHigh, PriorityRealTime,
-			FindParent, Restart, SuspendResumeProcess, SuspendProcess, ResumeProcess,
+			FindParent, Restart, RestartAsAdmin, SuspendResumeProcess, SuspendProcess, ResumeProcess,
 			RestartExplorer
 		}
 	}

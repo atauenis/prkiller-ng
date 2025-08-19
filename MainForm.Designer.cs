@@ -54,6 +54,8 @@ namespace prkiller_ng
 			this.procKillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procKillTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.procRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.procRestartAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.procInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -282,74 +284,90 @@ namespace prkiller_ng
             this.procKillToolStripMenuItem,
             this.procKillTreeToolStripMenuItem,
             this.procPauseToolStripMenuItem,
+            this.procRestartToolStripMenuItem,
+            this.procRestartAsAdminToolStripMenuItem,
             this.toolStripSeparator3,
             this.procInfoToolStripMenuItem});
 			this.mnuProcessListMenu.Name = "contextMenuStrip1";
-			this.mnuProcessListMenu.Size = new System.Drawing.Size(141, 192);
+			this.mnuProcessListMenu.Size = new System.Drawing.Size(187, 236);
 			// 
 			// priRTToolStripMenuItem
 			// 
 			this.priRTToolStripMenuItem.Name = "priRTToolStripMenuItem";
-			this.priRTToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.priRTToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.priRTToolStripMenuItem.Text = "Pri: RT";
 			this.priRTToolStripMenuItem.Click += new System.EventHandler(this.priRTToolStripMenuItem_Click);
 			// 
 			// priHighToolStripMenuItem
 			// 
 			this.priHighToolStripMenuItem.Name = "priHighToolStripMenuItem";
-			this.priHighToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.priHighToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.priHighToolStripMenuItem.Text = "Pri: High";
 			this.priHighToolStripMenuItem.Click += new System.EventHandler(this.priHighToolStripMenuItem_Click);
 			// 
 			// priNormToolStripMenuItem
 			// 
 			this.priNormToolStripMenuItem.Name = "priNormToolStripMenuItem";
-			this.priNormToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.priNormToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.priNormToolStripMenuItem.Text = "Pri: Norm";
 			this.priNormToolStripMenuItem.Click += new System.EventHandler(this.priNormToolStripMenuItem_Click);
 			// 
 			// priLowToolStripMenuItem
 			// 
 			this.priLowToolStripMenuItem.Name = "priLowToolStripMenuItem";
-			this.priLowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.priLowToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.priLowToolStripMenuItem.Text = "Pri: Low";
 			this.priLowToolStripMenuItem.Click += new System.EventHandler(this.priLowToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(137, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
 			// 
 			// procKillToolStripMenuItem
 			// 
 			this.procKillToolStripMenuItem.Name = "procKillToolStripMenuItem";
-			this.procKillToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.procKillToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.procKillToolStripMenuItem.Text = "Proc Kill";
 			this.procKillToolStripMenuItem.Click += new System.EventHandler(this.procKillToolStripMenuItem_Click);
 			// 
 			// procKillTreeToolStripMenuItem
 			// 
 			this.procKillTreeToolStripMenuItem.Name = "procKillTreeToolStripMenuItem";
-			this.procKillTreeToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.procKillTreeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.procKillTreeToolStripMenuItem.Text = "Proc KillTree";
 			this.procKillTreeToolStripMenuItem.Click += new System.EventHandler(this.procKillTreeToolStripMenuItem_Click);
 			// 
 			// procPauseToolStripMenuItem
 			// 
 			this.procPauseToolStripMenuItem.Name = "procPauseToolStripMenuItem";
-			this.procPauseToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.procPauseToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.procPauseToolStripMenuItem.Text = "Proc Pause";
 			this.procPauseToolStripMenuItem.Click += new System.EventHandler(this.procPauseToolStripMenuItem_Click);
+			// 
+			// procRestartToolStripMenuItem
+			// 
+			this.procRestartToolStripMenuItem.Name = "procRestartToolStripMenuItem";
+			this.procRestartToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.procRestartToolStripMenuItem.Text = "Proc Restart";
+			this.procRestartToolStripMenuItem.Click += new System.EventHandler(this.procRestartToolStripMenuItem_Click);
+			// 
+			// procRestartAsAdminToolStripMenuItem
+			// 
+			this.procRestartAsAdminToolStripMenuItem.Name = "procRestartAsAdminToolStripMenuItem";
+			this.procRestartAsAdminToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.procRestartAsAdminToolStripMenuItem.Text = "Proc RestartAsAdmin";
+			this.procRestartAsAdminToolStripMenuItem.Click += new System.EventHandler(this.procRestartAsAdminToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(137, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(183, 6);
 			// 
 			// procInfoToolStripMenuItem
 			// 
 			this.procInfoToolStripMenuItem.Name = "procInfoToolStripMenuItem";
-			this.procInfoToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+			this.procInfoToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.procInfoToolStripMenuItem.Text = "Proc Info";
 			this.procInfoToolStripMenuItem.Click += new System.EventHandler(this.procInfoToolStripMenuItem_Click);
 			// 
@@ -574,5 +592,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.ToolStripMenuItem freqVeryLowToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem freqPausedToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem procRestartToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem procRestartAsAdminToolStripMenuItem;
 	}
 }

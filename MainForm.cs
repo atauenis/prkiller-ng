@@ -225,6 +225,8 @@ true
 				procKillToolStripMenuItem.Text = Killer.Language.Read("procKillToolStripMenuItem", "Language");
 				procKillTreeToolStripMenuItem.Text = Killer.Language.Read("procKillTreeToolStripMenuItem", "Language");
 				procPauseToolStripMenuItem.Text = Killer.Language.Read("procPauseToolStripMenuItem", "Language");
+				procRestartToolStripMenuItem.Text = Killer.Language.Read("procRestartToolStripMenuItem", "Language");
+				procRestartAsAdminToolStripMenuItem.Text = Killer.Language.Read("procRestartAsAdminToolStripMenuItem", "Language");
 				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
 
 				frequTitleToolStripMenuItem.Text = Killer.Language.Read("freqTitleToolStripMenuItem", "Language");
@@ -619,6 +621,9 @@ true
 					case Killer.KeyboardCommand.Restart:
 						RestartProcess();
 						break;
+					case Killer.KeyboardCommand.RestartAsAdmin:
+						RestartProcess(true);
+						break;
 					case Killer.KeyboardCommand.SuspendResumeProcess:
 						SuspendResumeProcess();
 						break;
@@ -698,12 +703,13 @@ true
 		/// <summary>
 		/// Restart the selected process
 		/// </summary>
-		private void RestartProcess()
+		private void RestartProcess(bool AsAdmin = false)
 		{
 			try
 			{
 				ProcessInfo BaseProc = (ProcessInfo)ProcessList.SelectedItem;
 				Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(((ProcessInfo)ProcessList.SelectedItem).CommandLine) };
+				if (AsAdmin) NewProc.StartInfo.Verb = "runas";
 				NewProc.Start();
 				BaseProc.Proc.Kill();
 			}
@@ -1299,6 +1305,16 @@ true
 			CtrlPressed = false;
 			AltPressed = false;
 			ShiftPressed = false;
+		}
+
+		private void procRestartToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RestartProcess();
+		}
+
+		private void procRestartAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RestartProcess(true);
 		}
 	}
 }
