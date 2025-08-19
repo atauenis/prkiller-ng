@@ -72,6 +72,15 @@ namespace prkiller_ng
 			this.freqVeryLowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.freqPausedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblRamPhys2 = new System.Windows.Forms.Label();
+			this.mnuShellMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.shellRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.shellRestartPkngAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.shellLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.shellLogoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.shellRebootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.shellShutdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Timer = new System.Windows.Forms.Timer(this.components);
 			this.toolTips = new System.Windows.Forms.ToolTip(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
@@ -80,6 +89,7 @@ namespace prkiller_ng
 			this.mnuProcessListMenu.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.mnuGraphMenu.SuspendLayout();
+			this.mnuShellMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -210,6 +220,7 @@ namespace prkiller_ng
 			this.cmdRestartExplorer.TabStop = false;
 			this.cmdRestartExplorer.UseVisualStyleBackColor = true;
 			this.cmdRestartExplorer.Click += new System.EventHandler(this.cmdRestartExplorer_Click);
+			this.cmdRestartExplorer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cmdRestartExplorer_MouseUp);
 			// 
 			// cmdRun
 			// 
@@ -518,6 +529,68 @@ namespace prkiller_ng
 			this.lblRamPhys2.Text = "2048";
 			this.lblRamPhys2.Click += new System.EventHandler(this.lblRamPhys2_Click);
 			// 
+			// mnuShellMenu
+			// 
+			this.mnuShellMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shellRestartToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.shellRestartPkngAsAdminToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.shellLockToolStripMenuItem,
+            this.shellLogoffToolStripMenuItem,
+            this.shellRebootToolStripMenuItem,
+            this.shellShutdownToolStripMenuItem});
+			this.mnuShellMenu.Name = "mnuShellMenu";
+			this.mnuShellMenu.Size = new System.Drawing.Size(193, 148);
+			// 
+			// shellRestartToolStripMenuItem
+			// 
+			this.shellRestartToolStripMenuItem.Name = "shellRestartToolStripMenuItem";
+			this.shellRestartToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellRestartToolStripMenuItem.Text = "shell restart";
+			this.shellRestartToolStripMenuItem.Click += new System.EventHandler(this.shellRestartToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(189, 6);
+			// 
+			// shellRestartPkngAsAdminToolStripMenuItem
+			// 
+			this.shellRestartPkngAsAdminToolStripMenuItem.Name = "shellRestartPkngAsAdminToolStripMenuItem";
+			this.shellRestartPkngAsAdminToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellRestartPkngAsAdminToolStripMenuItem.Text = "restart PKNG as admin";
+			this.shellRestartPkngAsAdminToolStripMenuItem.Click += new System.EventHandler(this.shellRestartPkngAsAdminToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(189, 6);
+			// 
+			// shellLockToolStripMenuItem
+			// 
+			this.shellLockToolStripMenuItem.Name = "shellLockToolStripMenuItem";
+			this.shellLockToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellLockToolStripMenuItem.Text = "lock";
+			// 
+			// shellLogoffToolStripMenuItem
+			// 
+			this.shellLogoffToolStripMenuItem.Name = "shellLogoffToolStripMenuItem";
+			this.shellLogoffToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellLogoffToolStripMenuItem.Text = "log off";
+			// 
+			// shellRebootToolStripMenuItem
+			// 
+			this.shellRebootToolStripMenuItem.Name = "shellRebootToolStripMenuItem";
+			this.shellRebootToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellRebootToolStripMenuItem.Text = "reboot";
+			// 
+			// shellShutdownToolStripMenuItem
+			// 
+			this.shellShutdownToolStripMenuItem.Name = "shellShutdownToolStripMenuItem";
+			this.shellShutdownToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.shellShutdownToolStripMenuItem.Text = "shut down";
+			// 
 			// Timer
 			// 
 			this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
@@ -546,6 +619,7 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
 			this.mnuGraphMenu.ResumeLayout(false);
+			this.mnuShellMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -594,5 +668,14 @@ namespace prkiller_ng
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem procRestartToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem procRestartAsAdminToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip mnuShellMenu;
+		private System.Windows.Forms.ToolStripMenuItem shellRestartToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripMenuItem shellRestartPkngAsAdminToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private System.Windows.Forms.ToolStripMenuItem shellRebootToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem shellLogoffToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem shellLockToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem shellShutdownToolStripMenuItem;
 	}
 }

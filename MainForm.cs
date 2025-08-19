@@ -73,6 +73,7 @@ namespace prkiller_ng
 		bool FirstTimeShow = true;
 
 		string CurrentUserName = @"localhost\root";
+		bool IsAdmin = false;
 
 		public MainForm()
 		{
@@ -180,6 +181,8 @@ true
 				if (Killer.Config.KeyExists("RestartShell"))
 					restartShellAction = Killer.Config.ReadEnum<Killer.KillPolicy>("RestartShell");
 
+				shellRestartToolStripMenuItem.Enabled = (restartShellAction != Killer.KillPolicy.Disable);
+
 				ShowToolTips = Killer.Config.ReadBool(true, "ShowToolTips");
 				toolTips.Active = ShowToolTips;
 				toolTips.UseAnimation = true;
@@ -196,6 +199,22 @@ true
 
 				if (Killer.Config.KeyExists("ErrorSound"))
 					Sound = Killer.Config.ReadEnum<Killer.ErrorSound>("ErrorSound");
+
+				try
+				{
+					//detect running with admin rights
+					foreach (Process WinlogonProc in Process.GetProcessesByName("winlogon"))
+					{
+						if (WinlogonProc.MainModule is not null) IsAdmin = true;
+					}
+				}
+				catch { }
+
+				if (IsAdmin)
+				{
+					shellRestartPkngAsAdminToolStripMenuItem.Checked = true;
+					shellRestartPkngAsAdminToolStripMenuItem.Enabled = false;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -236,6 +255,9 @@ true
 				freqLowToolStripMenuItem.Text = Killer.Language.Read("freqLowToolStripMenuItem", "Language");
 				freqVeryLowToolStripMenuItem.Text = Killer.Language.Read("freqVeryLowToolStripMenuItem", "Language");
 				freqPausedToolStripMenuItem.Text = Killer.Language.Read("freqPausedToolStripMenuItem", "Language");
+
+				shellRestartToolStripMenuItem.Text = Killer.Language.Read("shellRestartToolStripMenuItem", "Language");
+				shellRestartPkngAsAdminToolStripMenuItem.Text = Killer.Language.Read("shellRestartPkngAsAdminToolStripMenuItem", "Language");
 
 				toolTips.SetToolTip(lblRamAll, Killer.Language.ReadString("lblRamAll", "Language"));
 				toolTips.SetToolTip(lblRamPhys, Killer.Language.ReadString("lblRamPhys", "Language"));
@@ -1315,6 +1337,32 @@ true
 		private void procRestartAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			RestartProcess(true);
+		}
+
+		private void shellRestartPkngAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ProcessInfo BaseProc = new ProcessInfo(Process.GetCurrentProcess());
+			Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(BaseProc.CommandLine) };
+			NewProc.StartInfo.Verb = "runas";
+
+			try
+			{
+				NewProc.Start();
+				BaseProc.Proc.Kill();
+			}
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+
+		private void cmdRestartExplorer_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right) mnuShellMenu.Show(cmdRestartExplorer, 0, cmdRestartExplorer.Height);
+		}
+
+		private void shellRestartToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RestartWindowsShell();
 		}
 	}
 }
