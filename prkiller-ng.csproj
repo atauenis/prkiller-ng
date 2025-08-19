@@ -7,8 +7,8 @@
 		<RootNamespace>prkiller_ng</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Authors>Alexander Tauenis</Authors>
-		<Version>2.0.0</Version>
-		<Product>Process Killer NG 2.0</Product>
+		<Version>2.1</Version>
+		<Product>Process Killer NG 2.1</Product>
 		<Description>Alternative for Windows Task Manager</Description>
 		<ApplicationIcon>icons\prkiller.ico</ApplicationIcon>
 	</PropertyGroup>
