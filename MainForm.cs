@@ -281,6 +281,8 @@ true
 		{
 			if (!Timer.Enabled) return;
 
+			if (CtrlPressed) return;
+
 			if (Visible)
 			{
 
@@ -1290,6 +1292,13 @@ true
 			AlwaysActivePause = true;
 			new SettingsForm(this).ShowDialog();
 			AlwaysActivePause = false;
+		}
+
+		private void ProcessList_KeyUp(object sender, KeyEventArgs e)
+		{
+			CtrlPressed = false;
+			AltPressed = false;
+			ShiftPressed = false;
 		}
 	}
 }

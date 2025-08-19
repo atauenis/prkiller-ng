@@ -266,6 +266,7 @@ namespace prkiller_ng
 			this.ProcessList.TabIndex = 2;
 			this.ProcessList.SelectedIndexChanged += new System.EventHandler(this.ProcessList_SelectedIndexChanged);
 			this.ProcessList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProcessList_KeyDown);
+			this.ProcessList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProcessList_KeyUp);
 			this.ProcessList.Leave += new System.EventHandler(this.ProcessList_Leave);
 			this.ProcessList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ProcessList_MouseDoubleClick);
 			// 
