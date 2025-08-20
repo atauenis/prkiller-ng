@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace prkiller_ng
@@ -13,6 +14,23 @@ namespace prkiller_ng
 
 		private void AboutForm_Load(object sender, EventArgs e)
 		{
+			using (Font fontTester = new Font(
+			"Playbill",
+			16,
+			FontStyle.Regular,
+			GraphicsUnit.Pixel))
+			{
+				if (fontTester.Name == "Playbill")
+				{
+					lblVersion.Font = new("Playbill", 16);
+					lblVersion.Text = "Process Killer NG ";
+				}
+				else
+				{
+					lblVersion.Text = "PrKiller-NG ";
+				}
+			}
+
 			lblVersion.Text += Application.ProductVersion;
 			lblLanguage.Text = Killer.Language.ReadString("Language", "Language");
 			cmdOk.Text = Killer.Language.ReadString("cmdOK", "Language");
