@@ -579,18 +579,21 @@ namespace prkiller_ng
 			this.shellLogoffToolStripMenuItem.Name = "shellLogoffToolStripMenuItem";
 			this.shellLogoffToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
 			this.shellLogoffToolStripMenuItem.Text = "log off";
+			this.shellLogoffToolStripMenuItem.Click += new System.EventHandler(this.shellLogoffToolStripMenuItem_Click);
 			// 
 			// shellRebootToolStripMenuItem
 			// 
 			this.shellRebootToolStripMenuItem.Name = "shellRebootToolStripMenuItem";
 			this.shellRebootToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
 			this.shellRebootToolStripMenuItem.Text = "reboot";
+			this.shellRebootToolStripMenuItem.Click += new System.EventHandler(this.shellRebootToolStripMenuItem_Click);
 			// 
 			// shellShutdownToolStripMenuItem
 			// 
 			this.shellShutdownToolStripMenuItem.Name = "shellShutdownToolStripMenuItem";
 			this.shellShutdownToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
 			this.shellShutdownToolStripMenuItem.Text = "shut down";
+			this.shellShutdownToolStripMenuItem.Click += new System.EventHandler(this.shellShutdownToolStripMenuItem_Click);
 			// 
 			// Timer
 			// 

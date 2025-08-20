@@ -27,6 +27,8 @@ Also at the top of the window you can see memory and processor statistics, selec
 
 Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon. Click on "Run" button (`Ctrl`+`R`) to launch any other program (identical to `Win`+`R`).
 
+The "Restart shell" button also have a context menu with system power management actions. Via it you may reboot your computer even if Windows shell's Start menu is inaccessible. **_New in version 2.1._**
+
 The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
 **Tip**: consider run Process Killer NG with Administrator rights. This will allow reading information about all processes, including system, and killing them.
