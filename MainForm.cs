@@ -775,6 +775,15 @@ true
 
 		private void cmdRun_Click(object sender, EventArgs e)
 		{
+			if (CtrlPressed)
+			{
+				try
+				{ Process.Start(Environment.SystemDirectory + @"\cmd.exe"); }
+				catch (Exception ex)
+				{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+				CtrlPressed = false;
+				return;
+			}
 			RunDialog();
 		}
 
