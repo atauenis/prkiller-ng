@@ -18,6 +18,7 @@ namespace prkiller_ng
 			lblFileCompany.Text = Killer.Language.ReadString("lblFileCompany", "Language");
 			lblFileCopyright.Text = Killer.Language.ReadString("lblFileCopyright", "Language");
 			lblFileVersion.Text = Killer.Language.ReadString("lblFileVersion", "Language");
+			lblFileSignature.Text = Killer.Language.ReadString("lblFileSignature", "Language");
 			lblProcExtra.Text = Killer.Language.ReadString("lblProcExtra", "Language");
 			lblProcImage.Text = Killer.Language.ReadString("lblProcImage", "Language");
 			lblProcDir.Text = Killer.Language.ReadString("lblProcDir", "Language");

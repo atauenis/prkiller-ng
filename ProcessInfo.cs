@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace prkiller_ng
@@ -198,6 +199,17 @@ namespace prkiller_ng
 			}
 			catch
 			{ }
+
+			try
+			{
+				X509Certificate cert = X509Certificate.CreateFromSignedFile(Proc.MainModule.FileName);
+				X500DistinguishedName certname = new(cert.Subject);
+				wnd.txtDescriptionSignature.Text = certname.Format(false);
+			}
+			catch (Exception e)
+			{
+				wnd.txtDescriptionSignature.Text = e.Message;
+			}
 
 			Application.UseWaitCursor = false;
 

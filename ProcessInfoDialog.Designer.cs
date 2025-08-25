@@ -49,6 +49,8 @@ namespace prkiller_ng
 			this.lblFileVersion = new System.Windows.Forms.Label();
 			this.pbxIcon = new System.Windows.Forms.PictureBox();
 			this.txtDescriptionVersion = new System.Windows.Forms.TextBox();
+			this.txtDescriptionSignature = new System.Windows.Forms.TextBox();
+			this.lblFileSignature = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -64,7 +66,7 @@ namespace prkiller_ng
 			this.groupBox1.Controls.Add(this.tableLayoutPanel1);
 			this.groupBox1.Location = new System.Drawing.Point(4, -2);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(461, 227);
+			this.groupBox1.Size = new System.Drawing.Size(461, 238);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
@@ -81,7 +83,7 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.Controls.Add(this.txtProcCmdLine, 1, 2);
 			this.tableLayoutPanel2.Controls.Add(this.lblProcExtra, 0, 3);
 			this.tableLayoutPanel2.Controls.Add(this.lblProcCmd, 0, 2);
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 127);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 137);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 4;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
@@ -211,9 +213,11 @@ namespace prkiller_ng
 			this.tableLayoutPanel1.Controls.Add(this.lblFileVersion, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.pbxIcon, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.txtDescriptionVersion, 2, 3);
+			this.tableLayoutPanel1.Controls.Add(this.txtDescriptionSignature, 2, 4);
+			this.tableLayoutPanel1.Controls.Add(this.lblFileSignature, 1, 4);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 15);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 7;
+			this.tableLayoutPanel1.RowCount = 8;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
@@ -221,7 +225,8 @@ namespace prkiller_ng
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(445, 93);
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(445, 116);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// txtDescription
@@ -334,11 +339,36 @@ namespace prkiller_ng
 			this.txtDescriptionVersion.TabIndex = 3;
 			this.txtDescriptionVersion.WordWrap = false;
 			// 
+			// txtDescriptionSignature
+			// 
+			this.txtDescriptionSignature.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDescriptionSignature.Location = new System.Drawing.Point(82, 92);
+			this.txtDescriptionSignature.Margin = new System.Windows.Forms.Padding(0);
+			this.txtDescriptionSignature.Name = "txtDescriptionSignature";
+			this.txtDescriptionSignature.ReadOnly = true;
+			this.txtDescriptionSignature.Size = new System.Drawing.Size(363, 23);
+			this.txtDescriptionSignature.TabIndex = 3;
+			this.txtDescriptionSignature.WordWrap = false;
+			// 
+			// lblFileSignature
+			// 
+			this.lblFileSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblFileSignature.AutoSize = true;
+			this.lblFileSignature.Location = new System.Drawing.Point(41, 92);
+			this.lblFileSignature.Name = "lblFileSignature";
+			this.lblFileSignature.Size = new System.Drawing.Size(38, 20);
+			this.lblFileSignature.TabIndex = 2;
+			this.lblFileSignature.Text = "label1";
+			this.lblFileSignature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
 			// ProcessInfoDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(468, 228);
+			this.ClientSize = new System.Drawing.Size(468, 239);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.KeyPreview = true;
@@ -382,5 +412,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.Label lblProcCmd;
 		internal System.Windows.Forms.PictureBox pbxIcon;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		internal System.Windows.Forms.TextBox txtDescriptionSignature;
+		private System.Windows.Forms.Label lblFileSignature;
 	}
 }
