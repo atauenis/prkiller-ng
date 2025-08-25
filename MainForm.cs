@@ -183,6 +183,8 @@ true
 
 				shellRestartToolStripMenuItem.Enabled = (restartShellAction != Killer.KillPolicy.Disable);
 
+				PopulateRunMenu();
+
 				ShowToolTips = Killer.Config.ReadBool(true, "ShowToolTips");
 				toolTips.Active = ShowToolTips;
 				toolTips.UseAnimation = true;
@@ -263,6 +265,9 @@ true
 				shellRebootToolStripMenuItem.Text = Killer.Language.Read("shellRebootToolStripMenuItem", "Language");
 				shellShutdownToolStripMenuItem.Text = Killer.Language.Read("shellShutdownToolStripMenuItem", "Language");
 				shellLogoffToolStripMenuItem.Text = string.Format(shellLogoffToolStripMenuItem.Text, Environment.UserName);
+
+				runRunToolStripMenuItem.Text = Killer.Language.Read("runRunToolStripMenuItem", "Language");
+				runClearHistoryToolStripMenuItem.Text = Killer.Language.Read("runClearHistoryToolStripMenuItem", "Language");
 
 				toolTips.SetToolTip(lblRamAll, Killer.Language.ReadString("lblRamAll", "Language"));
 				toolTips.SetToolTip(lblRamPhys, Killer.Language.ReadString("lblRamPhys", "Language"));
@@ -498,6 +503,35 @@ true
 		{
 			// INFO button click
 			ProcessInfo();
+		}
+
+		private void cmdRestartExplorer_Click(object sender, EventArgs e)
+		{
+			// RESTART SHELL button click
+			RestartWindowsShell();
+		}
+
+		private void cmdRun_Click(object sender, EventArgs e)
+		{
+			// RUN button click
+			if (CtrlPressed)
+			{
+				try
+				{ Process.Start(Environment.SystemDirectory + @"\cmd.exe"); }
+				catch (Exception ex)
+				{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+				CtrlPressed = false;
+				return;
+			}
+			RunDialog();
+		}
+
+		private void cmdConfigure_Click(object sender, EventArgs e)
+		{
+			// SETTINGS button click
+			AlwaysActivePause = true;
+			new SettingsForm(this).ShowDialog();
+			AlwaysActivePause = false;
 		}
 
 		private void cmdHelp_Click(object sender, EventArgs e)
@@ -771,20 +805,6 @@ true
 				this.Text = ex.Message;
 				PlayErrorSound();
 			}
-		}
-
-		private void cmdRun_Click(object sender, EventArgs e)
-		{
-			if (CtrlPressed)
-			{
-				try
-				{ Process.Start(Environment.SystemDirectory + @"\cmd.exe"); }
-				catch (Exception ex)
-				{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
-				CtrlPressed = false;
-				return;
-			}
-			RunDialog();
 		}
 
 		/// <summary>
@@ -1324,18 +1344,6 @@ true
 			}
 		}
 
-		private void cmdRestartExplorer_Click(object sender, EventArgs e)
-		{
-			RestartWindowsShell();
-		}
-
-		private void cmdConfigure_Click(object sender, EventArgs e)
-		{
-			AlwaysActivePause = true;
-			new SettingsForm(this).ShowDialog();
-			AlwaysActivePause = false;
-		}
-
 		private void ProcessList_KeyUp(object sender, KeyEventArgs e)
 		{
 			CtrlPressed = false;
@@ -1371,6 +1379,7 @@ true
 
 		private void cmdRestartExplorer_MouseUp(object sender, MouseEventArgs e)
 		{
+			// RESTART SHELL button right click
 			if (e.Button == MouseButtons.Right) mnuShellMenu.Show(cmdRestartExplorer, 0, cmdRestartExplorer.Height);
 		}
 
@@ -1410,6 +1419,80 @@ true
 			{ Killer.DoExitWin(Killer.ShutdownFlags.EWX_SHUTDOWN); }
 			catch (Exception ex)
 			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+		private void cmdRun_MouseUp(object sender, MouseEventArgs e)
+		{
+			// RUN button - right click
+			if (e.Button == MouseButtons.Right) mnuRunMenu.Show(cmdRun, 0, cmdRun.Height);
+		}
+
+		private void mnuRunMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			//RUN button - context menu item click
+			switch (e.ClickedItem.Name)
+			{
+				case "runRunToolStripMenuItem":
+					// "Run" dialog
+					RunDialog();
+					PopulateRunMenu();
+					break;
+				case "runClearHistoryToolStripMenuItem":
+					// Clear history
+					Killer.Config.DeleteSection("Run");
+					PopulateRunMenu();
+					break;
+				default:
+					// Run a history item
+					if (e.ClickedItem is not ToolStripSeparator)
+					{
+						string Command = e.ClickedItem.Tag.ToString();
+						try
+						{
+							ProcessStartInfo psi = Killer.CreateProcessStartInfo(Command);
+							Process.Start(psi);
+						}
+						catch (Exception ex)
+						{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Reset and populate "Run" button context menu
+		/// </summary>
+		private void PopulateRunMenu()
+		{
+			ToolStripMenuItem RunItem = runRunToolStripMenuItem;
+			ToolStripMenuItem ClearItem = runClearHistoryToolStripMenuItem;
+			ClearItem.Enabled = false;
+
+			mnuRunMenu.Items.Clear();
+			mnuRunMenu.Items.Add(RunItem);
+			mnuRunMenu.Items.Add(new ToolStripSeparator());
+
+			int HistoryCount = 0;
+			while (true)
+			{
+				string HistoryEntry = Killer.Config.ReadString(HistoryCount.ToString(), "Run");
+				if (string.IsNullOrWhiteSpace(HistoryEntry)) break;
+
+				ToolStripMenuItem HistoryItem = new();
+				if (HistoryCount < 10) { HistoryItem.Text = "&" + HistoryCount; }
+				else { HistoryItem.Text = HistoryCount.ToString(); }
+				HistoryItem.Text += " " + HistoryEntry;
+				HistoryItem.Tag = HistoryEntry;
+				mnuRunMenu.Items.Add(HistoryItem);
+				ClearItem.Enabled = true;
+
+				HistoryCount++;
+			}
+
+			if (ClearItem.Enabled)
+			{ mnuRunMenu.Items.Add(new ToolStripSeparator()); }
+			mnuRunMenu.Items.Add(ClearItem);
+
 		}
 	}
 }

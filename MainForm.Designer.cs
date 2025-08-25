@@ -83,6 +83,9 @@ namespace prkiller_ng
 			this.shellShutdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Timer = new System.Windows.Forms.Timer(this.components);
 			this.toolTips = new System.Windows.Forms.ToolTip(this.components);
+			this.mnuRunMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.runRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.runClearHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
@@ -90,6 +93,7 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.SuspendLayout();
 			this.mnuGraphMenu.SuspendLayout();
 			this.mnuShellMenu.SuspendLayout();
+			this.mnuRunMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -233,6 +237,7 @@ namespace prkiller_ng
 			this.cmdRun.TabStop = false;
 			this.cmdRun.UseVisualStyleBackColor = true;
 			this.cmdRun.Click += new System.EventHandler(this.cmdRun_Click);
+			this.cmdRun.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cmdRun_MouseUp);
 			// 
 			// cmdConfigure
 			// 
@@ -599,6 +604,27 @@ namespace prkiller_ng
 			// 
 			this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
 			// 
+			// mnuRunMenu
+			// 
+			this.mnuRunMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runRunToolStripMenuItem,
+            this.runClearHistoryToolStripMenuItem});
+			this.mnuRunMenu.Name = "mnuRunMenu";
+			this.mnuRunMenu.Size = new System.Drawing.Size(181, 70);
+			this.mnuRunMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuRunMenu_ItemClicked);
+			// 
+			// runRunToolStripMenuItem
+			// 
+			this.runRunToolStripMenuItem.Name = "runRunToolStripMenuItem";
+			this.runRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runRunToolStripMenuItem.Text = "run...";
+			// 
+			// runClearHistoryToolStripMenuItem
+			// 
+			this.runClearHistoryToolStripMenuItem.Name = "runClearHistoryToolStripMenuItem";
+			this.runClearHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runClearHistoryToolStripMenuItem.Text = "clear";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -624,6 +650,7 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.PerformLayout();
 			this.mnuGraphMenu.ResumeLayout(false);
 			this.mnuShellMenu.ResumeLayout(false);
+			this.mnuRunMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -681,5 +708,8 @@ namespace prkiller_ng
 		private System.Windows.Forms.ToolStripMenuItem shellLogoffToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem shellLockToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem shellShutdownToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip mnuRunMenu;
+		private System.Windows.Forms.ToolStripMenuItem runRunToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem runClearHistoryToolStripMenuItem;
 	}
 }
