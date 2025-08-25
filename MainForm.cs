@@ -457,6 +457,10 @@ true
 					priHighToolStripMenuItem.Enabled = true;
 					priNormToolStripMenuItem.Enabled = true;
 					priLowToolStripMenuItem.Enabled = true;
+					procRestartToolStripMenuItem.Enabled = true;
+					procRestartAsAdminToolStripMenuItem.Enabled = true;
+					procExePropsToolStripMenuItem.Enabled = true;
+					procExeLocationToolStripMenuItem.Enabled = true;
 				}
 				catch
 				{
@@ -466,6 +470,10 @@ true
 					priHighToolStripMenuItem.Enabled = false;
 					priNormToolStripMenuItem.Enabled = false;
 					priLowToolStripMenuItem.Enabled = false;
+					procRestartToolStripMenuItem.Enabled = false;
+					procRestartAsAdminToolStripMenuItem.Enabled = false;
+					procExePropsToolStripMenuItem.Enabled = false;
+					procExeLocationToolStripMenuItem.Enabled = false;
 				}
 			}
 		}
