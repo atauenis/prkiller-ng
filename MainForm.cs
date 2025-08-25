@@ -339,19 +339,25 @@ true
 					Process[] procs = Process.GetProcesses();
 					for (int i = procs.Length - 1; i >= 0; i--)
 					{
-						/*int PID = procs[i].Id;
-						if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
-						ProcessList.Items.Add(Killer.ProcessCache[PID]);
-						*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
-
-						ProcessList.Items.Add(new ProcessInfo(procs[i]));
-
-						if (selected != null)
+						try
 						{
-							//restore selection
-							if (procs[i].Id == selected.ProcessId)
-								ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+							/*int PID = procs[i].Id;
+							if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
+							ProcessList.Items.Add(Killer.ProcessCache[PID]);
+							*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
+
+							var proc = new ProcessInfo(procs[i]);
+							if(proc.Accessible) proc.CalculateCpuLoad(TimerInterval);
+							ProcessList.Items.Add(proc);
+
+							if (selected != null)
+							{
+								//restore selection
+								if (procs[i].Id == selected.ProcessId)
+									ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+							}
 						}
+						catch (Exception ex) { this.Text = ex.Message; }
 					}
 
 					//restore previous state
@@ -361,7 +367,7 @@ true
 					//if selection is not defined, select 1st line
 					if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
 				}
-				catch (Exception ex) { this.Text = ex.Message; }
+				catch (Exception ex) { this.Text = "Err: " + ex.Message; }
 
 				//update memory statictics
 				ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);

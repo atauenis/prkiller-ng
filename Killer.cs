@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace prkiller_ng
@@ -12,6 +13,7 @@ namespace prkiller_ng
 		internal static IniFile Language;
 
 		//internal static Dictionary<int, ProcessInfo> ProcessCache = new();
+		internal static Dictionary<int, TimeSpan> LastCpuTime = new();
 
 		static Killer()
 		{

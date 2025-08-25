@@ -19,7 +19,7 @@ Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch 
 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
-Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
+Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. Processes that are utilizing more than 50% of CPU time are marked by `<*>` icon (**_New in version 2.1_**). To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu. If necessary, you can even suspend and later resume an running process (`Ctrl`+`←`). This may be useful, say, when copying a large file over network using FAR Manager, and you are need to temporarily free network bandwidth for other task. Suspended processes are marked by `<s>` icon.
 
@@ -52,7 +52,6 @@ In the Settings window you can configure the program for yourself.
 * Toolbar buttons have context menus. **_New in version 2.1._**
 * Multilanguage support, new configuration file syntax, a bit different dialog boxes.
 * Total threads count does not displaying in title bar.
-* Currently does not displaying processes with big CPU load (the `<*>` icon).
 * Currently does not removing "dead" icons from taskbar notification area after killing a process with such icons. Just point over them mouse, and they will disappear.
 * Currently can't display data in hexadecimal mode.
 * Currently have no installer.

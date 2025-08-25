@@ -65,6 +65,33 @@ namespace prkiller_ng
 		}
 
 		/// <summary>
+		/// Does the current Process Killer NG instance have enough access rights to this process.
+		/// </summary>
+		public bool Accessible { get; private set; }
+
+		/// <summary>
+		/// Total usage of CPU by the process in percents. 100% means full load of all cores and HyperThreading threads.
+		/// </summary>
+		public double ProcessorLoad { get; set; }
+
+		/// <summary>
+		/// Calculate CPU usage by process. This function should be called only in strict interval of <paramref name="TimerInterval"/> milliseconds.
+		/// </summary>
+		/// <param name="TimerInterval">Interval of this function callings.</param>
+		public void CalculateCpuLoad(int TimerInterval)
+		{
+			TimeSpan OldProcessorTime = Proc.TotalProcessorTime;
+			if (Killer.LastCpuTime.ContainsKey(ProcessId))
+				OldProcessorTime = Killer.LastCpuTime[ProcessId];
+			TimeSpan NewProcessorTime = Proc.TotalProcessorTime;
+			Killer.LastCpuTime[ProcessId] = NewProcessorTime;
+
+			double IterationProcessorTimeMilliseconds = NewProcessorTime.TotalMilliseconds - OldProcessorTime.TotalMilliseconds;
+
+			ProcessorLoad = ((IterationProcessorTimeMilliseconds / TimerInterval) * 100) / Environment.ProcessorCount;
+		}
+
+		/// <summary>
 		/// Construct this class.
 		/// </summary>
 		/// <param name="proc">Target process.</param>
@@ -72,6 +99,17 @@ namespace prkiller_ng
 		{
 			Proc = proc;
 			ProcessId = Proc.Id;
+
+			try
+			{
+				Accessible = true;
+				WinApiProcName = Proc.GetProcessImageFileName();
+				if (!string.IsNullOrWhiteSpace(WinApiProcName))
+					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
+				else
+					Accessible = false;
+			}
+			catch { }
 		}
 
 		/// <summary>
@@ -80,16 +118,9 @@ namespace prkiller_ng
 		public override string ToString()
 		{
 			string str = "";
-			try
-			{
-				WinApiProcName = Proc.GetProcessImageFileName();
-				if (!string.IsNullOrWhiteSpace(WinApiProcName))
-					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
-			}
-			catch { }
-
 			if (!Suspended && !Proc.Responding) str += "<!> ";
 			if (Suspended) str += "<s> ";
+			if (Accessible && ProcessorLoad > 50) str += "<*> ";
 			str += ProcessName;
 			return str;
 		}
