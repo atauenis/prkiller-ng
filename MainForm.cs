@@ -249,6 +249,8 @@ true
 				procRestartToolStripMenuItem.Text = Killer.Language.Read("procRestartToolStripMenuItem", "Language");
 				procRestartAsAdminToolStripMenuItem.Text = Killer.Language.Read("procRestartAsAdminToolStripMenuItem", "Language");
 				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
+				procExePropsToolStripMenuItem.Text = Killer.Language.Read("procExePropsToolStripMenuItem", "Language");
+				procExeLocationToolStripMenuItem.Text = Killer.Language.Read("procExeLocationToolStripMenuItem", "Language");
 
 				frequTitleToolStripMenuItem.Text = Killer.Language.Read("freqTitleToolStripMenuItem", "Language");
 				freqHighToolStripMenuItem.Text = Killer.Language.Read("freqHighToolStripMenuItem", "Language");
@@ -347,7 +349,7 @@ true
 							*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
 
 							var proc = new ProcessInfo(procs[i]);
-							if(proc.Accessible) proc.CalculateCpuLoad(TimerInterval);
+							if (proc.Accessible) proc.CalculateCpuLoad(TimerInterval);
 							ProcessList.Items.Add(proc);
 
 							if (selected != null)
@@ -702,6 +704,12 @@ true
 						break;
 					case Killer.KeyboardCommand.RestartExplorer:
 						RestartWindowsShell();
+						break;
+					case Killer.KeyboardCommand.ShowExeProperties:
+						ShowExeProperties();
+						break;
+					case Killer.KeyboardCommand.ShowExeLocation:
+						ShowExeLocation();
 						break;
 					default:
 						AlwaysActivePause = true;
@@ -1499,6 +1507,51 @@ true
 			{ mnuRunMenu.Items.Add(new ToolStripSeparator()); }
 			mnuRunMenu.Items.Add(ClearItem);
 
+		}
+
+		private void procExePropsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowExeProperties();
+		}
+
+		/// <summary>
+		/// Show process's EXE file properties (system dialog box)
+		/// </summary>
+		private void ShowExeProperties()
+		{
+			try
+			{
+				Killer.ShowFileProperties((ProcessList.SelectedItem as ProcessInfo).Proc.MainModule.FileName);
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
+		}
+
+		private void procExeLocationToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowExeLocation();
+		}
+
+		/// <summary>
+		/// Show process's EXE file location in Explorer
+		/// </summary>
+		private void ShowExeLocation()
+		{
+			try
+			{
+				Process process = new();
+				ProcessStartInfo info = new("Explorer", " /select, " + (ProcessList.SelectedItem as ProcessInfo).Proc.MainModule.FileName);
+				process.StartInfo = info;
+				process.Start();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
 		}
 	}
 }

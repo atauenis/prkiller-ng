@@ -57,6 +57,8 @@ namespace prkiller_ng
 			this.procRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procRestartAsAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.procExePropsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.procExeLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.procInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblRamAll = new System.Windows.Forms.Label();
@@ -303,9 +305,11 @@ namespace prkiller_ng
             this.procRestartToolStripMenuItem,
             this.procRestartAsAdminToolStripMenuItem,
             this.toolStripSeparator3,
+            this.procExePropsToolStripMenuItem,
+            this.procExeLocationToolStripMenuItem,
             this.procInfoToolStripMenuItem});
 			this.mnuProcessListMenu.Name = "contextMenuStrip1";
-			this.mnuProcessListMenu.Size = new System.Drawing.Size(187, 236);
+			this.mnuProcessListMenu.Size = new System.Drawing.Size(187, 302);
 			// 
 			// priRTToolStripMenuItem
 			// 
@@ -379,6 +383,20 @@ namespace prkiller_ng
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(183, 6);
+			// 
+			// procExePropsToolStripMenuItem
+			// 
+			this.procExePropsToolStripMenuItem.Name = "procExePropsToolStripMenuItem";
+			this.procExePropsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.procExePropsToolStripMenuItem.Text = "Proc EXE properties";
+			this.procExePropsToolStripMenuItem.Click += new System.EventHandler(this.procExePropsToolStripMenuItem_Click);
+			// 
+			// procExeLocationToolStripMenuItem
+			// 
+			this.procExeLocationToolStripMenuItem.Name = "procExeLocationToolStripMenuItem";
+			this.procExeLocationToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.procExeLocationToolStripMenuItem.Text = "Proc EXE location";
+			this.procExeLocationToolStripMenuItem.Click += new System.EventHandler(this.procExeLocationToolStripMenuItem_Click);
 			// 
 			// procInfoToolStripMenuItem
 			// 
@@ -610,19 +628,19 @@ namespace prkiller_ng
             this.runRunToolStripMenuItem,
             this.runClearHistoryToolStripMenuItem});
 			this.mnuRunMenu.Name = "mnuRunMenu";
-			this.mnuRunMenu.Size = new System.Drawing.Size(181, 70);
+			this.mnuRunMenu.Size = new System.Drawing.Size(102, 48);
 			this.mnuRunMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuRunMenu_ItemClicked);
 			// 
 			// runRunToolStripMenuItem
 			// 
 			this.runRunToolStripMenuItem.Name = "runRunToolStripMenuItem";
-			this.runRunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runRunToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
 			this.runRunToolStripMenuItem.Text = "run...";
 			// 
 			// runClearHistoryToolStripMenuItem
 			// 
 			this.runClearHistoryToolStripMenuItem.Name = "runClearHistoryToolStripMenuItem";
-			this.runClearHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runClearHistoryToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
 			this.runClearHistoryToolStripMenuItem.Text = "clear";
 			// 
 			// MainForm
@@ -711,5 +729,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.ContextMenuStrip mnuRunMenu;
 		private System.Windows.Forms.ToolStripMenuItem runRunToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem runClearHistoryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem procExePropsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem procExeLocationToolStripMenuItem;
 	}
 }

@@ -88,10 +88,10 @@ namespace prkiller_ng
 		{
 			Hide, Exit, MoveUp, MoveDown, ContextMenu,
 			Kill, KillDontHide, KillProcessTree, KillProcessTreeDontHide,
-			ProcessInfo, RunDialog,
+			ProcessInfo, ShowExeProperties, ShowExeLocation,
 			PriorityIncrease, PriorityDecrease, PriorityIdle, PriorityNormal, PriorityHigh, PriorityRealTime,
 			FindParent, Restart, RestartAsAdmin, SuspendResumeProcess, SuspendProcess, ResumeProcess,
-			RestartExplorer
+			RunDialog, RestartExplorer
 		}
 
 
@@ -234,6 +234,98 @@ namespace prkiller_ng
 			return ok;
 		}
 
+		/// <summary>
+		/// Performs an operation on a specified file.
+		/// </summary>
+		/// <param name="lpExecInfo">A pointer to a SHELLEXECUTEINFO structure that contains and receives information about the application being executed.</param>
+		/// <returns></returns>
+		[DllImport("shell32.dll", CharSet = CharSet.Auto)]
+		static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
 
+		/// <summary>
+		/// Contains information used by ShellExecuteEx.
+		/// </summary>
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public struct SHELLEXECUTEINFO
+		{
+			//https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-shellexecuteinfoa?redirectedfrom=MSDN
+			public int cbSize;
+			public uint fMask;
+			public IntPtr hwnd;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpVerb;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpFile;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpParameters;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpDirectory;
+			public int nShow;
+			public IntPtr hInstApp;
+			public IntPtr lpIDList;
+			[MarshalAs(UnmanagedType.LPTStr)]
+			public string lpClass;
+			public IntPtr hkeyClass;
+			public uint dwHotKey;
+			public IntPtr hIcon;
+			public IntPtr hProcess;
+		}
+
+		private const int SW_SHOW = 5; //Activates the window and displays it in its current size and position.
+		private const uint SEE_MASK_INVOKEIDLIST = 12; //Use the IContextMenu interface of the selected item's shortcut menu handler. Use either lpFile to identify the item by its file system path or lpIDList to identify the item by its PIDL. This flag allows applications to use ShellExecuteEx to invoke verbs from shortcut menu extensions instead of the static verbs listed in the registry.
+
+		/// <summary>
+		/// Show file properties shell dialog box
+		/// </summary>
+		/// <param name="Filename">File path</param>
+		internal static void ShowFileProperties(string Filename)
+		{
+			SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+			info.cbSize = Marshal.SizeOf(info);
+			info.lpVerb = Verbs.properties;
+			info.lpFile = Filename;
+			info.nShow = SW_SHOW;
+			info.fMask = SEE_MASK_INVOKEIDLIST;
+			ShellExecuteEx(ref info);
+		}
+
+		/// <summary>
+		/// Vverb, that specifies the action to be performed via ShellExecuteEx
+		/// </summary>
+		public struct Verbs
+		{
+			/// <summary>
+			/// Launches an editor and opens the document for editing. If lpFile is not a document file, the function will fail.
+			/// </summary>
+			public const string edit = "edit";
+			/// <summary>
+			/// Explores the folder specified by lpFile.
+			/// </summary>
+			public const string explore = "explore";
+			/// <summary>
+			/// Initiates a search starting from the specified directory.
+			/// </summary>
+			public const string find = "find";
+			/// <summary>
+			/// Opens the file specified by the lpFile parameter. The file can be an executable file, a document file, or a folder.
+			/// </summary>
+			public const string open = "open";
+			/// <summary>
+			/// Opens the file specified by the lpFile parameter. The file can be an executable file, a document file, or a folder.
+			/// </summary>
+			public const string openas = "openas";
+			/// <summary>
+			/// Launches an "Open With" dialog that lets the user select an app with which to open the file specified by the lpFile parameter.
+			/// </summary>
+			public const string print = "print";
+			/// <summary>
+			/// Displays the file or folder's properties.
+			/// </summary>
+			public const string properties = "properties";
+			/// <summary>
+			/// Launches an application as Administrator. User Account Control (UAC) will prompt the user for consent to run the application elevated or enter the credentials of an administrator account used to run the application.
+			/// </summary>
+			public const string runas = "runas";
+		}
 	}
 }
