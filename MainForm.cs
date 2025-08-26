@@ -1358,6 +1358,8 @@ true
 
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
+			HighDpiFix();
+
 			if (FirstTimeShow)
 			{
 				Hide();
@@ -1559,6 +1561,32 @@ true
 			{
 				this.Text = ex.Message;
 				PlayErrorSound();
+			}
+		}
+
+		private void MainForm_DpiChanged(object sender, DpiChangedEventArgs e)
+		{
+			HighDpiFix();
+		}
+
+		/// <summary>
+		/// Fix window size, controls sizes, controls positions for device screen's real DPI parameter.
+		/// </summary>
+		private void HighDpiFix()
+		{
+			cmdInfo.Width = cmdInfo.Height;
+			cmdRestartExplorer.Width = cmdRestartExplorer.Height;
+			cmdRun.Width = cmdRun.Height;
+			cmdConfigure.Width = cmdConfigure.Height;
+			cmdHelp.Width = cmdHelp.Height;
+
+			if (DeviceDpi != 96)
+			{
+				//default 230x430px window size and 24x24px button size are only for 96dpi 1920x1080 screens
+				double HighDpiMultipler = (double)cmdKill.Height / (double)24;
+				if (Width == 230) this.Width = (int)(Width * HighDpiMultipler);
+				if (Height == 430) this.Height = (int)(Height * HighDpiMultipler);
+				cmdKill.Width = (int)(cmdKill.Width * HighDpiMultipler);
 			}
 		}
 	}

@@ -309,7 +309,7 @@ namespace prkiller_ng
             this.procExeLocationToolStripMenuItem,
             this.procInfoToolStripMenuItem});
 			this.mnuProcessListMenu.Name = "contextMenuStrip1";
-			this.mnuProcessListMenu.Size = new System.Drawing.Size(187, 302);
+			this.mnuProcessListMenu.Size = new System.Drawing.Size(187, 280);
 			// 
 			// priRTToolStripMenuItem
 			// 
@@ -659,6 +659,7 @@ namespace prkiller_ng
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
+			this.DpiChanged += new System.Windows.Forms.DpiChangedEventHandler(this.MainForm_DpiChanged);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
