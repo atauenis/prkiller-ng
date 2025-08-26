@@ -1362,7 +1362,8 @@ true
 
 			if (FirstTimeShow)
 			{
-				Hide();
+				if (!Process.GetCurrentProcess().GetCommandLine().Contains("/show"))
+					Hide();
 				FirstTimeShow = false;
 				return;
 			}
@@ -1390,6 +1391,7 @@ true
 			ProcessInfo BaseProc = new ProcessInfo(Process.GetCurrentProcess());
 			Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(BaseProc.CommandLine) };
 			NewProc.StartInfo.Verb = "runas";
+			NewProc.StartInfo.Arguments = "/show";
 
 			try
 			{
