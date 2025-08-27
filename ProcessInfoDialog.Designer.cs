@@ -39,6 +39,8 @@ namespace prkiller_ng
 			this.txtProcCmdLine = new System.Windows.Forms.TextBox();
 			this.lblProcExtra = new System.Windows.Forms.Label();
 			this.lblProcCmd = new System.Windows.Forms.Label();
+			this.txtProcInspect = new System.Windows.Forms.TextBox();
+			this.lblProcInspect = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.txtDescription = new System.Windows.Forms.TextBox();
 			this.txtDescriptionCompany = new System.Windows.Forms.TextBox();
@@ -66,7 +68,7 @@ namespace prkiller_ng
 			this.groupBox1.Controls.Add(this.tableLayoutPanel1);
 			this.groupBox1.Location = new System.Drawing.Point(4, -2);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(461, 238);
+			this.groupBox1.Size = new System.Drawing.Size(461, 262);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
@@ -83,9 +85,11 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.Controls.Add(this.txtProcCmdLine, 1, 2);
 			this.tableLayoutPanel2.Controls.Add(this.lblProcExtra, 0, 3);
 			this.tableLayoutPanel2.Controls.Add(this.lblProcCmd, 0, 2);
+			this.tableLayoutPanel2.Controls.Add(this.txtProcInspect, 1, 4);
+			this.tableLayoutPanel2.Controls.Add(this.lblProcInspect, 0, 4);
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 137);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 4;
+			this.tableLayoutPanel2.RowCount = 5;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
@@ -95,7 +99,8 @@ namespace prkiller_ng
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(445, 94);
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(445, 116);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// txtProcImageName
@@ -181,7 +186,7 @@ namespace prkiller_ng
 			this.lblProcExtra.AutoSize = true;
 			this.lblProcExtra.Location = new System.Drawing.Point(3, 69);
 			this.lblProcExtra.Name = "lblProcExtra";
-			this.lblProcExtra.Size = new System.Drawing.Size(38, 25);
+			this.lblProcExtra.Size = new System.Drawing.Size(38, 23);
 			this.lblProcExtra.TabIndex = 2;
 			this.lblProcExtra.Text = "label1";
 			this.lblProcExtra.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -197,6 +202,31 @@ namespace prkiller_ng
 			this.lblProcCmd.TabIndex = 2;
 			this.lblProcCmd.Text = "label1";
 			this.lblProcCmd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// txtProcInspect
+			// 
+			this.txtProcInspect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProcInspect.Location = new System.Drawing.Point(44, 92);
+			this.txtProcInspect.Margin = new System.Windows.Forms.Padding(0);
+			this.txtProcInspect.Name = "txtProcInspect";
+			this.txtProcInspect.ReadOnly = true;
+			this.txtProcInspect.Size = new System.Drawing.Size(401, 23);
+			this.txtProcInspect.TabIndex = 7;
+			this.txtProcInspect.WordWrap = false;
+			// 
+			// lblProcInspect
+			// 
+			this.lblProcInspect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblProcInspect.AutoSize = true;
+			this.lblProcInspect.Location = new System.Drawing.Point(3, 92);
+			this.lblProcInspect.Name = "lblProcInspect";
+			this.lblProcInspect.Size = new System.Drawing.Size(38, 24);
+			this.lblProcInspect.TabIndex = 2;
+			this.lblProcInspect.Text = "label1";
+			this.lblProcInspect.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -368,7 +398,7 @@ namespace prkiller_ng
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(468, 239);
+			this.ClientSize = new System.Drawing.Size(468, 263);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.KeyPreview = true;
@@ -414,5 +444,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		internal System.Windows.Forms.TextBox txtDescriptionSignature;
 		private System.Windows.Forms.Label lblFileSignature;
+		internal System.Windows.Forms.TextBox txtProcInspect;
+		private System.Windows.Forms.Label lblProcInspect;
 	}
 }

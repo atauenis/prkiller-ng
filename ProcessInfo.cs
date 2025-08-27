@@ -10,7 +10,7 @@ namespace prkiller_ng
 	/// <summary>
 	/// Information about running tasks (processes).
 	/// </summary>
-	class ProcessInfo
+	public class ProcessInfo
 	{
 		private string WinApiProcName = "";
 
@@ -210,6 +210,26 @@ namespace prkiller_ng
 			{
 				wnd.txtDescriptionSignature.Text = e.Message;
 			}
+
+			if (this.Accessible)
+			{
+				string InspectorName = "";
+
+				foreach (ProcessInspector inspector in Killer.ProcessInspectors)
+				{
+					if (inspector.Applicable(Proc.ProcessName))
+					{
+						InspectorName = inspector.GetType().Name + ": ";
+						try
+						{ wnd.txtProcInspect.Text += inspector.Inspect(this); }
+						catch (Exception e)
+						{ wnd.txtProcInspect.Text += InspectorName + e.Message; }
+					}
+				}
+
+				if (InspectorName == "") wnd.txtProcInspect.Text = Killer.Language.ReadString("NoInspector", "Language");
+			}
+			else { wnd.txtProcInspect.Text = Killer.Language.ReadString("InaccessibleProcess", "Language"); }
 
 			Application.UseWaitCursor = false;
 

@@ -23,6 +23,7 @@ namespace prkiller_ng
 			lblProcImage.Text = Killer.Language.ReadString("lblProcImage", "Language");
 			lblProcDir.Text = Killer.Language.ReadString("lblProcDir", "Language");
 			lblProcCmd.Text = Killer.Language.ReadString("lblProcCmd", "Language");
+			lblProcInspect.Text = Killer.Language.ReadString("lblProcInspect", "Language");
 
 			TopMost = Killer.Config.ReadBool(true, "AlwaysOnTop");
 		}

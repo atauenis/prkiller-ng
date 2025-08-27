@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace prkiller_ng
 {
@@ -15,6 +16,8 @@ namespace prkiller_ng
 		//internal static Dictionary<int, ProcessInfo> ProcessCache = new();
 		internal static Dictionary<int, TimeSpan> LastCpuTime = new();
 
+		internal static List<ProcessInspector> ProcessInspectors = new();
+
 		static Killer()
 		{
 			try
@@ -23,6 +26,8 @@ namespace prkiller_ng
 				Language = new();
 			}
 			catch { }
+
+			ProcessInspectors.Add(new SvchostProcessInspector());
 		}
 
 		/// <summary>
@@ -326,6 +331,25 @@ namespace prkiller_ng
 			/// Launches an application as Administrator. User Account Control (UAC) will prompt the user for consent to run the application elevated or enter the credentials of an administrator account used to run the application.
 			/// </summary>
 			public const string runas = "runas";
+		}
+
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+		private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		private static extern int LoadString(IntPtr hInstance, int ID, StringBuilder lpBuffer, int nBufferMax);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool FreeLibrary(IntPtr hModule);
+
+		internal static string ExtractStringFromDLL(string file, int number)
+		{
+			IntPtr lib = LoadLibrary(file);
+			StringBuilder result = new StringBuilder(2048);
+			LoadString(lib, number, result, result.Capacity);
+			FreeLibrary(lib);
+			return result.ToString();
 		}
 	}
 }
