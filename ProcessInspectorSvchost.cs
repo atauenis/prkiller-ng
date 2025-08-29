@@ -21,10 +21,15 @@ namespace prkiller_ng
 		/// </summary>
 		public override string Inspect(ProcessInfo PI)
 		{
-			var CmdLineRegex = Regex.Match(PI.CommandLine, "-k (.*)");
-			string ServiceName = CmdLineRegex.Groups[1].Value;
+			string ServiceName;
+			Match CmdLineRegex1 = Regex.Match(PI.CommandLine, @"-k (\w*)"); //Windows NT-style
+			Match CmdLineRegex2 = Regex.Match(PI.CommandLine, @"-s (\w*)"); //Windows 10-style
 
-			RegistryKey ServicesKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\services\");
+			if (CmdLineRegex2.Success) ServiceName = CmdLineRegex2.Groups[1].Value;
+			else if (CmdLineRegex1.Success) ServiceName = CmdLineRegex1.Groups[1].Value;
+			else throw new Exception("Cannot detect service name.");
+
+			RegistryKey ServicesKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services");
 			RegistryKey ServiceKey = ServicesKey.OpenSubKey(ServiceName);
 			if (ServiceKey == null)
 			{
@@ -41,11 +46,11 @@ namespace prkiller_ng
 			if (svc.IsGroup)
 			{
 				if (svc.IsGroupWithDefaultService)
-					return string.Format("Service: \"{0}\", \"{1}\". Also: {2}", svc.DisplayName, svc.GroupServiceDll, GetServiceGroupInfo(ServiceName));
+					return string.Format("Service: {0}, \"{1}\". Also: {2}", svc.DisplayName, svc.ServiceDll, GetServiceGroupInfo(ServiceName));
 				else
-					return string.Format("Service: \"{0}\", \"{1}\". Also: {2}", svc.DisplayName, svc.ImagePath, GetServiceGroupInfo(ServiceName));
+					return string.Format("Service: {0}, \"{1}\". Also: {2}", svc.DisplayName, svc.ImagePath, GetServiceGroupInfo(ServiceName));
 			}
-			return string.Format("Service: \"{0}\", \"{1}\".", svc.DisplayName, svc.ImagePath);
+			return string.Format("Service: {0}, \"{1}\", \"{2}\".", svc.DisplayName, svc.ServiceDll, svc.ImagePath);
 		}
 
 		private string GetServiceGroupInfo(string GroupName)
@@ -56,20 +61,20 @@ namespace prkiller_ng
 			if (GroupContent is not string[]) throw new Exception("Error in " + @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost\" + GroupName);
 
 			string ret = "Service group: ";
+			bool firstSvc = true;
 			foreach (string Service in GroupContent as string[])
 			{
 				if (Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\services\").OpenSubKey(Service) != null)
 				{
+					if (!firstSvc) ret += ", ";
+					firstSvc = false;
 					ServiceInfo svc = GetServiceInfo(Service);
 					string filepath = Path.GetFullPath(svc.ImagePath);
 					string filename = Path.GetFileName(filepath);
-					if (svc.IsGroup) ret += svc.DisplayName + ", ";
-					else ret += svc.DisplayName + "/" + svc.ImagePath + ", ";
+					ret += svc.DisplayName;
 				}
 				//else ret += "[Removed: " + Service + "], ";
-			}
-			ret.TrimEnd(' ');
-			ret.TrimEnd(',');
+			};
 			return ret;
 		}
 
@@ -102,14 +107,6 @@ namespace prkiller_ng
 			/// Is the service a service group with an own EXE or DLL too
 			/// </summary>
 			public bool IsGroupWithDefaultService;
-			/// <summary>
-			/// Default EXE of the service group
-			/// </summary>
-			public string GroupImagePath;
-			/// <summary>
-			/// Default DLL of the service group
-			/// </summary>
-			public string GroupServiceDll;
 		}
 
 		private ServiceInfo GetServiceInfo(string ServiceName)
@@ -122,6 +119,12 @@ namespace prkiller_ng
 			svc.ImagePath = ServiceKey.GetValue("ImagePath", "").ToString();
 			svc.ServiceDll = ServiceKey.GetValue("ServiceDll", "").ToString();
 
+			RegistryKey ServiceParamsKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\services\" + ServiceName + @"\Parameters");
+			if (ServiceParamsKey != null)
+			{
+				svc.ServiceDll = ServiceParamsKey.GetValue("ServiceDll", "").ToString();
+			}
+
 			Match DllResourceMask = Regex.Match(svc.DisplayName, @"@(.*),-([0-9]*)");
 			if (DllResourceMask.Success)
 			{
@@ -133,28 +136,11 @@ namespace prkiller_ng
 			if (svc.ImagePath.ToLowerInvariant().Contains(@"\system32\svchost.exe -k")) svc.IsGroup = true;
 			if (svc.IsGroup)
 			{
-				try
-				{
-					//sometimes may cause "access denied" exception
-					RegistryKey ServiceParamsKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\services\" + ServiceName + @"\Parameters");
-					if (ServiceParamsKey != null)
-					{
-						string ServiceDll = ServiceParamsKey.GetValue("ServiceDll", "").ToString();
-						if (ServiceDll != "")
-						{
-							svc.IsGroupWithDefaultService = true;
-							svc.GroupServiceDll = ServiceDll;
-						}
-						string ImagePath = ServiceParamsKey.GetValue("ImagePath", "").ToString();
-						if (ImagePath != "")
-						{
-							svc.IsGroupWithDefaultService = true;
-							svc.GroupImagePath = ImagePath;
-						}
-					}
-				}
-				catch { }
+				//fix for Win10+ pseudo groups like "svchost.exe -k netsvcs"
+				RegistryKey SvchostGroupsKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost");
+				if (SvchostGroupsKey.GetValue(ServiceName) == null) svc.IsGroup = false;
 			}
+			if (svc.IsGroup && svc.ServiceDll != null) svc.IsGroupWithDefaultService = true;
 
 			if (svc.DisplayName == "")
 				svc.DisplayName = svc.ServiceName;
