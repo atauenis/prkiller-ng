@@ -43,14 +43,16 @@ namespace prkiller_ng
 
 			//a regular service
 			ServiceInfo svc = GetServiceInfo(ServiceName);
+			string NormalServiceDescription = Killer.Language.ReadString("SvchostInspectorNormalServiceDescription", "Language"); ;
+			string NormalServiceWithGroupDescription = Killer.Language.ReadString("SvchostInspectorNormalServiceWithGroupDescription", "Language"); ;
 			if (svc.IsGroup)
 			{
 				if (svc.IsGroupWithDefaultService)
-					return string.Format("Service: {0}, \"{1}\". Also: {2}", svc.DisplayName, svc.ServiceDll, GetServiceGroupInfo(ServiceName));
+					return string.Format(NormalServiceWithGroupDescription, svc.DisplayName, svc.ServiceDll, GetServiceGroupInfo(ServiceName));
 				else
-					return string.Format("Service: {0}, \"{1}\". Also: {2}", svc.DisplayName, svc.ImagePath, GetServiceGroupInfo(ServiceName));
+					return string.Format(NormalServiceWithGroupDescription, svc.DisplayName, svc.ImagePath, GetServiceGroupInfo(ServiceName));
 			}
-			return string.Format("Service: {0}, \"{1}\", \"{2}\".", svc.DisplayName, svc.ServiceDll, svc.ImagePath);
+			return string.Format(NormalServiceDescription, svc.DisplayName, svc.ServiceDll, svc.ImagePath);
 		}
 
 		private string GetServiceGroupInfo(string GroupName)
@@ -60,7 +62,7 @@ namespace prkiller_ng
 			if (GroupContent is null) throw new Exception(@"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost\" + GroupName + " is unregistered");
 			if (GroupContent is not string[]) throw new Exception("Error in " + @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost\" + GroupName);
 
-			string ret = "Service group: ";
+			string ret = "";
 			bool firstSvc = true;
 			foreach (string Service in GroupContent as string[])
 			{
@@ -75,7 +77,7 @@ namespace prkiller_ng
 				}
 				//else ret += "[Removed: " + Service + "], ";
 			};
-			return ret;
+			return string.Format(Killer.Language.ReadString("SvchostInspectorServiceGroupDescription", "Language"), ret);
 		}
 
 		/// <summary>
