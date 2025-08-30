@@ -110,6 +110,29 @@ public static class ProcessExtension
 		}
 	}
 
+	/// <summary>
+	/// Gets ID of the parent process of a specified process.
+	/// </summary>
+	/// <param name="process">The specified process.</param>
+	/// <returns>Process indentificator of the process that started the specified <paramref name="process"/>.</returns>
+	public static int GetParentProcessId(this Process process)
+	{
+		ProcessBasicInformation pbi = new();
+		int returnLength;
+		int status = NtQueryInformationProcess(process.Handle, 0, ref pbi, Marshal.SizeOf(pbi), out returnLength);
+		if (status != 0)
+			throw new Exception("NT Status " + status);
+		try
+		{
+			return pbi.InheritedFromUniqueProcessId.ToInt32();
+		}
+		catch (ArgumentException)
+		{
+			// not found
+			return 0;
+		}
+	}
+
 	public static string GetProcessImageFileName(this Process process)
 	{
 		// WinAPI call is faster than process.MainModule.ModuleName

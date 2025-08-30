@@ -135,10 +135,12 @@ namespace prkiller_ng
 			ProcessInfoDialog wnd = new(this);
 			wnd.Show();
 
+			// Main window title
 			try { wnd.Text = Proc.MainWindowTitle; }
 			catch { wnd.Text = Proc.ProcessName; }
 			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + " " + Killer.Language.ReadString("NoWindows", "Language");
 
+			// File description
 			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.ProductName; }
 			catch { wnd.txtDescription.Text = "?"; }
 
@@ -153,31 +155,16 @@ namespace prkiller_ng
 
 			try
 			{
-				wnd.txtProcessExtraInfo.Text = "ID=" + Proc.Id;
-				if (Proc.IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
-				var test32on64 = Proc.MainModule.FileName;
+				X509Certificate cert = X509Certificate.CreateFromSignedFile(Proc.MainModule.FileName);
+				X500DistinguishedName certname = new(cert.Subject);
+				wnd.txtDescriptionSignature.Text = certname.Format(false);
 			}
-			catch (System.ComponentModel.Win32Exception)
+			catch (Exception e)
 			{
-				if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-					wnd.txtProcessExtraInfo.Text += ", 64-bit";
+				wnd.txtDescriptionSignature.Text = e.Message;
 			}
-			catch { }
 
-			try
-			{
-				wnd.txtProcessExtraInfo.Text += "\t PARENT ID=" + Proc.GetParentProcess().Id;
-				if (Proc.GetParentProcess().IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
-				//var test32on64 = Proc.GetParentProcess().MainModule.FileName;
-			}
-			catch { }
-
-			try
-			{
-				wnd.txtProcessExtraInfo.Text += "\t USER=" + Proc.GetProcessUser().Name;
-			}
-			catch { }
-
+			// Process description
 			try { wnd.txtProcImageName.Text = Proc.MainModule.FileName; }
 			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\t(PROCESS)"; }
 
@@ -188,33 +175,52 @@ namespace prkiller_ng
 			{ wnd.txtProcCmdLine.Text = Proc.GetCommandLine(); }
 			catch { wnd.txtProcCmdLine.Text = "?"; }
 
-			try { wnd.pbxIcon.Image = ExtractIconFromFile(Proc.MainModule.FileName, true).ToBitmap(); }
-			catch (NullReferenceException)
-			{
-				// EXE without icon
-			}
-			catch (System.ComponentModel.Win32Exception)
-			{
-				// not accessible icon
-			}
-			catch
-			{ }
+			// Process ID and inspection
+			string ProcUserName = "???";
+			string ProcBitnessSuffix = "";
+			string ProcParent = "???";
 
 			try
 			{
-				X509Certificate cert = X509Certificate.CreateFromSignedFile(Proc.MainModule.FileName);
-				X500DistinguishedName certname = new(cert.Subject);
-				wnd.txtDescriptionSignature.Text = certname.Format(false);
+				if (Proc.IsUnderWow64()) ProcBitnessSuffix = ", 32-bit";
+				var test32on64 = Proc.MainModule.FileName;
 			}
-			catch (Exception e)
+			catch (System.ComponentModel.Win32Exception)
 			{
-				wnd.txtDescriptionSignature.Text = e.Message;
+				if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+					ProcBitnessSuffix = ", 64-bit";
+			}
+			catch { }
+
+			try
+			{
+				ProcUserName = Proc.GetProcessUser().Name;
+			}
+			catch { }
+
+			int ParentProcessId = 0;
+			try
+			{
+				ParentProcessId = Proc.GetParentProcessId();
+				Process ParentProcess = Process.GetProcessById(ParentProcessId);
+				ProcParent = ParentProcess.ProcessName;
+			}
+			catch
+			{
+				if (ParentProcessId != 0)
+					ProcParent = ParentProcessId.ToString();
+				else
+					ProcParent = "???";
 			}
 
+			if (ProcUserName == "???" && ProcParent == "???")
+				wnd.txtProcessExtraInfo.Text = string.Format(Killer.Language.ReadString("ProcessExtraInfoShort", "Language"), Proc.Id, ProcBitnessSuffix, ProcUserName, ProcParent);
+			else
+				wnd.txtProcessExtraInfo.Text = string.Format(Killer.Language.ReadString("ProcessExtraInfoLong", "Language"), Proc.Id, ProcBitnessSuffix, ProcUserName, ProcParent);
+
+			string InspectorName = "";
 			if (this.Accessible)
 			{
-				string InspectorName = "";
-
 				foreach (ProcessInspector inspector in Killer.ProcessInspectors)
 				{
 					if (inspector.Applicable(Proc.ProcessName))
@@ -230,6 +236,19 @@ namespace prkiller_ng
 				if (InspectorName == "") wnd.txtProcInspect.Text = Killer.Language.ReadString("NoInspector", "Language");
 			}
 			else { wnd.txtProcInspect.Text = Killer.Language.ReadString("InaccessibleProcess", "Language"); }
+
+			// File icon
+			try { wnd.pbxIcon.Image = ExtractIconFromFile(Proc.MainModule.FileName, true).ToBitmap(); }
+			catch (NullReferenceException)
+			{
+				// EXE without icon
+			}
+			catch (System.ComponentModel.Win32Exception)
+			{
+				// not accessible icon
+			}
+			catch
+			{ }
 
 			Application.UseWaitCursor = false;
 
