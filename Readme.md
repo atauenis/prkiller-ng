@@ -50,6 +50,8 @@ In the Settings window you can configure the program for yourself.
 * The "Restart Shell" button is always killing the shell process, and there is no option to disable this (it were actual only on Windows 9x).
 * Unlimited history in Run dialog box. `Ctrl`+`[OK]` in Run dialog is starting an application without save to history.
 * Toolbar buttons have context menus. **_New in version 2.1._**
+* Can display information about Windows service processes (`svchost.exe`). **_New in version 2.1._**
+* Can display more properties of processes and their executable files. **_New in version 2.1._**
 * Multilanguage support, new configuration file syntax, a bit different dialog boxes.
 * Total threads count does not displaying in title bar.
 * Currently does not removing "dead" icons from taskbar notification area after killing a process with such icons. Just point over them mouse, and they will disappear.
