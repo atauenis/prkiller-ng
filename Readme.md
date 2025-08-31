@@ -10,12 +10,12 @@ The New Generation version supports Windows 7/8.1/10/11 and all server counterpa
 
 Report about found bugs at [GitHub](https://github.com/atauenis/prkiller-ng). Also you can find here source code of the application, including latest pre-release versions.
 
-![](https://github.com/user-attachments/assets/5eaf0dc3-0ab0-47f0-9c95-d4797b2317d9)
+![](https://github.com/user-attachments/assets/cd4100c3-a33d-45da-afee-876aa48e2dc2)
 
 
 ## Usage
 
-Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal.
+Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal, use the keys.
 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
