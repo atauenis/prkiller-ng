@@ -141,7 +141,7 @@ namespace prkiller_ng
 			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + " " + Killer.Language.ReadString("NoWindows", "Language");
 
 			// File description
-			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.ProductName; }
+			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.FileDescription; }
 			catch { wnd.txtDescription.Text = "?"; }
 
 			try { wnd.txtDescriptionCompany.Text = Proc.MainModule.FileVersionInfo.CompanyName; }
