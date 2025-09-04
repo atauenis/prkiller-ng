@@ -157,7 +157,18 @@ namespace prkiller_ng
 			{
 				X509Certificate cert = X509Certificate.CreateFromSignedFile(Proc.MainModule.FileName);
 				X500DistinguishedName certname = new(cert.Subject);
-				wnd.txtDescriptionSignature.Text = certname.Format(false);
+				string[] certparts = certname.Format(true).Split("\r\n");
+				string certcn = certname.Format(false);
+				foreach (string part in certparts)
+				{ if (part.StartsWith("CN=")) certcn = part.Substring(3); }
+				wnd.txtDescriptionSignature.Text = certcn;
+
+				X500DistinguishedName certissname = new(cert.Issuer);
+				string[] certissparts = certissname.Format(true).Split("\r\n");
+				string certisscn = certissname.Format(false);
+				foreach (string part in certissparts)
+				{ if (part.StartsWith("CN=")) certisscn = part.Substring(3); }
+				wnd.txtDescriptionSignature.Text += ", " + certisscn;
 			}
 			catch (Exception e)
 			{
