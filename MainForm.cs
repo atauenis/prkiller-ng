@@ -67,6 +67,7 @@ namespace prkiller_ng
 		int CpuLoad = 0;
 		List<int> CpuLoadHistory = new();
 		Killer.CpuGraphStyle CpuGraphStyle = Killer.CpuGraphStyle.Disable;
+		int CpuLoadGraphWidth = 0;
 
 		internal int TimerInterval { get { return Timer.Interval; } }
 
@@ -407,6 +408,14 @@ true
 				{
 					lblRamPhys2.Text = RamPhysAvail.ToString();
 					toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Free", "Language"));
+				}
+
+				if (CpuGraphStyle == Killer.CpuGraphStyle.Graph)
+				{
+					TimeSpan TotalTimeSpan = new(0, 0, 0, 0, CpuLoadGraphWidth * Timer.Interval);
+					//string CpuTT = string.Format("CPU Load. Update interval: {0} sec. Total {1:mm}:{1:ss}.", (double)Timer.Interval / 1000, TotalTimeSpan);
+					string CpuTT = string.Format(Killer.Language.ReadString("CpuGraph", "Language"), (double)Timer.Interval / 1000, TotalTimeSpan);
+					toolTips.SetToolTip(lblCPU, CpuTT);
 				}
 			}
 
@@ -1262,6 +1271,7 @@ true
 			Graphics graph = e.Graphics;
 			float percentH = (float)rect.Height / 100;
 			float percentW = (float)rect.Width / 100;
+			CpuLoadGraphWidth = rect.Width;
 
 			switch (CpuGraphStyle)
 			{
