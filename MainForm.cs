@@ -238,6 +238,7 @@ true
 				toolTips.SetToolTip(lblPID, Killer.Language.ReadString("lblPID", "Language"));
 				toolTips.SetToolTip(lblThreads, Killer.Language.ReadString("lblThreads", "Language"));
 				toolTips.SetToolTip(lblPriority, Killer.Language.ReadString("lblPriority", "Language"));
+				toolTips.SetToolTip(ProcessList, Killer.Language.ReadString("ProcessListTT" + doubleClickAction, "Language"));
 
 				priRTToolStripMenuItem.Text = Killer.Language.Read("priRTToolStripMenuItem", "Language");
 				priHighToolStripMenuItem.Text = Killer.Language.Read("priHighToolStripMenuItem", "Language");
