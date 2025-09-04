@@ -32,7 +32,7 @@ namespace prkiller_ng
 			}
 
 			lblVersion.Text += Application.ProductVersion;
-			lblLanguage.Text = Killer.Language.ReadString("Language", "Language");
+			lblOpenSource.Text = Killer.Language.ReadString("AboutOpenSourceLicense", "Language");
 			cmdOk.Text = Killer.Language.ReadString("cmdOK", "Language");
 			this.Text = Killer.Language.ReadString("AboutTitle", "Language");
 
