@@ -60,6 +60,7 @@ namespace prkiller_ng
 		PerformanceCounter cpuCounter;
 		internal bool RamVirtShowUsed = false;
 		internal bool RamPhysShowUsed = false;
+		internal bool ProcIdHex = false;
 		bool CtrlPressed = false;
 		bool ShiftPressed = false;
 		bool AltPressed = false;
@@ -440,7 +441,14 @@ true
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null)
 			{
-				lblPID.Text = "PID: \t" + selected.ProcessId.ToString();
+				if (ProcIdHex)
+				{
+					lblPID.Text = string.Format("PID: \t0x{0:X}", selected.ProcessId);
+				}
+				else
+				{
+					lblPID.Text = "PID: \t" + selected.ProcessId.ToString();
+				}
 
 				try { lblThreads.Text = "thr: " + selected.Proc.Threads.Count; }
 				catch { lblThreads.Text = "thr: ???"; }
@@ -1601,6 +1609,12 @@ true
 				if (Height == 430) this.Height = (int)(Height * HighDpiMultipler);
 				cmdKill.Width = (int)(cmdKill.Width * HighDpiMultipler);
 			}
+		}
+
+		private void lblPID_Click(object sender, EventArgs e)
+		{
+			ProcIdHex = !ProcIdHex;
+			ProcessList_SelectedIndexChanged(sender, e);
 		}
 	}
 }

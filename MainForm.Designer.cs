@@ -149,6 +149,7 @@ namespace prkiller_ng
 			this.lblPID.Size = new System.Drawing.Size(63, 17);
 			this.lblPID.TabIndex = 0;
 			this.lblPID.Text = "PID: 12345";
+			this.lblPID.Click += new System.EventHandler(this.lblPID_Click);
 			// 
 			// lblThreads
 			// 
