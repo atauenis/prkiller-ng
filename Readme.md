@@ -55,7 +55,6 @@ In the Settings window you can configure the program for yourself.
 * Multilanguage support, new configuration file syntax, a bit different dialog boxes.
 * Total threads count does not displaying in title bar.
 * Currently does not removing "dead" icons from taskbar notification area after killing a process with such icons. Just point over them mouse, and they will disappear.
-* Currently can't display data in hexadecimal mode.
 * Currently have no installer.
 * Probably some other changes, as the NG version is written from scratch by other human.
 
