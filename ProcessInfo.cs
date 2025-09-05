@@ -163,12 +163,7 @@ namespace prkiller_ng
 				{ if (part.StartsWith("CN=")) certcn = part.Substring(3); }
 				wnd.txtDescriptionSignature.Text = certcn;
 
-				X500DistinguishedName certissname = new(cert.Issuer);
-				string[] certissparts = certissname.Format(true).Split("\r\n");
-				string certisscn = certissname.Format(false);
-				foreach (string part in certissparts)
-				{ if (part.StartsWith("CN=")) certisscn = part.Substring(3); }
-				wnd.txtDescriptionSignature.Text += ", " + certisscn;
+				if (cert.Subject == cert.Issuer) wnd.txtDescriptionSignature.Text += " " + Killer.Language.ReadString("SelfSignedEXE", "Language");
 			}
 			catch (Exception e)
 			{
