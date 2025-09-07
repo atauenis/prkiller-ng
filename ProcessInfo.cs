@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace prkiller_ng
@@ -9,7 +10,7 @@ namespace prkiller_ng
 	/// <summary>
 	/// Information about running tasks (processes).
 	/// </summary>
-	class ProcessInfo
+	public class ProcessInfo
 	{
 		private string WinApiProcName = "";
 
@@ -65,6 +66,33 @@ namespace prkiller_ng
 		}
 
 		/// <summary>
+		/// Does the current Process Killer NG instance have enough access rights to this process.
+		/// </summary>
+		public bool Accessible { get; private set; }
+
+		/// <summary>
+		/// Total usage of CPU by the process in percents. 100% means full load of all cores and HyperThreading threads.
+		/// </summary>
+		public double ProcessorLoad { get; set; }
+
+		/// <summary>
+		/// Calculate CPU usage by process. This function should be called only in strict interval of <paramref name="TimerInterval"/> milliseconds.
+		/// </summary>
+		/// <param name="TimerInterval">Interval of this function callings.</param>
+		public void CalculateCpuLoad(int TimerInterval)
+		{
+			TimeSpan OldProcessorTime = Proc.TotalProcessorTime;
+			if (Killer.LastCpuTime.ContainsKey(ProcessId))
+				OldProcessorTime = Killer.LastCpuTime[ProcessId];
+			TimeSpan NewProcessorTime = Proc.TotalProcessorTime;
+			Killer.LastCpuTime[ProcessId] = NewProcessorTime;
+
+			double IterationProcessorTimeMilliseconds = NewProcessorTime.TotalMilliseconds - OldProcessorTime.TotalMilliseconds;
+
+			ProcessorLoad = ((IterationProcessorTimeMilliseconds / TimerInterval) * 100) / Environment.ProcessorCount;
+		}
+
+		/// <summary>
 		/// Construct this class.
 		/// </summary>
 		/// <param name="proc">Target process.</param>
@@ -72,6 +100,17 @@ namespace prkiller_ng
 		{
 			Proc = proc;
 			ProcessId = Proc.Id;
+
+			try
+			{
+				Accessible = true;
+				WinApiProcName = Proc.GetProcessImageFileName();
+				if (!string.IsNullOrWhiteSpace(WinApiProcName))
+					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
+				else
+					Accessible = false;
+			}
+			catch { }
 		}
 
 		/// <summary>
@@ -80,16 +119,9 @@ namespace prkiller_ng
 		public override string ToString()
 		{
 			string str = "";
-			try
-			{
-				WinApiProcName = Proc.GetProcessImageFileName();
-				if (!string.IsNullOrWhiteSpace(WinApiProcName))
-					WinApiProcName = WinApiProcName.Substring(WinApiProcName.LastIndexOf("\\") + 1);
-			}
-			catch { }
-
 			if (!Suspended && !Proc.Responding) str += "<!> ";
 			if (Suspended) str += "<s> ";
+			if (Accessible && ProcessorLoad > 50) str += "<*> ";
 			str += ProcessName;
 			return str;
 		}
@@ -103,11 +135,13 @@ namespace prkiller_ng
 			ProcessInfoDialog wnd = new(this);
 			wnd.Show();
 
+			// Main window title
 			try { wnd.Text = Proc.MainWindowTitle; }
 			catch { wnd.Text = Proc.ProcessName; }
 			if (string.IsNullOrWhiteSpace(wnd.Text)) wnd.Text = Proc.ProcessName + " " + Killer.Language.ReadString("NoWindows", "Language");
 
-			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.ProductName; }
+			// File description
+			try { wnd.txtDescription.Text = Proc.MainModule.FileVersionInfo.FileDescription; }
 			catch { wnd.txtDescription.Text = "?"; }
 
 			try { wnd.txtDescriptionCompany.Text = Proc.MainModule.FileVersionInfo.CompanyName; }
@@ -121,31 +155,22 @@ namespace prkiller_ng
 
 			try
 			{
-				wnd.txtProcessExtraInfo.Text = "ID=" + Proc.Id;
-				if (Proc.IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
-				var test32on64 = Proc.MainModule.FileName;
-			}
-			catch (System.ComponentModel.Win32Exception)
-			{
-				if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-					wnd.txtProcessExtraInfo.Text += ", 64-bit";
-			}
-			catch { }
+				X509Certificate cert = X509Certificate.CreateFromSignedFile(Proc.MainModule.FileName);
+				X500DistinguishedName certname = new(cert.Subject);
+				string[] certparts = certname.Format(true).Split("\r\n");
+				string certcn = certname.Format(false);
+				foreach (string part in certparts)
+				{ if (part.StartsWith("CN=")) certcn = part.Substring(3); }
+				wnd.txtDescriptionSignature.Text = certcn;
 
-			try
-			{
-				wnd.txtProcessExtraInfo.Text += "\t PARENT ID=" + Proc.GetParentProcess().Id;
-				if (Proc.GetParentProcess().IsUnderWow64()) wnd.txtProcessExtraInfo.Text += ", 32-bit";
-				//var test32on64 = Proc.GetParentProcess().MainModule.FileName;
+				if (cert.Subject == cert.Issuer) wnd.txtDescriptionSignature.Text += " " + Killer.Language.ReadString("SelfSignedEXE", "Language");
 			}
-			catch { }
-
-			try
+			catch (Exception e)
 			{
-				wnd.txtProcessExtraInfo.Text += "\t USER=" + Proc.GetProcessUser().Name;
+				wnd.txtDescriptionSignature.Text = e.Message;
 			}
-			catch { }
 
+			// Process description
 			try { wnd.txtProcImageName.Text = Proc.MainModule.FileName; }
 			catch { wnd.txtProcImageName.Text = Proc.ProcessName + "\t(PROCESS)"; }
 
@@ -156,6 +181,69 @@ namespace prkiller_ng
 			{ wnd.txtProcCmdLine.Text = Proc.GetCommandLine(); }
 			catch { wnd.txtProcCmdLine.Text = "?"; }
 
+			// Process ID and inspection
+			string ProcUserName = "???";
+			string ProcBitnessSuffix = "";
+			string ProcParent = "???";
+
+			try
+			{
+				if (Proc.IsUnderWow64()) ProcBitnessSuffix = ", 32-bit";
+				var test32on64 = Proc.MainModule.FileName;
+			}
+			catch (System.ComponentModel.Win32Exception)
+			{
+				if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+					ProcBitnessSuffix = ", 64-bit";
+			}
+			catch { }
+
+			try
+			{
+				ProcUserName = Proc.GetProcessUser().Name;
+			}
+			catch { }
+
+			int ParentProcessId = 0;
+			try
+			{
+				ParentProcessId = Proc.GetParentProcessId();
+				Process ParentProcess = Process.GetProcessById(ParentProcessId);
+				ProcParent = ParentProcess.ProcessName;
+			}
+			catch
+			{
+				if (ParentProcessId != 0)
+					ProcParent = ParentProcessId.ToString();
+				else
+					ProcParent = "???";
+			}
+
+			if (ProcUserName == "???" && ProcParent == "???")
+				wnd.txtProcessExtraInfo.Text = string.Format(Killer.Language.ReadString("ProcessExtraInfoShort", "Language"), Proc.Id, ProcBitnessSuffix, ProcUserName, ProcParent);
+			else
+				wnd.txtProcessExtraInfo.Text = string.Format(Killer.Language.ReadString("ProcessExtraInfoLong", "Language"), Proc.Id, ProcBitnessSuffix, ProcUserName, ProcParent);
+
+			string InspectorName = "";
+			if (this.Accessible)
+			{
+				foreach (ProcessInspector inspector in Killer.ProcessInspectors)
+				{
+					if (inspector.Applicable(Proc.ProcessName))
+					{
+						InspectorName = inspector.GetType().Name + ": ";
+						try
+						{ wnd.txtProcInspect.Text += inspector.Inspect(this); }
+						catch (Exception e)
+						{ wnd.txtProcInspect.Text += InspectorName + e.Message; }
+					}
+				}
+
+				if (InspectorName == "") wnd.txtProcInspect.Text = Killer.Language.ReadString("NoInspector", "Language");
+			}
+			else { wnd.txtProcInspect.Text = Killer.Language.ReadString("InaccessibleProcess", "Language"); }
+
+			// File icon
 			try { wnd.pbxIcon.Image = ExtractIconFromFile(Proc.MainModule.FileName, true).ToBitmap(); }
 			catch (NullReferenceException)
 			{

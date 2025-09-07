@@ -60,6 +60,7 @@ namespace prkiller_ng
 		PerformanceCounter cpuCounter;
 		internal bool RamVirtShowUsed = false;
 		internal bool RamPhysShowUsed = false;
+		internal bool ProcIdHex = false;
 		bool CtrlPressed = false;
 		bool ShiftPressed = false;
 		bool AltPressed = false;
@@ -67,12 +68,14 @@ namespace prkiller_ng
 		int CpuLoad = 0;
 		List<int> CpuLoadHistory = new();
 		Killer.CpuGraphStyle CpuGraphStyle = Killer.CpuGraphStyle.Disable;
+		int CpuLoadGraphWidth = 0;
 
 		internal int TimerInterval { get { return Timer.Interval; } }
 
 		bool FirstTimeShow = true;
 
 		string CurrentUserName = @"localhost\root";
+		bool IsAdmin = false;
 
 		public MainForm()
 		{
@@ -180,6 +183,10 @@ true
 				if (Killer.Config.KeyExists("RestartShell"))
 					restartShellAction = Killer.Config.ReadEnum<Killer.KillPolicy>("RestartShell");
 
+				shellRestartToolStripMenuItem.Enabled = (restartShellAction != Killer.KillPolicy.Disable);
+
+				PopulateRunMenu();
+
 				ShowToolTips = Killer.Config.ReadBool(true, "ShowToolTips");
 				toolTips.Active = ShowToolTips;
 				toolTips.UseAnimation = true;
@@ -196,6 +203,22 @@ true
 
 				if (Killer.Config.KeyExists("ErrorSound"))
 					Sound = Killer.Config.ReadEnum<Killer.ErrorSound>("ErrorSound");
+
+				try
+				{
+					//detect running with admin rights
+					foreach (Process WinlogonProc in Process.GetProcessesByName("winlogon"))
+					{
+						if (WinlogonProc.MainModule is not null) IsAdmin = true;
+					}
+				}
+				catch { }
+
+				if (IsAdmin)
+				{
+					shellRestartPkngAsAdminToolStripMenuItem.Checked = true;
+					shellRestartPkngAsAdminToolStripMenuItem.Enabled = false;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -217,6 +240,7 @@ true
 				toolTips.SetToolTip(lblPID, Killer.Language.ReadString("lblPID", "Language"));
 				toolTips.SetToolTip(lblThreads, Killer.Language.ReadString("lblThreads", "Language"));
 				toolTips.SetToolTip(lblPriority, Killer.Language.ReadString("lblPriority", "Language"));
+				toolTips.SetToolTip(ProcessList, Killer.Language.ReadString("ProcessListTT" + doubleClickAction, "Language"));
 
 				priRTToolStripMenuItem.Text = Killer.Language.Read("priRTToolStripMenuItem", "Language");
 				priHighToolStripMenuItem.Text = Killer.Language.Read("priHighToolStripMenuItem", "Language");
@@ -225,7 +249,11 @@ true
 				procKillToolStripMenuItem.Text = Killer.Language.Read("procKillToolStripMenuItem", "Language");
 				procKillTreeToolStripMenuItem.Text = Killer.Language.Read("procKillTreeToolStripMenuItem", "Language");
 				procPauseToolStripMenuItem.Text = Killer.Language.Read("procPauseToolStripMenuItem", "Language");
+				procRestartToolStripMenuItem.Text = Killer.Language.Read("procRestartToolStripMenuItem", "Language");
+				procRestartAsAdminToolStripMenuItem.Text = Killer.Language.Read("procRestartAsAdminToolStripMenuItem", "Language");
 				procInfoToolStripMenuItem.Text = Killer.Language.Read("procInfoToolStripMenuItem", "Language");
+				procExePropsToolStripMenuItem.Text = Killer.Language.Read("procExePropsToolStripMenuItem", "Language");
+				procExeLocationToolStripMenuItem.Text = Killer.Language.Read("procExeLocationToolStripMenuItem", "Language");
 
 				frequTitleToolStripMenuItem.Text = Killer.Language.Read("freqTitleToolStripMenuItem", "Language");
 				freqHighToolStripMenuItem.Text = Killer.Language.Read("freqHighToolStripMenuItem", "Language");
@@ -234,6 +262,17 @@ true
 				freqLowToolStripMenuItem.Text = Killer.Language.Read("freqLowToolStripMenuItem", "Language");
 				freqVeryLowToolStripMenuItem.Text = Killer.Language.Read("freqVeryLowToolStripMenuItem", "Language");
 				freqPausedToolStripMenuItem.Text = Killer.Language.Read("freqPausedToolStripMenuItem", "Language");
+
+				shellRestartToolStripMenuItem.Text = Killer.Language.Read("shellRestartToolStripMenuItem", "Language");
+				shellRestartPkngAsAdminToolStripMenuItem.Text = Killer.Language.Read("shellRestartPkngAsAdminToolStripMenuItem", "Language");
+				shellLockToolStripMenuItem.Text = Killer.Language.Read("shellLockToolStripMenuItem", "Language");
+				shellLogoffToolStripMenuItem.Text = Killer.Language.Read("shellLogoffToolStripMenuItem", "Language");
+				shellRebootToolStripMenuItem.Text = Killer.Language.Read("shellRebootToolStripMenuItem", "Language");
+				shellShutdownToolStripMenuItem.Text = Killer.Language.Read("shellShutdownToolStripMenuItem", "Language");
+				shellLogoffToolStripMenuItem.Text = string.Format(shellLogoffToolStripMenuItem.Text, Environment.UserName);
+
+				runRunToolStripMenuItem.Text = Killer.Language.Read("runRunToolStripMenuItem", "Language");
+				runClearHistoryToolStripMenuItem.Text = Killer.Language.Read("runClearHistoryToolStripMenuItem", "Language");
 
 				toolTips.SetToolTip(lblRamAll, Killer.Language.ReadString("lblRamAll", "Language"));
 				toolTips.SetToolTip(lblRamPhys, Killer.Language.ReadString("lblRamPhys", "Language"));
@@ -281,6 +320,8 @@ true
 		{
 			if (!Timer.Enabled) return;
 
+			if (CtrlPressed) return;
+
 			if (Visible)
 			{
 
@@ -303,19 +344,25 @@ true
 					Process[] procs = Process.GetProcesses();
 					for (int i = procs.Length - 1; i >= 0; i--)
 					{
-						/*int PID = procs[i].Id;
-						if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
-						ProcessList.Items.Add(Killer.ProcessCache[PID]);
-						*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
-
-						ProcessList.Items.Add(new ProcessInfo(procs[i]));
-
-						if (selected != null)
+						try
 						{
-							//restore selection
-							if (procs[i].Id == selected.ProcessId)
-								ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+							/*int PID = procs[i].Id;
+							if (!Killer.ProcessCache.ContainsKey(PID)) Killer.ProcessCache.Add(PID, new ProcessInfo(procs[i]));
+							ProcessList.Items.Add(Killer.ProcessCache[PID]);
+							*/ //this breaks Suspend/Resume feature as processes have outdated status for unknown reason
+
+							var proc = new ProcessInfo(procs[i]);
+							if (proc.Accessible) proc.CalculateCpuLoad(TimerInterval);
+							ProcessList.Items.Add(proc);
+
+							if (selected != null)
+							{
+								//restore selection
+								if (procs[i].Id == selected.ProcessId)
+									ProcessList.SelectedIndex = ProcessList.Items.Count - 1;
+							}
 						}
+						catch (Exception ex) { this.Text = ex.Message; }
 					}
 
 					//restore previous state
@@ -325,7 +372,7 @@ true
 					//if selection is not defined, select 1st line
 					if (ProcessList.SelectedItem == null) ProcessList.SelectedIndex = 0;
 				}
-				catch (Exception ex) { this.Text = ex.Message; }
+				catch (Exception ex) { this.Text = "Err: " + ex.Message; }
 
 				//update memory statictics
 				ulong RamAll = (new Microsoft.VisualBasic.Devices.ComputerInfo().TotalVirtualMemory / 1024 / 1024 / 1024);
@@ -363,6 +410,14 @@ true
 					lblRamPhys2.Text = RamPhysAvail.ToString();
 					toolTips.SetToolTip(lblRamPhys2, Killer.Language.ReadString("lblRamPhys2_Free", "Language"));
 				}
+
+				if (CpuGraphStyle == Killer.CpuGraphStyle.Graph)
+				{
+					TimeSpan TotalTimeSpan = new(0, 0, 0, 0, CpuLoadGraphWidth * Timer.Interval);
+					//string CpuTT = string.Format("CPU Load. Update interval: {0} sec. Total {1:mm}:{1:ss}.", (double)Timer.Interval / 1000, TotalTimeSpan);
+					string CpuTT = string.Format(Killer.Language.ReadString("CpuGraph", "Language"), (double)Timer.Interval / 1000, TotalTimeSpan);
+					toolTips.SetToolTip(lblCPU, CpuTT);
+				}
 			}
 
 			//update CPU statistics
@@ -386,7 +441,14 @@ true
 			ProcessInfo selected = ProcessList.SelectedItem as ProcessInfo;
 			if (selected != null)
 			{
-				lblPID.Text = "PID: \t" + selected.ProcessId.ToString();
+				if (ProcIdHex)
+				{
+					lblPID.Text = string.Format("PID: \t0x{0:X}", selected.ProcessId);
+				}
+				else
+				{
+					lblPID.Text = "PID: \t" + selected.ProcessId.ToString();
+				}
 
 				try { lblThreads.Text = "thr: " + selected.Proc.Threads.Count; }
 				catch { lblThreads.Text = "thr: ???"; }
@@ -413,6 +475,10 @@ true
 					priHighToolStripMenuItem.Enabled = true;
 					priNormToolStripMenuItem.Enabled = true;
 					priLowToolStripMenuItem.Enabled = true;
+					procRestartToolStripMenuItem.Enabled = true;
+					procRestartAsAdminToolStripMenuItem.Enabled = true;
+					procExePropsToolStripMenuItem.Enabled = true;
+					procExeLocationToolStripMenuItem.Enabled = true;
 				}
 				catch
 				{
@@ -422,6 +488,10 @@ true
 					priHighToolStripMenuItem.Enabled = false;
 					priNormToolStripMenuItem.Enabled = false;
 					priLowToolStripMenuItem.Enabled = false;
+					procRestartToolStripMenuItem.Enabled = false;
+					procRestartAsAdminToolStripMenuItem.Enabled = false;
+					procExePropsToolStripMenuItem.Enabled = false;
+					procExeLocationToolStripMenuItem.Enabled = false;
 				}
 			}
 		}
@@ -467,6 +537,35 @@ true
 		{
 			// INFO button click
 			ProcessInfo();
+		}
+
+		private void cmdRestartExplorer_Click(object sender, EventArgs e)
+		{
+			// RESTART SHELL button click
+			RestartWindowsShell();
+		}
+
+		private void cmdRun_Click(object sender, EventArgs e)
+		{
+			// RUN button click
+			if (CtrlPressed)
+			{
+				try
+				{ Process.Start(Environment.SystemDirectory + @"\cmd.exe"); }
+				catch (Exception ex)
+				{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+				CtrlPressed = false;
+				return;
+			}
+			RunDialog();
+		}
+
+		private void cmdConfigure_Click(object sender, EventArgs e)
+		{
+			// SETTINGS button click
+			AlwaysActivePause = true;
+			new SettingsForm(this).ShowDialog();
+			AlwaysActivePause = false;
 		}
 
 		private void cmdHelp_Click(object sender, EventArgs e)
@@ -609,13 +708,16 @@ true
 						SetProcessPriority(ProcessPriorityClass.RealTime);
 						break;
 					case Killer.KeyboardCommand.ContextMenu:
-						contextMenuStrip1.Show(ProcessList.Location);
+						mnuProcessListMenu.Show(ProcessList.Location);
 						break;
 					case Killer.KeyboardCommand.FindParent:
 						FindParentProcess();
 						break;
 					case Killer.KeyboardCommand.Restart:
 						RestartProcess();
+						break;
+					case Killer.KeyboardCommand.RestartAsAdmin:
+						RestartProcess(true);
 						break;
 					case Killer.KeyboardCommand.SuspendResumeProcess:
 						SuspendResumeProcess();
@@ -628,6 +730,12 @@ true
 						break;
 					case Killer.KeyboardCommand.RestartExplorer:
 						RestartWindowsShell();
+						break;
+					case Killer.KeyboardCommand.ShowExeProperties:
+						ShowExeProperties();
+						break;
+					case Killer.KeyboardCommand.ShowExeLocation:
+						ShowExeLocation();
 						break;
 					default:
 						AlwaysActivePause = true;
@@ -696,12 +804,13 @@ true
 		/// <summary>
 		/// Restart the selected process
 		/// </summary>
-		private void RestartProcess()
+		private void RestartProcess(bool AsAdmin = false)
 		{
 			try
 			{
 				ProcessInfo BaseProc = (ProcessInfo)ProcessList.SelectedItem;
 				Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(((ProcessInfo)ProcessList.SelectedItem).CommandLine) };
+				if (AsAdmin) NewProc.StartInfo.Verb = "runas";
 				NewProc.Start();
 				BaseProc.Proc.Kill();
 			}
@@ -736,11 +845,6 @@ true
 				this.Text = ex.Message;
 				PlayErrorSound();
 			}
-		}
-
-		private void cmdRun_Click(object sender, EventArgs e)
-		{
-			RunDialog();
 		}
 
 		/// <summary>
@@ -1175,6 +1279,7 @@ true
 			Graphics graph = e.Graphics;
 			float percentH = (float)rect.Height / 100;
 			float percentW = (float)rect.Width / 100;
+			CpuLoadGraphWidth = rect.Width;
 
 			switch (CpuGraphStyle)
 			{
@@ -1272,24 +1377,244 @@ true
 
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
+			HighDpiFix();
+
 			if (FirstTimeShow)
 			{
-				Hide();
+				if (!Process.GetCurrentProcess().GetCommandLine().Contains("/show"))
+					Hide();
 				FirstTimeShow = false;
 				return;
 			}
 		}
 
-		private void cmdRestartExplorer_Click(object sender, EventArgs e)
+		private void ProcessList_KeyUp(object sender, KeyEventArgs e)
+		{
+			CtrlPressed = false;
+			AltPressed = false;
+			ShiftPressed = false;
+		}
+
+		private void procRestartToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RestartProcess();
+		}
+
+		private void procRestartAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RestartProcess(true);
+		}
+
+		private void shellRestartPkngAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ProcessInfo BaseProc = new ProcessInfo(Process.GetCurrentProcess());
+			Process NewProc = new() { StartInfo = Killer.CreateProcessStartInfo(BaseProc.CommandLine) };
+			NewProc.StartInfo.Verb = "runas";
+			NewProc.StartInfo.Arguments = "/show";
+
+			try
+			{
+				NewProc.Start();
+				BaseProc.Proc.Kill();
+			}
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+
+		private void cmdRestartExplorer_MouseUp(object sender, MouseEventArgs e)
+		{
+			// RESTART SHELL button right click
+			if (e.Button == MouseButtons.Right) mnuShellMenu.Show(cmdRestartExplorer, 0, cmdRestartExplorer.Height);
+		}
+
+		private void shellRestartToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			RestartWindowsShell();
 		}
 
-		private void cmdConfigure_Click(object sender, EventArgs e)
+		private void shellLockToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			AlwaysActivePause = true;
-			new SettingsForm(this).ShowDialog();
-			AlwaysActivePause = false;
+			try
+			{ Killer.LockWorkStation(); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+
+		private void shellLogoffToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{ Killer.DoExitWin(Killer.ShutdownFlags.EWX_LOGOFF); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+		private void shellRebootToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{ Killer.DoExitWin(Killer.ShutdownFlags.EWX_REBOOT); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+		private void shellShutdownToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{ Killer.DoExitWin(Killer.ShutdownFlags.EWX_SHUTDOWN); }
+			catch (Exception ex)
+			{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+		}
+
+		private void cmdRun_MouseUp(object sender, MouseEventArgs e)
+		{
+			// RUN button - right click
+			if (e.Button == MouseButtons.Right) mnuRunMenu.Show(cmdRun, 0, cmdRun.Height);
+		}
+
+		private void mnuRunMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			//RUN button - context menu item click
+			switch (e.ClickedItem.Name)
+			{
+				case "runRunToolStripMenuItem":
+					// "Run" dialog
+					RunDialog();
+					PopulateRunMenu();
+					break;
+				case "runClearHistoryToolStripMenuItem":
+					// Clear history
+					Killer.Config.DeleteSection("Run");
+					PopulateRunMenu();
+					break;
+				default:
+					// Run a history item
+					if (e.ClickedItem is not ToolStripSeparator)
+					{
+						string Command = e.ClickedItem.Tag.ToString();
+						try
+						{
+							ProcessStartInfo psi = Killer.CreateProcessStartInfo(Command);
+							Process.Start(psi);
+						}
+						catch (Exception ex)
+						{ MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Reset and populate "Run" button context menu
+		/// </summary>
+		private void PopulateRunMenu()
+		{
+			ToolStripMenuItem RunItem = runRunToolStripMenuItem;
+			ToolStripMenuItem ClearItem = runClearHistoryToolStripMenuItem;
+			ClearItem.Enabled = false;
+
+			mnuRunMenu.Items.Clear();
+			mnuRunMenu.Items.Add(RunItem);
+			mnuRunMenu.Items.Add(new ToolStripSeparator());
+
+			int HistoryCount = 0;
+			while (true)
+			{
+				string HistoryEntry = Killer.Config.ReadString(HistoryCount.ToString(), "Run");
+				if (string.IsNullOrWhiteSpace(HistoryEntry)) break;
+
+				ToolStripMenuItem HistoryItem = new();
+				if (HistoryCount < 10) { HistoryItem.Text = "&" + HistoryCount; }
+				else { HistoryItem.Text = HistoryCount.ToString(); }
+				HistoryItem.Text += " " + HistoryEntry;
+				HistoryItem.Tag = HistoryEntry;
+				mnuRunMenu.Items.Add(HistoryItem);
+				ClearItem.Enabled = true;
+
+				HistoryCount++;
+			}
+
+			if (ClearItem.Enabled)
+			{ mnuRunMenu.Items.Add(new ToolStripSeparator()); }
+			mnuRunMenu.Items.Add(ClearItem);
+
+		}
+
+		private void procExePropsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowExeProperties();
+		}
+
+		/// <summary>
+		/// Show process's EXE file properties (system dialog box)
+		/// </summary>
+		private void ShowExeProperties()
+		{
+			try
+			{
+				Killer.ShowFileProperties((ProcessList.SelectedItem as ProcessInfo).Proc.MainModule.FileName);
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
+		}
+
+		private void procExeLocationToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowExeLocation();
+		}
+
+		/// <summary>
+		/// Show process's EXE file location in Explorer
+		/// </summary>
+		private void ShowExeLocation()
+		{
+			try
+			{
+				Process process = new();
+				ProcessStartInfo info = new("Explorer", " /select, " + (ProcessList.SelectedItem as ProcessInfo).Proc.MainModule.FileName);
+				process.StartInfo = info;
+				process.Start();
+			}
+			catch (Exception ex)
+			{
+				this.Text = ex.Message;
+				PlayErrorSound();
+			}
+		}
+
+		private void MainForm_DpiChanged(object sender, DpiChangedEventArgs e)
+		{
+			HighDpiFix();
+		}
+
+		/// <summary>
+		/// Fix window size, controls sizes, controls positions for device screen's real DPI parameter.
+		/// </summary>
+		private void HighDpiFix()
+		{
+			cmdInfo.Width = cmdInfo.Height;
+			cmdRestartExplorer.Width = cmdRestartExplorer.Height;
+			cmdRun.Width = cmdRun.Height;
+			cmdConfigure.Width = cmdConfigure.Height;
+			cmdHelp.Width = cmdHelp.Height;
+
+			if (DeviceDpi != 96)
+			{
+				//default 230x430px window size and 24x24px button size are only for 96dpi 1920x1080 screens
+				double HighDpiMultipler = (double)cmdKill.Height / (double)24;
+				if (Width == 230) this.Width = (int)(Width * HighDpiMultipler);
+				if (Height == 430) this.Height = (int)(Height * HighDpiMultipler);
+				cmdKill.Width = (int)(cmdKill.Width * HighDpiMultipler);
+			}
+		}
+
+		private void lblPID_Click(object sender, EventArgs e)
+		{
+			ProcIdHex = !ProcIdHex;
+			ProcessList_SelectedIndexChanged(sender, e);
 		}
 	}
 }

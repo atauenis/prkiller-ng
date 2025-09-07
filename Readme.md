@@ -10,22 +10,24 @@ The New Generation version supports Windows 7/8.1/10/11 and all server counterpa
 
 Report about found bugs at [GitHub](https://github.com/atauenis/prkiller-ng). Also you can find here source code of the application, including latest pre-release versions.
 
-![](https://github.com/user-attachments/assets/5eaf0dc3-0ab0-47f0-9c95-d4797b2317d9)
+![](https://github.com/user-attachments/assets/cd4100c3-a33d-45da-afee-876aa48e2dc2)
 
 
 ## Usage
 
-Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal.
+Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch manually every time. To see main window, press `Ctrl`+`Shift`+`1` keys. By default it won't appear after launch - it's normal, use the keys.
 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
-Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
+Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. Processes that are utilizing more than 50% of CPU time are marked by `<*>` icon (**_New in version 2.1_**). To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu. If necessary, you can even suspend and later resume an running process (`Ctrl`+`←`). This may be useful, say, when copying a large file over network using FAR Manager, and you are need to temporarily free network bandwidth for other task. Suspended processes are marked by `<s>` icon.
 
 Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Parent process which launched the selected process sometimes can be looked up by pressing `Ctrl`+`PgUp`. Click on the processor statistics using right button to choose update speed.
 
-Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon. Click on "Run" button (`Ctrl`+`R`) to launch any other program (identical to `Win`+`R`).
+Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon. Click on "Run" button (`Ctrl`+`R`) to launch any other program (identical to `Win`+`R`).  **_New in version 2.1:_** right click on the "Run" button to show or clear history.
+
+The "Restart shell" button also have a context menu with system power management actions. Via it you may reboot your computer even if Windows shell's Start menu is inaccessible. **_New in version 2.1._**
 
 The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
@@ -47,11 +49,12 @@ In the Settings window you can configure the program for yourself.
 * You may set up a confirmation for "Restart Shell" button action.
 * The "Restart Shell" button is always killing the shell process, and there is no option to disable this (it were actual only on Windows 9x).
 * Unlimited history in Run dialog box. `Ctrl`+`[OK]` in Run dialog is starting an application without save to history.
+* Toolbar buttons have context menus. **_New in version 2.1._**
+* Can display information about Windows service processes (`svchost.exe`). **_New in version 2.1._**
+* Can display more properties of processes and their executable files. **_New in version 2.1._**
 * Multilanguage support, new configuration file syntax, a bit different dialog boxes.
 * Total threads count does not displaying in title bar.
-* Currently does not displaying processes with big CPU load (the `<*>` icon).
 * Currently does not removing "dead" icons from taskbar notification area after killing a process with such icons. Just point over them mouse, and they will disappear.
-* Currently can't display data in hexadecimal mode.
 * Currently have no installer.
 * Probably some other changes, as the NG version is written from scratch by other human.
 

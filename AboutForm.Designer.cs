@@ -33,7 +33,7 @@ namespace prkiller_ng
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblCopyright = new System.Windows.Forms.Label();
-			this.lblLanguage = new System.Windows.Forms.Label();
+			this.lblOpenSource = new System.Windows.Forms.Label();
 			this.cmdOk = new System.Windows.Forms.Button();
 			this.lnkUrl2 = new System.Windows.Forms.LinkLabel();
 			this.lnkUrl1 = new System.Windows.Forms.LinkLabel();
@@ -67,14 +67,15 @@ namespace prkiller_ng
 			this.lblCopyright.TabIndex = 2;
 			this.lblCopyright.Text = "© 2025, Alexander Tauenis";
 			// 
-			// lblLanguage
+			// lblOpenSource
 			// 
-			this.lblLanguage.AutoSize = true;
-			this.lblLanguage.Location = new System.Drawing.Point(6, 47);
-			this.lblLanguage.Name = "lblLanguage";
-			this.lblLanguage.Size = new System.Drawing.Size(200, 15);
-			this.lblLanguage.TabIndex = 3;
-			this.lblLanguage.Text = "Здесь будет информация о языке...";
+			this.lblOpenSource.AutoSize = true;
+			this.lblOpenSource.Location = new System.Drawing.Point(6, 47);
+			this.lblOpenSource.Name = "lblOpenSource";
+			this.lblOpenSource.Size = new System.Drawing.Size(221, 30);
+			this.lblOpenSource.TabIndex = 3;
+			this.lblOpenSource.Text = "Здесь будет информация о лицензии...\r\nВ две строки.";
+			this.lblOpenSource.UseMnemonic = false;
 			// 
 			// cmdOk
 			// 
@@ -88,9 +89,9 @@ namespace prkiller_ng
 			// 
 			// lnkUrl2
 			// 
-			this.lnkUrl2.Location = new System.Drawing.Point(-2, 97);
+			this.lnkUrl2.Location = new System.Drawing.Point(-8, 103);
 			this.lnkUrl2.Name = "lnkUrl2";
-			this.lnkUrl2.Size = new System.Drawing.Size(232, 23);
+			this.lnkUrl2.Size = new System.Drawing.Size(244, 23);
 			this.lnkUrl2.TabIndex = 2;
 			this.lnkUrl2.TabStop = true;
 			this.lnkUrl2.Text = "https://github.com/atauenis/prkiller-ng";
@@ -99,9 +100,9 @@ namespace prkiller_ng
 			// 
 			// lnkUrl1
 			// 
-			this.lnkUrl1.Location = new System.Drawing.Point(12, 74);
+			this.lnkUrl1.Location = new System.Drawing.Point(-8, 80);
 			this.lnkUrl1.Name = "lnkUrl1";
-			this.lnkUrl1.Size = new System.Drawing.Size(204, 23);
+			this.lnkUrl1.Size = new System.Drawing.Size(244, 23);
 			this.lnkUrl1.TabIndex = 1;
 			this.lnkUrl1.TabStop = true;
 			this.lnkUrl1.Text = "https://atauenis.ru";
@@ -118,7 +119,7 @@ namespace prkiller_ng
 			this.Controls.Add(this.lnkUrl1);
 			this.Controls.Add(this.lnkUrl2);
 			this.Controls.Add(this.cmdOk);
-			this.Controls.Add(this.lblLanguage);
+			this.Controls.Add(this.lblOpenSource);
 			this.Controls.Add(this.lblCopyright);
 			this.Controls.Add(this.lblVersion);
 			this.Controls.Add(this.pictureBox1);
@@ -141,7 +142,7 @@ namespace prkiller_ng
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label lblVersion;
 		private System.Windows.Forms.Label lblCopyright;
-		private System.Windows.Forms.Label lblLanguage;
+		private System.Windows.Forms.Label lblOpenSource;
 		private System.Windows.Forms.Button cmdOk;
 		private System.Windows.Forms.LinkLabel lnkUrl2;
 		private System.Windows.Forms.LinkLabel lnkUrl1;
