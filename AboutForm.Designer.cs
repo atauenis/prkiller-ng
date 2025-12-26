@@ -65,7 +65,7 @@ namespace prkiller_ng
 			this.lblCopyright.Name = "lblCopyright";
 			this.lblCopyright.Size = new System.Drawing.Size(147, 15);
 			this.lblCopyright.TabIndex = 2;
-			this.lblCopyright.Text = "© 2025, Alexander Tauenis";
+			this.lblCopyright.Text = "© 2026, Alexander Tauenis";
 			// 
 			// lblOpenSource
 			// 

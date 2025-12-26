@@ -36,6 +36,8 @@ namespace prkiller_ng
 			cmdOk.Text = Killer.Language.ReadString("cmdOK", "Language");
 			this.Text = Killer.Language.ReadString("AboutTitle", "Language");
 
+			lblVersion.Text += " Beta";
+
 			if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [WOW64]";
 			if (!Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) lblVersion.Text += " [32]";
 
