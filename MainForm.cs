@@ -1177,8 +1177,21 @@ true
 				//Automatically detect Windows shell
 				RegistryKey HKLM = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Winlogon");
 				RegistryKey HKCU = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Winlogon");
+
+				if (HKLM is null || HKCU is null)
+				{
+					this.Text = Killer.Language.ReadString("RestartShellNotFound", "Language");
+					return;
+				}
+
 				object MachineShell = HKLM.GetValue("Shell");
 				object UserShell = HKCU.GetValue("Shell");
+
+				if (MachineShell is null && UserShell is null)
+				{
+					this.Text = Killer.Language.ReadString("RestartShellNotFound", "Language");
+					return;
+				}
 
 				if (UserShell != null) WinShell = UserShell.ToString();
 				else if (MachineShell != null) WinShell = MachineShell.ToString();

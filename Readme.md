@@ -19,15 +19,17 @@ Just run `prkiller-ng.exe`. You may put it into system autorun, to don't launch 
 
 To hide window, click right mouse button on the KILL button (or press `Esc`). To exit Process Killer NG, press middle mouse button on the KILL button.
 
-Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. Processes that are utilizing more than 50% of CPU time are marked by `<*>` icon (**_New in version 2.1_**). To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
+Main portion of the window is the list of running processes. Unlike many such applications, last started processes are appearing on the top of the list. If some application is experiencing a freeze, it immediately gets marked by `<!>` icon, so you will easily find it. Processes that are utilizing more than 50% of CPU time are marked by `<*>` icon. To finish the unresponsive or unwanted process, just click the KILL button (or press `Del`). No questions will be asked, this differs this application from other.
 
 It is possible to increase/decrease priority class of any process. To change priority, select the process and press `Ctrl`+`↑` to increase or `Ctrl`+`↓` to decrease the process's priority. Also you may select priority using context menu. If necessary, you can even suspend and later resume an running process (`Ctrl`+`←`). This may be useful, say, when copying a large file over network using FAR Manager, and you are need to temporarily free network bandwidth for other task. Suspended processes are marked by `<s>` icon.
 
 Also at the top of the window you can see memory and processor statistics, selected process ID, thread count, and priority. To read more about the selected process, click on the Info button, or press `Ctrl`+`→`. Parent process which launched the selected process sometimes can be looked up by pressing `Ctrl`+`PgUp`. Click on the processor statistics using right button to choose update speed.
 
-Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon. Click on "Run" button (`Ctrl`+`R`) to launch any other program (identical to `Win`+`R`).  **_New in version 2.1:_** right click on the "Run" button to show or clear history.
+Sometimes it is necessary to restart Windows shell process (`explorer.exe`). Say, after manual tweaking its settings in registry, or if it became unstable. So you may press "Restart shell" button (or `Ctrl`+`S`). This will close all Explorer processes, and then it gets restarted as just after logon. _Note:_ the feature does not work under WinPE and WinRE.
 
-The "Restart shell" button also have a context menu with system power management actions. Via it you may reboot your computer even if Windows shell's Start menu is inaccessible. **_New in version 2.1._**
+The "Restart shell" button also have a context menu with system power management actions. Via it you may reboot your computer even if Windows shell's Start menu is inaccessible.
+
+Click on "Run" button (`Ctrl`+`R`) to launch any other program (identical to `Win`+`R`).  Right click on the "Run" button to show or clear history.
 
 The program supports changing user interface language. Out of the default package there are 2 languages bundled: English and Russian.
 
