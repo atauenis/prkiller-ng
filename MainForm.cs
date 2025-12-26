@@ -420,13 +420,17 @@ true
 				}
 			}
 
-			//update CPU statistics
-			CpuLoad = Convert.ToInt32(cpuCounter.NextValue());
-			CpuLoadHistory.Add(CpuLoad);
-			if (CpuLoadHistory.Count > Screen.PrimaryScreen.Bounds.Width) CpuLoadHistory.RemoveAt(0);
-			lblCPU.Refresh();
-
 			this.Text = string.Format("({0}) Process Killer NG {1}", ProcessList.Items.Count, Application.ProductVersion);
+
+			//update CPU statistics
+			try
+			{
+				CpuLoad = Convert.ToInt32(cpuCounter.NextValue());
+				CpuLoadHistory.Add(CpuLoad);
+				if (CpuLoadHistory.Count > Screen.PrimaryScreen.Bounds.Width) CpuLoadHistory.RemoveAt(0);
+				lblCPU.Refresh();
+			}
+			catch (DllNotFoundException) { /*Perfomance Counters are not available under WinPE.*/ }
 		}
 
 		private void ProcessList_SelectedIndexChanged(object sender, EventArgs e)
